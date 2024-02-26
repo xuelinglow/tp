@@ -6,13 +6,12 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.ToStringBuilder;
 
 /**
  * Changes the remark of an existing person in the address book.
@@ -36,6 +35,9 @@ public class RemarkCommand extends Command {
     private final Index index;
     private final Remark remark;
 
+    /**
+     * Creates an RemarkCommand to add the specified {@code Person}
+     */
     public RemarkCommand(Index index, Remark remark) {
         requireAllNonNull(index, remark);
 
@@ -81,6 +83,6 @@ public class RemarkCommand extends Command {
     private String generateSuccessMessage(Person personToEdit) {
         String message = !remark.value.isEmpty() ? MESSAGE_ADD_REMARK_SUCCESS : MESSAGE_DELETE_REMARK_SUCCESS;
         return String.format(message, Messages.format(personToEdit));
-    }  
+    }
 
 }

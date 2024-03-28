@@ -2,38 +2,23 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.date.Date;
-import seedu.address.logic.commands.DeleteApptCommand;
 import seedu.address.logic.commands.EditApptCommand;
-import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.appointment.Time;
 import seedu.address.model.appointment.TimePeriod;
 import seedu.address.model.patient.Nric;
-import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new EditApptCommand object
@@ -74,26 +59,30 @@ public class EditApptCommandParser implements Parser<EditApptCommand> {
         if (argMultimap.getValue(PREFIX_NEW_DATE).isPresent()) {
             editApptDescriptor.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_NEW_DATE).get()));
         }
-        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isPresent() && argMultimap.getValue(PREFIX_NEW_END_TIME).isPresent()) {
+        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isPresent()
+                && argMultimap.getValue(PREFIX_NEW_END_TIME).isPresent()) {
             //with both new times
             editApptDescriptor.setTimePeriod(ParserUtil.parseTimePeriod(
                     argMultimap.getValue(PREFIX_NEW_START_TIME).get(),
                     argMultimap.getValue(PREFIX_NEW_END_TIME).get()));
         }
-        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isPresent() && argMultimap.getValue(PREFIX_NEW_END_TIME).isEmpty()) {
+        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isPresent()
+                && argMultimap.getValue(PREFIX_NEW_END_TIME).isEmpty()) {
             //with old end time
             editApptDescriptor.setTimePeriod(ParserUtil.parseTimePeriod(
                     argMultimap.getValue(PREFIX_NEW_START_TIME).get(),
                     argMultimap.getValue(PREFIX_END_TIME).get()));
         }
-        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isEmpty() && argMultimap.getValue(PREFIX_NEW_END_TIME).isPresent()) {
+        if (argMultimap.getValue(PREFIX_NEW_START_TIME).isEmpty()
+                && argMultimap.getValue(PREFIX_NEW_END_TIME).isPresent()) {
             //with old start time
             editApptDescriptor.setTimePeriod(ParserUtil.parseTimePeriod(
                     argMultimap.getValue(PREFIX_START_TIME).get(),
                     argMultimap.getValue(PREFIX_NEW_END_TIME).get()));
         }
         if (argMultimap.getValue(PREFIX_NEW_TAG).isPresent()) {
-            editApptDescriptor.setAppointmentType(ParserUtil.parseAppointmentType(argMultimap.getValue(PREFIX_NEW_TAG).get()));
+            editApptDescriptor.setAppointmentType(ParserUtil
+                    .parseAppointmentType(argMultimap.getValue(PREFIX_NEW_TAG).get()));
         }
         if (argMultimap.getValue(PREFIX_NEW_NOTE).isPresent()) {
             editApptDescriptor.setNote(ParserUtil.parseNote(argMultimap.getValue(PREFIX_NEW_NOTE).get()));

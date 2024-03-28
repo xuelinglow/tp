@@ -118,7 +118,8 @@ public class EditApptCommand extends Command {
 
         Date updatedDate = editApptDescriptor.getDate().orElse(apptToEdit.getDate());
         TimePeriod updatedTimePeriod = editApptDescriptor.getTimePeriod().orElse(apptToEdit.getTimePeriod());
-        AppointmentType updatedAppointmentType = editApptDescriptor.getAppointmentType().orElse(apptToEdit.getAppointmentType());
+        AppointmentType updatedAppointmentType = editApptDescriptor.getAppointmentType()
+                .orElse(apptToEdit.getAppointmentType());
         Note updatedNote = editApptDescriptor.getNote().orElse(apptToEdit.getNote());
 
         return new Appointment(apptToEdit.getNric(), updatedDate, updatedTimePeriod,

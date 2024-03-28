@@ -26,6 +26,7 @@ import seedu.address.model.Model;
 import seedu.address.model.appointment.AppointmentView;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
 import seedu.address.model.patient.Patient;
+import seedu.address.testutil.EditApptDescriptorBuilder;
 import seedu.address.testutil.EditPatientDescriptorBuilder;
 import seedu.address.ui.ViewMode;
 
@@ -123,6 +124,22 @@ public class CommandTestUtil {
         DESC_BOB = new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDateOfBirth(VALID_DOB_BOB).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+    }
+
+    public static final EditApptCommand.EditApptDescriptor DESC_APPT_AMY;
+    public static final EditApptCommand.EditApptDescriptor DESC_APPT_BOB;
+
+    static {
+        DESC_APPT_AMY = new EditApptDescriptorBuilder()
+                .withDate(VALID_APPOINTMENT_DATE_AMY)
+                .withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY)
+                .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).build();
+        DESC_APPT_BOB = new EditApptDescriptorBuilder()
+                .withDate(VALID_APPOINTMENT_DATE_BOB)
+                .withTimePeriod(VALID_APPOINTMENT_START_TIME_BOB, VALID_APPOINTMENT_END_TIME_BOB)
+                .withAppointmentType(VALID_APPOINTMENT_TYPE_BOB)
+                .withNote(VALID_APPOINTMENT_NOTE_BOB).build();
     }
 
     /**

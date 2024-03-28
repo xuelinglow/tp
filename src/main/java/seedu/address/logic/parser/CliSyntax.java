@@ -17,4 +17,10 @@ public class CliSyntax {
     public static final Prefix PREFIX_START_TIME = new Prefix("from/");
     public static final Prefix PREFIX_END_TIME = new Prefix("to/");
     public static final Prefix PREFIX_NOTE = new Prefix("note/");
+
+    public static final Prefix PREFIX_NEW_TAG = new Prefix("newt/");
+    public static final Prefix PREFIX_NEW_DATE = new Prefix("newd/");
+    public static final Prefix PREFIX_NEW_START_TIME = new Prefix("newfrom/");
+    public static final Prefix PREFIX_NEW_END_TIME = new Prefix("newto/");
+    public static final Prefix PREFIX_NEW_NOTE = new Prefix("newnote/");
 }

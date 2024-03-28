@@ -8,6 +8,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -78,6 +83,8 @@ public class CommandTestUtil {
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
     public static final String DATE_DESC_APPOINTMENT_AMY = " " + PREFIX_DATE + VALID_APPOINTMENT_DATE_AMY;
     public static final String DATE_DESC_APPOINTMENT_BOB = " " + PREFIX_DATE + VALID_APPOINTMENT_DATE_BOB;
+    public static final String NEW_DATE_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_AMY;
+    public static final String NEW_DATE_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_BOB;
     public static final String START_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_START_TIME
             + VALID_APPOINTMENT_START_TIME_AMY;
     public static final String END_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_END_TIME
@@ -86,10 +93,22 @@ public class CommandTestUtil {
             + VALID_APPOINTMENT_START_TIME_BOB;
     public static final String END_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_END_TIME
             + VALID_APPOINTMENT_END_TIME_BOB;
+    public static final String NEW_START_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_START_TIME
+            + VALID_APPOINTMENT_START_TIME_AMY;
+    public static final String NEW_START_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_START_TIME
+            + VALID_APPOINTMENT_START_TIME_BOB;
+    public static final String NEW_END_TIME_DESC_APPOINTMENT_AMY= " " + PREFIX_NEW_END_TIME
+            + VALID_APPOINTMENT_END_TIME_AMY;
+    public static final String NEW_END_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_END_TIME
+            + VALID_APPOINTMENT_END_TIME_BOB;
     public static final String TYPE_DESC_APPOINTMENT_AMY = " " + PREFIX_TAG + VALID_APPOINTMENT_TYPE_AMY;
     public static final String TYPE_DESC_APPOINTMENT_BOB = " " + PREFIX_TAG + VALID_APPOINTMENT_TYPE_BOB;
+    public static final String NEW_TYPE_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_TAG + VALID_APPOINTMENT_TYPE_AMY;
+    public static final String NEW_TYPE_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_TAG + VALID_APPOINTMENT_TYPE_BOB;
     public static final String NOTE_DESC_APPOINTMENT_AMY = " " + PREFIX_NOTE + VALID_APPOINTMENT_NOTE_AMY;
     public static final String NOTE_DESC_APPOINTMENT_BOB = " " + PREFIX_NOTE + VALID_APPOINTMENT_NOTE_BOB;
+    public static final String NEW_NOTE_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_NOTE + VALID_APPOINTMENT_NOTE_AMY;
+    public static final String NEW_NOTE_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_NOTE + VALID_APPOINTMENT_NOTE_BOB;
     public static final String MARK_DESC_APPOINTMENT_AMY = " " + PREFIX_NOTE + VALID_APPOINTMENT_MARK_AMY;
     public static final String MARK_DESC_APPOINTMENT_BOB = " " + PREFIX_NOTE + VALID_APPOINTMENT_MARK_BOB;
 
@@ -108,6 +127,11 @@ public class CommandTestUtil {
     public static final String INVALID_APPOINTMENT_TYPE_DESC = " " + PREFIX_TAG + "  "; // only white spaces
     public static final String INVALID_APPOINTMENT_NOTE_DESC = " " + PREFIX_NOTE + "@@"; // non-alphanumeric
     public static final String INVALID_APPOINTMENT_MARK_DESC = " " + PREFIX_NOTE + "abc"; // not true or false
+    public static final String INVALID_NEW_DATE_DESC = " " + PREFIX_NEW_DATE + "2024-32-32"; // exceeds month and day range
+    public static final String INVALID_NEW_START_TIME_DESC = " " + PREFIX_NEW_START_TIME + "11:30"; // is after end time
+    public static final String INVALID_NEW_END_TIME_DESC = " " + PREFIX_NEW_END_TIME + "11:00"; // is before start time
+    public static final String INVALID_NEW_APPOINTMENT_TYPE_DESC = " " + PREFIX_NEW_TAG + "  "; // only white spaces
+    public static final String INVALID_NEW_APPOINTMENT_NOTE_DESC = " " + PREFIX_NEW_NOTE + "@@"; // non-alphanumeric
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 

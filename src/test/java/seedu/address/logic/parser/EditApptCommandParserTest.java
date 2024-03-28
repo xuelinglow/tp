@@ -1,45 +1,43 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.DATE_DESC_APPOINTMENT_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_APPT_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DOB_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.END_TIME_DESC_APPOINTMENT_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.END_TIME_DESC_APPOINTMENT_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DOB_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_END_TIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NEW_APPOINTMENT_TYPE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NEW_DATE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NEW_END_TIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NEW_START_TIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NRIC_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_START_TIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_DATE_DESC_APPOINTMENT_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_DATE_DESC_APPOINTMENT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_END_TIME_DESC_APPOINTMENT_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_END_TIME_DESC_APPOINTMENT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_NOTE_DESC_APPOINTMENT_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_NOTE_DESC_APPOINTMENT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_START_TIME_DESC_APPOINTMENT_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_START_TIME_DESC_APPOINTMENT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_TYPE_DESC_APPOINTMENT_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NEW_TYPE_DESC_APPOINTMENT_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.START_TIME_DESC_APPOINTMENT_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_DATE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_DATE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_END_TIME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_END_TIME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_NOTE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_NOTE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_START_TIME_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DOB_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_START_TIME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_TYPE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -49,17 +47,12 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.date.Date;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditApptCommand;
-import seedu.address.logic.commands.EditPatientCommand;
-import seedu.address.logic.commands.EditPatientCommand.EditPatientDescriptor;
+import seedu.address.logic.commands.EditApptCommand.EditApptDescriptor;
+import seedu.address.model.appointment.AppointmentType;
 import seedu.address.model.appointment.Time;
-import seedu.address.model.patient.Address;
-import seedu.address.model.patient.DateOfBirth;
-import seedu.address.model.patient.Email;
-import seedu.address.model.patient.Name;
+import seedu.address.model.appointment.TimePeriod;
 import seedu.address.model.patient.Nric;
-import seedu.address.model.patient.Phone;
-import seedu.address.model.tag.Tag;
-import seedu.address.testutil.EditPatientDescriptorBuilder;
+import seedu.address.testutil.EditApptDescriptorBuilder;
 
 public class EditApptCommandParserTest {
 
@@ -123,42 +116,79 @@ public class EditApptCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
+
+        String validTargetAppt = NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY;
+
+        assertParseFailure(parser, INVALID_NRIC_DESC
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY
+                + DESC_APPT_AMY, Nric.MESSAGE_CONSTRAINTS); // invalid nric
         assertParseFailure(parser, NRIC_DESC_AMY
-                + INVALID_DATE_DESC, Date.MESSAGE_CONSTRAINTS); // invalid date
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_DOB_DESC, Time.MESSAGE_CONSTRAINTS); // invalid startTime
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_PHONE_DESC, Time.MESSAGE_CONSTRAINTS); // invalid endTime
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid new date
-        assertParseFailure(parser, VALID_NRIC_AMY
-                + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
+                + INVALID_DATE_DESC
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY
+                + DESC_APPT_AMY, Date.MESSAGE_CONSTRAINTS); // invalid date
+        assertParseFailure(parser, NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + INVALID_START_TIME_DESC
+                + END_TIME_DESC_APPOINTMENT_AMY
+                + DESC_APPT_AMY, Time.MESSAGE_CONSTRAINTS); // invalid startTime
+        assertParseFailure(parser, NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + INVALID_END_TIME_DESC
+                + DESC_APPT_AMY, Time.MESSAGE_CONSTRAINTS); // invalid endTime
 
-        // invalid phone followed by valid email
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
+        //More invalid tests here for the descriptors
+        assertParseFailure(parser, validTargetAppt
+         + INVALID_NEW_DATE_DESC , Date.MESSAGE_CONSTRAINTS); // invalid new date
+        assertParseFailure(parser, validTargetAppt
+                + INVALID_NEW_START_TIME_DESC , TimePeriod.MESSAGE_CONSTRAINTS); // invalid new startTime
+        assertParseFailure(parser, validTargetAppt
+                + INVALID_NEW_END_TIME_DESC , TimePeriod.MESSAGE_CONSTRAINTS); // invalid new endTime
+        assertParseFailure(parser, validTargetAppt
+                + INVALID_NEW_APPOINTMENT_TYPE_DESC , AppointmentType.MESSAGE_CONSTRAINTS); // invalid new appointmentType
 
-        // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Patient} being edited,
-        // parsing it together with a valid tag results in error
-        assertParseFailure(parser, VALID_NRIC_AMY + TAG_DESC_FRIEND
-                + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, VALID_NRIC_AMY + TAG_DESC_FRIEND
-                + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, VALID_NRIC_AMY + TAG_EMPTY + TAG_DESC_FRIEND
-                + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
+        //all notes are valid so no test for that
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, VALID_NRIC_AMY + INVALID_NAME_DESC + INVALID_EMAIL_DESC
-                + VALID_ADDRESS_AMY + VALID_PHONE_AMY, Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, NRIC_DESC_AMY
+                + INVALID_DATE_DESC
+                + INVALID_START_TIME_DESC
+                + END_TIME_DESC_APPOINTMENT_AMY
+                + DESC_APPT_AMY, Date.MESSAGE_CONSTRAINTS);
     }
 
     @Test
     public void parse_allFieldsSpecified_success() {
         Nric targetNric = new Nric(VALID_NRIC_AMY);
-        String userInput = targetNric + PHONE_DESC_BOB + TAG_DESC_HUSBAND
-                + DOB_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        Date targetDate = new Date(VALID_APPOINTMENT_DATE_AMY);
+        TimePeriod targetTimePeriod = new TimePeriod(
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
+                new Time(VALID_APPOINTMENT_END_TIME_AMY)
+        );
 
-        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withDateOfBirth(VALID_DOB_AMY).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditPatientCommand expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        String validTargetAppt = NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY;
+
+        String userInput = validTargetAppt
+                + NEW_DATE_DESC_APPOINTMENT_BOB
+                + NEW_START_TIME_DESC_APPOINTMENT_BOB
+                + NEW_END_TIME_DESC_APPOINTMENT_BOB
+                + NEW_TYPE_DESC_APPOINTMENT_BOB
+                + NEW_NOTE_DESC_APPOINTMENT_BOB;
+
+        EditApptDescriptor descriptor = new EditApptDescriptorBuilder().withDate(VALID_APPOINTMENT_DATE_BOB)
+                .withTimePeriod(VALID_APPOINTMENT_START_TIME_BOB, VALID_APPOINTMENT_END_TIME_BOB)
+                .withAppointmentType(VALID_APPOINTMENT_TYPE_BOB).withNote(VALID_APPOINTMENT_NOTE_BOB)
+                .build();
+        EditApptCommand expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -166,53 +196,74 @@ public class EditApptCommandParserTest {
     @Test
     public void parse_someFieldsSpecified_success() {
         Nric targetNric = new Nric(VALID_NRIC_AMY);
-        String userInput = targetNric + PHONE_DESC_BOB + EMAIL_DESC_AMY;
+        Date targetDate = new Date(VALID_APPOINTMENT_DATE_AMY);
+        TimePeriod targetTimePeriod = new TimePeriod(
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
+                new Time(VALID_APPOINTMENT_END_TIME_AMY)
+        );
 
-        EditPatientCommand.EditPatientDescriptor descriptor =
-                new EditPatientDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                        .withEmail(VALID_EMAIL_AMY).build();
-        EditPatientCommand expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        String validTargetAppt = NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY;
+
+        String userInput = validTargetAppt + NEW_TYPE_DESC_APPOINTMENT_BOB + NEW_NOTE_DESC_APPOINTMENT_AMY;
+
+        EditApptCommand.EditApptDescriptor descriptor =
+                new EditApptDescriptorBuilder().withAppointmentType(VALID_APPOINTMENT_TYPE_BOB)
+                        .withNote(VALID_APPOINTMENT_NOTE_AMY).build();
+        EditApptCommand expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_oneFieldSpecified_success() {
-        // name
-        Nric targetNric = new Nric(VALID_NRIC_BOB);
-        String userInput = targetNric + NAME_DESC_AMY;
-        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditPatientCommand expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        Nric targetNric = new Nric(VALID_NRIC_AMY);
+        Date targetDate = new Date(VALID_APPOINTMENT_DATE_AMY);
+        TimePeriod targetTimePeriod = new TimePeriod(
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
+                new Time(VALID_APPOINTMENT_END_TIME_AMY)
+        );
+
+        String validTargetAppt = NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY;
+
+        String userInput = validTargetAppt + NEW_NOTE_DESC_APPOINTMENT_BOB;
+        EditApptDescriptor descriptor = new EditApptDescriptorBuilder().withNote(VALID_APPOINTMENT_NOTE_BOB).build();
+        EditApptCommand expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // dob
-        userInput = targetNric + DOB_DESC_AMY;
-        descriptor = new EditPatientDescriptorBuilder().withDateOfBirth(VALID_DOB_AMY).build();
-        expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        // date
+        userInput = validTargetAppt + NEW_DATE_DESC_APPOINTMENT_BOB;
+        descriptor = new EditApptDescriptorBuilder().withDate(VALID_APPOINTMENT_DATE_BOB).build();
+        expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // phone
-        userInput = targetNric + PHONE_DESC_AMY;
-        descriptor = new EditPatientDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        // startTime
+        userInput = validTargetAppt + NEW_START_TIME_DESC_APPOINTMENT_AMY;
+        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY).build();
+        expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // email
-        userInput = targetNric + EMAIL_DESC_AMY;
-        descriptor = new EditPatientDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        //endTime
+        userInput = validTargetAppt + NEW_END_TIME_DESC_APPOINTMENT_AMY;
+        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY).build();
+        expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // address
-        userInput = targetNric + ADDRESS_DESC_AMY;
-        descriptor = new EditPatientDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
-        expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        //appointmentType
+        userInput = validTargetAppt + NEW_TYPE_DESC_APPOINTMENT_BOB;
+        descriptor = new EditApptDescriptorBuilder().withAppointmentType(VALID_APPOINTMENT_TYPE_BOB).build();
+        expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // tags
-        userInput = targetNric + TAG_DESC_FRIEND;
-        descriptor = new EditPatientDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new EditPatientCommand(targetNric, descriptor);
+        //note
+        userInput = validTargetAppt + NEW_NOTE_DESC_APPOINTMENT_BOB;
+        descriptor = new EditApptDescriptorBuilder().withNote(VALID_APPOINTMENT_NOTE_BOB).build();
+        expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -221,41 +272,42 @@ public class EditApptCommandParserTest {
         // More extensive testing of duplicate parameter detections is done in
         // AddCommandParserTest#parse_repeatedNonTagValue_failure()
 
-        // invalid followed by valid
-        Nric targetNric = new Nric(VALID_NRIC_BOB);
-        String userInput = targetNric + INVALID_PHONE_DESC + PHONE_DESC_BOB;
+        String validTargetAppt = NRIC_DESC_AMY
+                + DATE_DESC_APPOINTMENT_AMY
+                + START_TIME_DESC_APPOINTMENT_AMY
+                + END_TIME_DESC_APPOINTMENT_AMY;
 
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+        Nric targetNric = new Nric(VALID_NRIC_AMY);
+        Date targetDate = new Date(VALID_APPOINTMENT_DATE_AMY);
+        TimePeriod targetTimePeriod = new TimePeriod(
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
+                new Time(VALID_APPOINTMENT_END_TIME_AMY)
+        );
+
+        // invalid followed by valid
+        String userInput = validTargetAppt + INVALID_NEW_DATE_DESC + NEW_DATE_DESC_APPOINTMENT_AMY;
+        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NEW_DATE));
 
         // valid followed by invalid
-        userInput = targetNric + PHONE_DESC_BOB + INVALID_PHONE_DESC;
-
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+        userInput = validTargetAppt + NEW_DATE_DESC_APPOINTMENT_AMY + INVALID_NEW_DATE_DESC;
+        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NEW_DATE));
 
         // multiple valid fields repeated
-        userInput = targetNric + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
-                + TAG_DESC_FRIEND + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
-                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_HUSBAND;
+        userInput = validTargetAppt + NEW_DATE_DESC_APPOINTMENT_AMY + NEW_START_TIME_DESC_APPOINTMENT_AMY
+                + NEW_END_TIME_DESC_APPOINTMENT_AMY
+                + NEW_TYPE_DESC_APPOINTMENT_AMY
+                + NEW_DATE_DESC_APPOINTMENT_AMY + NEW_START_TIME_DESC_APPOINTMENT_AMY
+                + NEW_END_TIME_DESC_APPOINTMENT_AMY + NEW_TYPE_DESC_APPOINTMENT_AMY;
 
         assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NEW_DATE,
+                        PREFIX_NEW_START_TIME, PREFIX_NEW_END_TIME, PREFIX_NEW_TAG));
 
         // multiple invalid values
-        userInput = targetNric + INVALID_PHONE_DESC + INVALID_ADDRESS_DESC + INVALID_EMAIL_DESC
-                + INVALID_PHONE_DESC + INVALID_ADDRESS_DESC + INVALID_EMAIL_DESC;
+        userInput = validTargetAppt + INVALID_NEW_DATE_DESC + INVALID_NEW_END_TIME_DESC + INVALID_NEW_APPOINTMENT_TYPE_DESC
+                + INVALID_NEW_DATE_DESC + INVALID_NEW_END_TIME_DESC + INVALID_NEW_APPOINTMENT_TYPE_DESC;
 
         assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
-    }
-
-    @Test
-    public void parse_resetTags_success() {
-        Nric targetNric = new Nric(VALID_NRIC_BOB);
-        String userInput = targetNric + TAG_EMPTY;
-
-        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withTags().build();
-        EditPatientCommand expectedCommand = new EditPatientCommand(targetNric, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NEW_DATE, PREFIX_NEW_END_TIME, PREFIX_NEW_TAG));
     }
 }

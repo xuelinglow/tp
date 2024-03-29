@@ -188,13 +188,10 @@ public class AppointmentList implements Iterable<Appointment> {
             // Check for same patient and same date
             if (appointment.getNric().equals(targetAppt.getNric())
                     && appointment.getDate().equals(targetAppt.getDate())) {
-                // Check for time overlap
-                if (appointment.hasOverlappingTimePeriod(targetAppt)) {
-                    return true; //Overlapping appointment found for same patient
-                }
+                return appointment.hasOverlappingTimePeriod(targetAppt);
             }
         }
 
-        return false; // No Overlapping appointment found for same patient
+        return false; // No appointment for same patient or same date
     }
 }

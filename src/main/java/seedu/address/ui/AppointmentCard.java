@@ -71,6 +71,8 @@ public class AppointmentCard extends UiPart<Region> {
         timeline.play();
         if (appt.getMark().isMarked) {
             cardPane.setStyle("-fx-background-color:" + Colors.MARKED_APPOINTMENT_GREEN_COLOR);
+        } else {
+            bindCardPaneStyle();
         }
     }
 

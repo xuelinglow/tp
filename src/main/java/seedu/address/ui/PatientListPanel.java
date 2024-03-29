@@ -32,6 +32,8 @@ public class PatientListPanel extends UiPart<Region> {
         patientListView.setCellFactory(listView -> new PatientListViewCell());
         appointmentListView.setItems(appointmentList);
         appointmentListView.setCellFactory(listView -> new AppointmentListViewCell());
+        patientListView.setSelectionModel(new NoSelectionModel<Patient>());
+        appointmentListView.setSelectionModel(new NoSelectionModel<AppointmentView>());
     }
 
     /**
@@ -41,6 +43,7 @@ public class PatientListPanel extends UiPart<Region> {
         @Override
         protected void updateItem(Patient patient, boolean empty) {
             super.updateItem(patient, empty);
+            updateSelected(false);
 
             if (empty || patient == null) {
                 setGraphic(null);

@@ -32,7 +32,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_listIsFilterxed_showsEverything() {
+    public void execute_listIsFiltered_showsEverything() {
         showPatientAtIndex(model, INDEX_FIRST_PATIENT);
         assertOverallCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_LIST_SUCCESS, expectedModel);
     }

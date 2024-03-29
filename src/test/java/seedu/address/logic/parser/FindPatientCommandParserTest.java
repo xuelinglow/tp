@@ -27,7 +27,7 @@ public class FindPatientCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
+    public void parse_validArgs_returnsFindPatientCommand() {
         // no leading and trailing whitespaces for name
         FindPatientCommand expectedFindPatientCommand =
                 new FindPatientCommand(new NameContainsKeywordsPredicate(Arrays.asList("Ali", "Bob")));

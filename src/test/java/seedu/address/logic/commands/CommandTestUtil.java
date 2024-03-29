@@ -8,9 +8,14 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
@@ -81,10 +86,20 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+    public static final String NEW_NAME_DESC_AMY = " " + PREFIX_NEW_NAME + VALID_NAME_AMY;
+    public static final String NEW_NAME_DESC_BOB = " " + PREFIX_NEW_NAME + VALID_NAME_BOB;
+    public static final String NEW_DOB_DESC_AMY = " " + PREFIX_NEW_DOB + VALID_DOB_AMY;
+    public static final String NEW_DOB_DESC_BOB = " " + PREFIX_NEW_DOB + VALID_DOB_BOB;
+    public static final String NEW_PHONE_DESC_AMY = " " + PREFIX_NEW_PHONE + VALID_PHONE_AMY;
+    public static final String NEW_PHONE_DESC_BOB = " " + PREFIX_NEW_PHONE + VALID_PHONE_BOB;
+    public static final String NEW_EMAIL_DESC_AMY = " " + PREFIX_NEW_EMAIL + VALID_EMAIL_AMY;
+    public static final String NEW_EMAIL_DESC_BOB = " " + PREFIX_NEW_EMAIL + VALID_EMAIL_BOB;
+    public static final String NEW_ADDRESS_DESC_AMY = " " + PREFIX_NEW_ADDRESS + VALID_ADDRESS_AMY;
+    public static final String NEW_ADDRESS_DESC_BOB = " " + PREFIX_NEW_ADDRESS + VALID_ADDRESS_BOB;
+    public static final String NEW_TAG_DESC_FRIEND = " " + PREFIX_NEW_TAG + VALID_TAG_FRIEND;
+    public static final String NEW_TAG_DESC_HUSBAND = " " + PREFIX_NEW_TAG + VALID_TAG_HUSBAND;
     public static final String DATE_DESC_APPOINTMENT_AMY = " " + PREFIX_DATE + VALID_APPOINTMENT_DATE_AMY;
     public static final String DATE_DESC_APPOINTMENT_BOB = " " + PREFIX_DATE + VALID_APPOINTMENT_DATE_BOB;
-    public static final String NEW_DATE_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_AMY;
-    public static final String NEW_DATE_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_BOB;
     public static final String START_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_START_TIME
             + VALID_APPOINTMENT_START_TIME_AMY;
     public static final String END_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_END_TIME
@@ -93,6 +108,8 @@ public class CommandTestUtil {
             + VALID_APPOINTMENT_START_TIME_BOB;
     public static final String END_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_END_TIME
             + VALID_APPOINTMENT_END_TIME_BOB;
+    public static final String NEW_DATE_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_AMY;
+    public static final String NEW_DATE_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_DATE + VALID_APPOINTMENT_DATE_BOB;
     public static final String NEW_START_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_START_TIME
             + VALID_APPOINTMENT_START_TIME_AMY;
     public static final String NEW_START_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_START_TIME
@@ -120,6 +137,14 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_NEW_NAME_DESC = " " + PREFIX_NEW_NAME + "James&"; // '&' not allowed in names
+    public static final String INVALID_NEW_DOB_DESC = " "
+            + PREFIX_NEW_DOB + "2025-01-01"; // must be before today's date
+    public static final String INVALID_NEW_PHONE_DESC = " " + PREFIX_NEW_PHONE + "911a"; // 'a' not allowed in phones
+    public static final String INVALID_NEW_EMAIL_DESC = " " + PREFIX_NEW_EMAIL + "bob!yahoo"; // missing '@' symbol
+    public static final String INVALID_NEW_ADDRESS_DESC = " "
+            + PREFIX_NEW_ADDRESS; // empty string not allowed for addresses
+    public static final String INVALID_NEW_TAG_DESC = " " + PREFIX_NEW_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_DATE_DESC = " " + PREFIX_DATE + "2024-32-32"; // exceeds month and day range
     public static final String INVALID_TIME_DESC = " " + PREFIX_START_TIME + "24:00"; // exceeds 24 hour clock range
     public static final String INVALID_START_TIME_DESC = " " + PREFIX_START_TIME + "11:30"; // is after end time

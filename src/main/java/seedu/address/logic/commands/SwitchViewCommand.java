@@ -8,6 +8,8 @@ import seedu.address.ui.ViewMode;
 public class SwitchViewCommand extends Command {
 
     public static final String COMMAND_WORD = "switchView";
+    public static final String COMMAND_WORD_ALT = "sv";
+
 
     public static final String MESSAGE_SWITCH_VIEW_SUCCESS = "Successfully switched view";
 

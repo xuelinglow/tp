@@ -38,7 +38,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -55,12 +54,8 @@ import seedu.address.model.patient.Nric;
 import seedu.address.testutil.EditApptDescriptorBuilder;
 
 public class EditApptCommandParserTest {
-
-    private static final String TAG_EMPTY = " " + PREFIX_TAG;
-
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditApptCommand.MESSAGE_USAGE);
-
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            EditApptCommand.MESSAGE_USAGE);
     private EditApptCommandParser parser = new EditApptCommandParser();
 
     @Test

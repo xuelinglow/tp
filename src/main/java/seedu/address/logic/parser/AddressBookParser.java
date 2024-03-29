@@ -84,6 +84,7 @@ public class AddressBookParser {
             return new FindPatientCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_WORD_ALT:
             return new ListCommand();
 
         case ExitCommand.COMMAND_WORD:
@@ -105,6 +106,7 @@ public class AddressBookParser {
             return new EditApptCommandParser().parse(arguments);
 
         case SwitchViewCommand.COMMAND_WORD:
+        case SwitchViewCommand.COMMAND_WORD_ALT:
             return new SwitchViewCommand();
 
         case MarkCommand.COMMAND_WORD:

@@ -13,11 +13,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.appointment.AppointmentContainsKeywordsPredicate;
 import seedu.address.model.patient.Nric;
-
-import java.util.Optional;
-
 
 /**
  * Creates an AddApptCommand to add the specified {@code Appointment}

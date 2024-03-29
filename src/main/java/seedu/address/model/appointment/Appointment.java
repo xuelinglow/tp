@@ -94,12 +94,14 @@ public class Appointment {
         Time otherStartTime = otherAppt.getStartTime();
         Time otherEndTime = otherAppt.getEndTime();
 
-        // other startTime is before existing startTime && other endTime is before or equal to existing startTime --> return false
+        // other startTime is before existing startTime &&
+        // other endTime is before or equal to existing startTime --> return false
         if (otherStartTime.compareTo(existingStartTime) < 0 && otherEndTime.compareTo(existingStartTime) <= 0) {
             return false;
         }
 
-        // other startTime is after or equal to existing endTime && other endTime is after existing endTime --> return false
+        // other startTime is after or equal to existing endTime
+        // && other endTime is after existing endTime --> return false
         if (otherStartTime.compareTo(existingEndTime) >= 0 && otherEndTime.compareTo(existingEndTime) > 0) {
             return false;
         }

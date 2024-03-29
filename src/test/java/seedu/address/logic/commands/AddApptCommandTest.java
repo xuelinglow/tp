@@ -72,16 +72,16 @@ public class AddApptCommandTest {
 
     @Test
     public void execute_overlappingAppointment_throwsCommandException() {
-        Appointment existingAppointment = new AppointmentBuilder(ALICE_APPT).build();
+        Appointment existingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("17:00").withEndTime("18:00").build();
         Appointment overlappingAppointment = new AppointmentBuilder().withNric("T0123456A")
                 .withDate("2024-03-01").withStartTime("16:00").withEndTime("18:00").build();
-
-        ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
-        modelStub.addAppointment(overlappingAppointment);
-
         AddApptCommand addApptCommand = new AddApptCommand(overlappingAppointment);
-        assertThrows(CommandException.class, AddApptCommand.MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
-                .execute(modelStub));
+        ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
+
+        assertThrows(CommandException.class,
+                AddApptCommand.MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
+                        .execute(modelStub));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class AddApptCommandTest {
 
         @Override
         public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
-            throw new AssertionError("This method should not be called.");
+            return false;
         }
 
         @Override
@@ -264,6 +264,8 @@ public class AddApptCommandTest {
             return null;
         }
     }
+
+
 
     /**
      * A Model stub that contains a single appointment.
@@ -285,6 +287,11 @@ public class AddApptCommandTest {
         public boolean hasAppointment(Appointment appointment) {
             requireNonNull(appointment);
             return this.appointment.equals(appointment);
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            return true; //To test overlapping appt
         }
     }
 

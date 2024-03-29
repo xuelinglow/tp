@@ -65,10 +65,12 @@ public class TimePeriod implements Comparable<TimePeriod> {
      * @return True if this time period overlaps with the other time period, false otherwise.
      */
     public boolean overlapsWith(TimePeriod otherTimePeriod) {
-        if (this.startTime.compareTo(otherTimePeriod.startTime) < 0 && this.endTime.compareTo(otherTimePeriod.startTime) <= 0) {
+        if (this.startTime.compareTo(otherTimePeriod.startTime) < 0
+                && this.endTime.compareTo(otherTimePeriod.startTime) <= 0) {
             return false;
         }
-        if (this.startTime.compareTo(otherTimePeriod.endTime) >= 0 && this.endTime.compareTo(otherTimePeriod.endTime) > 0) {
+        if (this.startTime.compareTo(otherTimePeriod.endTime) >= 0
+                && this.endTime.compareTo(otherTimePeriod.endTime) > 0) {
             return false;
         }
         return true;

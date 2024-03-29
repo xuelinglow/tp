@@ -23,4 +23,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_NEW_START_TIME = new Prefix("newfrom/");
     public static final Prefix PREFIX_NEW_END_TIME = new Prefix("newto/");
     public static final Prefix PREFIX_NEW_NOTE = new Prefix("newnote/");
+    public static final Prefix PREFIX_NEW_NAME = new Prefix("newn/");
+    public static final Prefix PREFIX_NEW_DOB = new Prefix("newb/");
+    public static final Prefix PREFIX_NEW_PHONE = new Prefix("newp/");
+    public static final Prefix PREFIX_NEW_EMAIL = new Prefix("newe/");
+    public static final Prefix PREFIX_NEW_ADDRESS = new Prefix("newa/");
 }

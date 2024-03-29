@@ -40,7 +40,7 @@ public class FindApptCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
+    public void parse_validArgs_returnsFindApptCommand() {
         // no leading and trailing whitespaces for NRIC
         FindApptCommand expectedFindApptCommand =
                 new FindApptCommand(new AppointmentContainsKeywordsPredicate(
@@ -78,7 +78,7 @@ public class FindApptCommandParserTest {
     }
 
     @Test
-    public void parse_validNricFilter_returnFindAppCommand() throws ParseException {
+    public void parse_validNricFilter_returnFindApptCommand() throws ParseException {
         FindApptCommand expectedCommand = new FindApptCommand(
                 new AppointmentContainsKeywordsPredicate(
                         Optional.of(new Nric(VALID_NRIC_AMY)),
@@ -90,7 +90,7 @@ public class FindApptCommandParserTest {
     }
 
     @Test
-    public void parse_validDateFilter_returnFindAppCommand() throws ParseException {
+    public void parse_validDateFilter_returnFindApptCommand() throws ParseException {
         FindApptCommand expectedCommand = new FindApptCommand(
                 new AppointmentContainsKeywordsPredicate(
                         Optional.empty(),
@@ -102,7 +102,7 @@ public class FindApptCommandParserTest {
     }
 
     @Test
-    public void parse_validTimeFilter_returnFindAppCommand() throws ParseException {
+    public void parse_validTimeFilter_returnFindApptCommand() throws ParseException {
         FindApptCommand expectedCommand = new FindApptCommand(
                 new AppointmentContainsKeywordsPredicate(
                         Optional.empty(),

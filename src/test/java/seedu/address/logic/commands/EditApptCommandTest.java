@@ -12,15 +12,14 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-
-import seedu.address.commons.core.date.Date;
-import seedu.address.logic.commands.EditApptCommand.EditApptDescriptor;
 import static seedu.address.testutil.TypicalAppointments.ALICE_APPT;
 import static seedu.address.testutil.TypicalAppointments.getTypicalAddressBookWithAppointments;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.date.Date;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.EditApptCommand.EditApptDescriptor;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;

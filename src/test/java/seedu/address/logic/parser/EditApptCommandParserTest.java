@@ -145,13 +145,13 @@ public class EditApptCommandParserTest {
 
         //More invalid tests here for the descriptors
         assertParseFailure(parser, validTargetAppt
-         + INVALID_NEW_DATE_DESC , Date.MESSAGE_CONSTRAINTS); // invalid new date
+                + INVALID_NEW_DATE_DESC , Date.MESSAGE_CONSTRAINTS); // invalid new date
         assertParseFailure(parser, validTargetAppt
                 + INVALID_NEW_START_TIME_DESC , TimePeriod.MESSAGE_CONSTRAINTS); // invalid new startTime
         assertParseFailure(parser, validTargetAppt
                 + INVALID_NEW_END_TIME_DESC , TimePeriod.MESSAGE_CONSTRAINTS); // invalid new endTime
         assertParseFailure(parser, validTargetAppt
-                + INVALID_NEW_APPOINTMENT_TYPE_DESC , AppointmentType.MESSAGE_CONSTRAINTS); // invalid new appointmentType
+                + INVALID_NEW_APPOINTMENT_TYPE_DESC , AppointmentType.MESSAGE_CONSTRAINTS); // invalid new apptType
 
         //all notes are valid so no test for that
 
@@ -244,13 +244,15 @@ public class EditApptCommandParserTest {
 
         // startTime
         userInput = validTargetAppt + NEW_START_TIME_DESC_APPOINTMENT_AMY;
-        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY).build();
+        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY,
+                VALID_APPOINTMENT_END_TIME_AMY).build();
         expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         //endTime
         userInput = validTargetAppt + NEW_END_TIME_DESC_APPOINTMENT_AMY;
-        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY).build();
+        descriptor = new EditApptDescriptorBuilder().withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY,
+                VALID_APPOINTMENT_END_TIME_AMY).build();
         expectedCommand = new EditApptCommand(targetNric, targetDate, targetTimePeriod, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -304,7 +306,8 @@ public class EditApptCommandParserTest {
                         PREFIX_NEW_START_TIME, PREFIX_NEW_END_TIME, PREFIX_NEW_TAG));
 
         // multiple invalid values
-        userInput = validTargetAppt + INVALID_NEW_DATE_DESC + INVALID_NEW_END_TIME_DESC + INVALID_NEW_APPOINTMENT_TYPE_DESC
+        userInput = validTargetAppt + INVALID_NEW_DATE_DESC
+                + INVALID_NEW_END_TIME_DESC + INVALID_NEW_APPOINTMENT_TYPE_DESC
                 + INVALID_NEW_DATE_DESC + INVALID_NEW_END_TIME_DESC + INVALID_NEW_APPOINTMENT_TYPE_DESC;
 
         assertParseFailure(parser, userInput,

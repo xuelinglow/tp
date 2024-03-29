@@ -97,7 +97,7 @@ public class CommandTestUtil {
             + VALID_APPOINTMENT_START_TIME_AMY;
     public static final String NEW_START_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_START_TIME
             + VALID_APPOINTMENT_START_TIME_BOB;
-    public static final String NEW_END_TIME_DESC_APPOINTMENT_AMY= " " + PREFIX_NEW_END_TIME
+    public static final String NEW_END_TIME_DESC_APPOINTMENT_AMY = " " + PREFIX_NEW_END_TIME
             + VALID_APPOINTMENT_END_TIME_AMY;
     public static final String NEW_END_TIME_DESC_APPOINTMENT_BOB = " " + PREFIX_NEW_END_TIME
             + VALID_APPOINTMENT_END_TIME_BOB;
@@ -127,7 +127,7 @@ public class CommandTestUtil {
     public static final String INVALID_APPOINTMENT_TYPE_DESC = " " + PREFIX_TAG + "  "; // only white spaces
     public static final String INVALID_APPOINTMENT_NOTE_DESC = " " + PREFIX_NOTE + "@@"; // non-alphanumeric
     public static final String INVALID_APPOINTMENT_MARK_DESC = " " + PREFIX_NOTE + "abc"; // not true or false
-    public static final String INVALID_NEW_DATE_DESC = " " + PREFIX_NEW_DATE + "2024-32-32"; // exceeds month and day range
+    public static final String INVALID_NEW_DATE_DESC = " " + PREFIX_NEW_DATE + "2024-32-32"; //exceeds month & day range
     public static final String INVALID_NEW_START_TIME_DESC = " " + PREFIX_NEW_START_TIME + "11:30"; // is after end time
     public static final String INVALID_NEW_END_TIME_DESC = " " + PREFIX_NEW_END_TIME + "11:00"; // is before start time
     public static final String INVALID_NEW_APPOINTMENT_TYPE_DESC = " " + PREFIX_NEW_TAG + "  "; // only white spaces

@@ -50,7 +50,7 @@ public class AddApptCommand extends Command {
 
     public static final String MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE =
             "This appointment already exists in CLInic";
-    private static final String MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE =
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE =
             "This appointment overlaps with an existing appointment for the same patient.\n"
             + "Please refer to appointments listed below for that patient on the same date.";
 

@@ -234,6 +234,46 @@ public class AppointmentListTest {
     }
 
     @Test
+    public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
+        // Appointments have no overlapping time periods
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("10:00").withEndTime("11:00").build();
+        AppointmentList appointmentList = new AppointmentList();
+        appointmentList.add(appointment1);
+        assertFalse(appointmentList.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_partialOverlap_returnsTrue() {
+        // Appointments have partial overlapping time periods
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("08:30").withEndTime("09:30").build();
+        AppointmentList appointmentList = new AppointmentList();
+        appointmentList.add(appointment1);
+        assertTrue(appointmentList.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_oneAppointmentInsideAnother_returnsTrue() {
+        // One appointment is completely inside the other
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("12:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("10:00").withEndTime("11:00").build();
+        AppointmentList appointmentList = new AppointmentList();
+        appointmentList.add(appointment1);
+        assertTrue(appointmentList.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_sameTimePeriod_returnsTrue() {
+        // Appointments have the same time period
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("12:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("09:00").withEndTime("12:00").build();
+        AppointmentList appointmentList = new AppointmentList();
+        appointmentList.add(appointment1);
+        assertTrue(appointmentList.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
     public void toStringMethod() {
         assertEquals(appointmentList.asUnmodifiableObservableList().toString(), appointmentList.toString());
     }

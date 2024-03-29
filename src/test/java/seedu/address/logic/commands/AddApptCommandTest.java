@@ -71,6 +71,20 @@ public class AddApptCommandTest {
     }
 
     @Test
+    public void execute_overlappingAppointment_throwsCommandException() {
+        Appointment existingAppointment = new AppointmentBuilder(ALICE_APPT).build();
+        Appointment overlappingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("16:00").withEndTime("18:00").build();
+
+        ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
+        modelStub.addAppointment(overlappingAppointment);
+
+        AddApptCommand addApptCommand = new AddApptCommand(overlappingAppointment);
+        assertThrows(CommandException.class, AddApptCommand.MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
+                .execute(modelStub));
+    }
+
+    @Test
     public void equals() {
         Appointment aliceAppointment = new AppointmentBuilder().withNric("T0000001A").build();
         Appointment bobAppointment = new AppointmentBuilder().withNric("T0000002A").build();
@@ -237,6 +251,11 @@ public class AddApptCommandTest {
 
         @Override
         public void deleteAppointmentsWithNric(Nric targetNric) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
             throw new AssertionError("This method should not be called.");
         }
 

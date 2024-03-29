@@ -48,7 +48,7 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_appAppt() throws Exception {
+    public void parseCommand_addAppt() throws Exception {
         Appointment appointment = new AppointmentBuilder().build();
         AddApptCommand command = (AddApptCommand) parser.parseCommand(AppointmentUtil.getAddApptCommand(appointment));
         assertEquals(new AddApptCommand(appointment), command);

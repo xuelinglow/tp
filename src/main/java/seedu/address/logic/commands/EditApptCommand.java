@@ -69,7 +69,7 @@ public class EditApptCommand extends Command {
     private final EditApptDescriptor editApptDescriptor;
 
     /**
-     * @param nric of the appointment to
+     * @param nric of the appointment for edit
      * @param date of the appointment to edit
      * @param timePeriod of the appointment to edit
      * @param editApptDescriptor details to edit the appointment with

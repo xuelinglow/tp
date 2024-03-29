@@ -15,7 +15,9 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.AddApptCommand;
 import seedu.address.logic.commands.AddPatientCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteApptCommand;
 import seedu.address.logic.commands.DeletePatientCommand;
+import seedu.address.logic.commands.EditApptCommand;
 import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindPatientCommand;
@@ -29,6 +31,7 @@ import seedu.address.model.patient.NricContainsMatchPredicate;
 import seedu.address.model.patient.Patient;
 import seedu.address.testutil.AppointmentBuilder;
 import seedu.address.testutil.AppointmentUtil;
+import seedu.address.testutil.EditApptDescriptorBuilder;
 import seedu.address.testutil.EditPatientDescriptorBuilder;
 import seedu.address.testutil.PatientBuilder;
 import seedu.address.testutil.PatientUtil;
@@ -38,16 +41,16 @@ public class AddressBookParserTest {
     private final AddressBookParser parser = new AddressBookParser();
 
     @Test
-    public void parseCommand_add() throws Exception {
+    public void parseCommand_addPatient() throws Exception {
         Patient patient = new PatientBuilder().build();
         AddPatientCommand command = (AddPatientCommand) parser.parseCommand(PatientUtil.getAddCommand(patient));
         assertEquals(new AddPatientCommand(patient), command);
     }
 
     @Test
-    public void parseCommand_appApp() throws Exception {
+    public void parseCommand_addAppt() throws Exception {
         Appointment appointment = new AppointmentBuilder().build();
-        AddApptCommand command = (AddApptCommand) parser.parseCommand(AppointmentUtil.getAddAppCommand(appointment));
+        AddApptCommand command = (AddApptCommand) parser.parseCommand(AppointmentUtil.getAddApptCommand(appointment));
         assertEquals(new AddApptCommand(appointment), command);
     }
 
@@ -58,7 +61,7 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_delete() throws Exception {
+    public void parseCommand_deletePatient() throws Exception {
         Patient patient = new PatientBuilder().build();
         DeletePatientCommand command = (DeletePatientCommand) parser.parseCommand(
                 DeletePatientCommand.COMMAND_WORD + " " + patient.getNric());
@@ -67,12 +70,31 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_edit() throws Exception {
+    public void parseCommand_deleteAppt() throws Exception {
+        Appointment appt = new AppointmentBuilder().build();
+        DeleteApptCommand command = (DeleteApptCommand) parser.parseCommand(AppointmentUtil
+                .getDeleteApptCommand(appt));
+
+        assertEquals(new DeleteApptCommand(appt.getNric(), appt.getDate(), appt.getTimePeriod()), command);
+    }
+
+    @Test
+    public void parseCommand_editPatient() throws Exception {
         Patient patient = new PatientBuilder().build();
         EditPatientCommand.EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder(patient).build();
         EditPatientCommand command = (EditPatientCommand) parser.parseCommand(EditPatientCommand.COMMAND_WORD + " "
                 + patient.getNric() + " " + PatientUtil.getEditPatientDescriptorDetails(descriptor));
         assertEquals(new EditPatientCommand(patient.getNric(), descriptor), command);
+    }
+
+    @Test
+    public void parseCommand_editAppt() throws Exception {
+        Appointment appt = new AppointmentBuilder().build();
+        EditApptCommand.EditApptDescriptor descriptor = new EditApptDescriptorBuilder(appt).build();
+        EditApptCommand command = (EditApptCommand) parser.parseCommand(EditApptCommand.COMMAND_WORD
+                + " " + AppointmentUtil.getAppointmentUniqueDetails(appt)
+                + " " + AppointmentUtil.getEditApptDescriptorDetails(descriptor));
+        assertEquals(new EditApptCommand(appt.getNric(), appt.getDate(), appt.getTimePeriod(), descriptor), command);
     }
 
     @Test
@@ -82,7 +104,7 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_find() throws Exception {
+    public void parseCommand_findPatient() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindPatientCommand command = (FindPatientCommand) parser.parseCommand(
                 FindPatientCommand.COMMAND_WORD + " n/" + keywords.stream().collect(Collectors.joining(" ")));
@@ -104,13 +126,6 @@ public class AddressBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
-    }
-
-    @Test
-    public void parseCommand_addApp() throws Exception {
-        Appointment appointment = new AppointmentBuilder().build();
-        AddApptCommand command = (AddApptCommand) parser.parseCommand(AppointmentUtil.getAddAppCommand(appointment));
-        assertEquals(new AddApptCommand(appointment), command);
     }
 
     @Test

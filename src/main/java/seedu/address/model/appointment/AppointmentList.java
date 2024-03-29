@@ -185,7 +185,9 @@ public class AppointmentList implements Iterable<Appointment> {
         requireNonNull(targetAppt);
 
         for (Appointment appointment : this) {
-            if (appointment.getNric().equals(targetAppt.getNric())) {
+            // Check for same patient and same date
+            if (appointment.getNric().equals(targetAppt.getNric())
+                    && appointment.getDate().equals(targetAppt.getDate())) {
                 // Check for time overlap
                 if (appointment.hasOverlappingTimePeriod(targetAppt)) {
                     return true; //Overlapping appointment found for same patient

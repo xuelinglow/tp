@@ -179,4 +179,20 @@ public class AppointmentList implements Iterable<Appointment> {
         requireNonNull(nric);
         internalList.removeIf(appointment -> appointment.getNric().equals(nric));
     }
+
+    /** Return true if new appt to be added overlaps with existing appointment of same Nric **/
+    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
+        requireNonNull(targetAppt);
+
+        for (Appointment appointment : this) {
+            if (appointment.getNric().equals(targetAppt.getNric())) {
+                // Check for time overlap
+                if (appointment.hasOverlappingTimePeriod(targetAppt)) {
+                    return true; //Overlapping appointment found for same patient
+                }
+            }
+        }
+
+        return false; // No Overlapping appointment found for same patient
+    }
 }

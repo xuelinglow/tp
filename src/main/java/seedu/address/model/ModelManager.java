@@ -176,6 +176,16 @@ public class ModelManager implements Model {
         addressBook.deleteAppointmentsWithNric(targetNric);
     }
 
+    @Override
+    public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+        requireNonNull(apptToAdd);
+        boolean hasOverlap = addressBook.samePatientHasOverlappingAppointment(apptToAdd);
+        if (hasOverlap) {
+            //show view appt with appt that have the same date, same NRIC
+        }
+        return hasOverlap;
+    }
+
     //=========== Filtered Patient List Accessors =============================================================
 
     /**

@@ -217,6 +217,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.appointmentView.setAppointmentViews(patients, appointments);
     }
 
+    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
+        return appointments.samePatientHasOverlappingAppointment(targetAppt);
+    }
+
     /**
      * Create AppointmentView from appointment
      */
@@ -245,4 +249,5 @@ public class AddressBook implements ReadOnlyAddressBook {
     public int hashCode() {
         return patients.hashCode();
     }
+
 }

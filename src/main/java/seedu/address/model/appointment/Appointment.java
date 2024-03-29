@@ -85,6 +85,29 @@ public class Appointment {
     }
 
     /**
+     * Returns true if both appointments has overlapping time period.
+     * Overlapping is defined as within, the same or partly coinciding timePeriods.
+     */
+    public boolean hasOverlappingTimePeriod(Appointment otherAppt) {
+        Time existingStartTime = this.getStartTime();
+        Time existingEndTime = this.getEndTime();
+        Time otherStartTime = otherAppt.getStartTime();
+        Time otherEndTime = otherAppt.getEndTime();
+
+        // other startTime is before existing startTime && other endTime is before or equal to existing startTime --> return false
+        if (otherStartTime.compareTo(existingStartTime) < 0 && otherEndTime.compareTo(existingStartTime) <= 0) {
+            return false;
+        }
+
+        // other startTime is after or equal to existing endTime && other endTime is after existing endTime --> return false
+        if (otherStartTime.compareTo(existingEndTime) >= 0 && otherEndTime.compareTo(existingEndTime) > 0) {
+            return false;
+        }
+
+        return true; //Time periods overlap
+    }
+
+    /**
      * Returns true if both appointments have the same patient and data fields.
      * This defines a stronger notion of equality between two appointments.
      */

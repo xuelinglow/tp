@@ -1,0 +1,20 @@
+{
+  "patients" : [ {
+    "name" : "Alice Pauline",
+    "nric" : "T0123456A",
+    "dob" : "2001-01-01",
+    "phone" : "94351253",
+    "email" : "alice@example.com",
+    "address" : "123, Jurong West Ave 6, #08-111",
+    "tags" : [ "friends" ]
+  }],
+  "appointments" : [ {
+    "nric" : "G9999999X",
+    "date" : "2024-03-01",
+    "startTime" : "16:00",
+    "endTime" : "17:00",
+    "appointmentType" : "Monthly check-up",
+    "note" : "Routine follow up",
+    "mark" : false
+  }]
+}

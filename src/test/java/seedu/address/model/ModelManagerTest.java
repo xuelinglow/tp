@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT;
+import static seedu.address.testutil.TypicalAppointments.BOB_APPT;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BENSON;
 import static seedu.address.testutil.TypicalPatients.BOB;
@@ -18,10 +20,12 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.exceptions.PatientNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.AppointmentBuilder;
 
 public class ModelManagerTest {
 
@@ -214,6 +218,105 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasAppointment_validAppointment_returnsTrue() {
+        Appointment validAppointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(validAppointment);
+        assertTrue(modelManager.hasAppointment(validAppointment));
+    }
+
+    @Test
+    public void hasAppointment_appointmentNotFound_returnsFalse() {
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        assertFalse(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void cancelAppointment_validAppointment_success() {
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+        assertTrue(modelManager.hasAppointment(appointment));
+        modelManager.cancelAppointment(appointment);
+        assertFalse(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void addAppointment_validAppointment_success() {
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+        assertTrue(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void setAppointment_validAppointment_success() {
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+
+        // Edit the appointment details
+        Appointment editedAppointment = new AppointmentBuilder(BOB_APPT).build();
+        modelManager.setAppointment(appointment, editedAppointment);
+
+        assertFalse(modelManager.hasAppointment(appointment)); // original appointment should not exist
+        assertTrue(modelManager.hasAppointment(editedAppointment)); // edited appointment should exist
+    }
+
+    @Test
+    public void getMatchingAppointment_validInputs_returnsMatchingAppointment() {
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+
+        Appointment matchingAppointment = modelManager.getMatchingAppointment(
+                ALICE_APPT.getNric(),
+                ALICE_APPT.getDate(),
+                ALICE_APPT.getTimePeriod()
+        );
+
+        assertEquals(appointment, matchingAppointment);
+    }
+
+    @Test
+    public void deleteAppointmentsWithNric_validNric_success() {
+        // Add appointments with the specified NRIC
+        Appointment appointment1 = new AppointmentBuilder(ALICE_APPT).build();
+        Appointment appointment2 = new AppointmentBuilder(BOB_APPT).build();
+        modelManager.addAppointment(appointment1);
+        modelManager.addAppointment(appointment2);
+
+        // Delete appointments with the specified NRIC
+        modelManager.deleteAppointmentsWithNric(ALICE_APPT.getNric());
+
+        assertFalse(modelManager.hasAppointment(appointment1)); // appointment1 should be deleted
+        assertTrue(modelManager.hasAppointment(appointment2)); // appointment2 should still exist
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
+        // Add appointments that don't overlap
+        Appointment appointment1 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:00").withEndTime("17:00").build();
+
+        Appointment appointment2 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("17:00").withEndTime("18:00").build();
+        modelManager.addAppointment(appointment1);
+        assertFalse(modelManager.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_withOverlap_returnsTrue() {
+        // Add appointments that don't overlap
+        Appointment appointment1 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:00").withEndTime("17:00").build();
+
+        Appointment appointment2 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:30").withEndTime("18:00").build();
+        modelManager.addAppointment(appointment1);
+        assertTrue(modelManager.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
     public void getFilteredAppointmentViewList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
             modelManager.getFilteredAppointmentViewList().remove(0));
@@ -224,6 +327,8 @@ public class ModelManagerTest {
         assertThrows(UnsupportedOperationException.class, () ->
             modelManager.getFilteredAppointmentDayViewList().remove(0));
     }
+
+
 
     @Test
     public void equals() {

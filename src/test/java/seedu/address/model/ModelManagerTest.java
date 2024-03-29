@@ -7,6 +7,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BENSON;
+import static seedu.address.testutil.TypicalPatients.BOB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +16,11 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
+import seedu.address.model.patient.Nric;
+import seedu.address.model.patient.exceptions.PatientNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -73,6 +78,72 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void setAddressBook_validAddressBook_successfullySetsAddressBook() {
+        AddressBook newAddressBook = new AddressBook();
+        modelManager.setAddressBook(newAddressBook);
+        assertEquals(newAddressBook, modelManager.getAddressBook());
+    }
+
+    @Test
+    public void setAddressBook_nullAddressBook_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setAddressBook(null));
+    }
+
+    @Test
+    public void hasPatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasPatientWithNric(null));
+    }
+
+    @Test
+    public void hasPatientWithNric_existingNric_returnsTrue() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void hasPatientWithNric_nonExistingNric_returnsFalse() {
+        modelManager.addPatient(ALICE);
+        assertFalse(modelManager.hasPatientWithNric(new Nric("S1234567A")));
+    }
+
+    @Test
+    public void getPatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.getPatientWithNric(null));
+    }
+
+    @Test
+    public void getPatientWithNric_existingNric_returnsPatient() {
+        modelManager.addPatient(ALICE);
+        assertEquals(ALICE, modelManager.getPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void getPatientWithNric_nonExistingNric_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.getPatientWithNric(new Nric("S1234567A")));
+    }
+
+    @Test
+    public void deletePatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.deletePatientWithNric(null));
+    }
+
+    @Test
+    public void deletePatientWithNric_existingNric_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatient(ALICE));
+        modelManager.deletePatientWithNric(ALICE.getNric());
+        assertFalse(modelManager.hasPatient(ALICE));
+    }
+
+    @Test
+    public void deletePatientWithNric_nonExistingNric_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.deletePatientWithNric(new Nric("S1234567A")));
+        assertTrue(modelManager.hasPatient(ALICE));
+    }
+
+    @Test
     public void hasPatient_nullPatient_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.hasPatient(null));
     }
@@ -86,6 +157,55 @@ public class ModelManagerTest {
     public void hasPatient_patientInAddressBook_returnsTrue() {
         modelManager.addPatient(ALICE);
         assertTrue(modelManager.hasPatient(ALICE));
+    }
+
+    @Test
+    public void deletePatient_nullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.deletePatient(null));
+    }
+
+    @Test
+    public void deletePatient_existingPatient_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatient(ALICE));
+        modelManager.deletePatient(ALICE);
+        assertFalse(modelManager.hasPatient(ALICE));
+    }
+
+    @Test
+    public void deletePatient_nonExistingPatient_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.deletePatient(BOB));
+    }
+
+    @Test
+    public void setPatient_bothNullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(null, null));
+    }
+
+    @Test
+    public void setPatient_targetPatientNull_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(null, ALICE));
+    }
+
+    @Test
+    public void setPatient_editedPatientNull_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(ALICE, null));
+    }
+
+    @Test
+    public void setPatient_existingTargetPatient_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatient(ALICE));
+        modelManager.setPatient(ALICE, BOB);
+        assertFalse(modelManager.hasPatient(ALICE));
+        assertTrue(modelManager.hasPatient(BOB));
+    }
+
+    @Test
+    public void setPatient_nonExistingTargetPatient_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.setPatient(BOB, ALICE));
     }
 
     @Test

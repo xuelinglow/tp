@@ -181,7 +181,11 @@ public class ModelManager implements Model {
         requireNonNull(apptToAdd);
         boolean hasOverlap = addressBook.samePatientHasOverlappingAppointment(apptToAdd);
         if (hasOverlap) {
-            //show view appt with appt that have the same date, same NRIC
+            updateFilteredAppointmentList(new AppointmentContainsKeywordsPredicate(
+                    Optional.of(apptToAdd.getNric()),
+                    Optional.of(apptToAdd.getDate()),
+                    Optional.empty())
+            );
         }
         return hasOverlap;
     }

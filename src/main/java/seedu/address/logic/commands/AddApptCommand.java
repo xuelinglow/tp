@@ -13,7 +13,10 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentContainsKeywordsPredicate;
 import seedu.address.model.patient.Nric;
+
+import java.util.Optional;
 
 
 /**
@@ -49,7 +52,7 @@ public class AddApptCommand extends Command {
             "This appointment already exists in CLInic";
     private static final String MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE =
             "This appointment overlaps with an existing appointment for the same patient.\n"
-            + "Please refer to appointments listed below for mentioned patient on the same date.";
+            + "Please refer to appointments listed below for that patient on the same date.";
 
     private final Appointment apptToAdd;
 

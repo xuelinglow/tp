@@ -159,6 +159,43 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Add Patient Feature
+
+#### Implementation
+
+The implementation of `AddPatientCommand` is supported by the creation of a `Patient` stored internally in a `UniquePatientList` in `AddressBook`.
+
+Fields that a `Patient` has include:
+* `Nric`
+* `Name`
+* `DateOfBirth`
+* `Phone`
+* `Email`
+* `Address`
+* `Tag` [optional]
+
+To add a `Patient`, `UniquePersonList` implements the following operations:
+* `UniquePersonList#contains(Patient)` - Checks if there is another patient with the same NRIC already in the list.
+* `UniquePersonList#add(Patient)` - Add the Patient to the list.
+
+Those operations are exposed in the `Model` interface as `Model#hasPatient(Patient)` and `Model#addPatient(Patient)' respectively.
+
+Given below is an example usage scenario and how the add patient mechanism behaves at each step.
+
+1. The user executes `addPatient n/John Doe i/T0123456A b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`.
+2. The `AddPatientCommand` calls `Model#hasPatient(Patient)`, checking if there is already a patient with an NRIC of T0123456A. If that is the case, we throw a `CommandException` highlighting to the user that the patient they are trying to add already exists in the CLInic.
+3. Suppose the patient's NRIC is not already in CLInic, the `AddPatientCommand` calls `Model#AddPatient(Patient)`, to add the patient to the `AddressBook`.
+
+The following diagram shows how an AddPatientCommand goes through the `Logic` component:
+
+<puml src="diagrams/AddPatientSequenceDiagram.puml" alt="AddPatientSequenceDiagram" />
+
+The following activity diagram summarizes what happens when a user executes an `AddPatientCommand`:
+
+<puml src="diagrams/AddPatientActivityDiagram.puml" alt="AddPatientActivityDiagram" />
+
+#### Implementation
+
 ### Add Appointment for a Patient
 
 #### Implementation
@@ -185,7 +222,7 @@ attempting to create an appointment for a patient with NRIC: S9922758A on 27 Mar
     in the system. If yes, continue. Else throw a `CommandException`.
 3. `AddApptCommand` calls `Model#hasAppointment(Appointment)` to check if an equivalent appointment exists
     in the system. If no, continue. Else throw a `CommandException`.
-4. `AddApptCommand` calls `Model#addAppointment(Appointment) to add the appointment to the `AddressBook`.
+4. `AddApptCommand` calls `Model#addAppointment(Appointment)` to add the appointment to the `AddressBook`.
 5. We are done.
 
 The following sequence diagram shows how an addAppt operation goes through the `Logic` component:

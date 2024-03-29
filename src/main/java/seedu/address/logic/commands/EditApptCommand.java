@@ -69,6 +69,9 @@ public class EditApptCommand extends Command {
     private final EditApptDescriptor editApptDescriptor;
 
     /**
+     * Creates a EditApptCommand to edit the appointment with the
+     * specified {@code Nric, Date, TimePeriod} using the details
+     * from {@code editApptDescriptor}
      * @param nric of the appointment for edit
      * @param date of the appointment to edit
      * @param timePeriod of the appointment to edit
@@ -103,10 +106,10 @@ public class EditApptCommand extends Command {
 
         this.apptToEdit = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
 
-        Appointment editedAppointment = createEditedAppointment(apptToEdit, editApptDescriptor);
-        model.setAppointment(apptToEdit, editedAppointment);
+        Appointment editedAppt = createEditedAppointment(apptToEdit, editApptDescriptor);
+        model.setAppointment(apptToEdit, editedAppt);
         model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
-        return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppointment)));
+        return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppt)));
     }
 
     /**

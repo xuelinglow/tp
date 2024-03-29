@@ -16,7 +16,7 @@ import seedu.address.model.Model;
 import seedu.address.model.patient.Patient;
 
 /**
- * Adds a patient to CLInic.
+ * Adds the specified {@code Patient} to CLInic
  */
 public class AddPatientCommand extends Command {
 
@@ -51,6 +51,7 @@ public class AddPatientCommand extends Command {
 
     /**
      * Creates an AddPatientCommand to add the specified {@code Patient}
+     * @param patient to be added
      */
     public AddPatientCommand(Patient patient) {
         requireNonNull(patient);

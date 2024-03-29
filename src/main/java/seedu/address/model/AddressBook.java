@@ -15,6 +15,7 @@ import seedu.address.model.appointment.TimePeriod;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.model.patient.UniquePatientList;
+import seedu.address.model.patient.exceptions.PatientNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -156,9 +157,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Adds an appointment to the address book.
      * The appointment must not already exist in the address book.
+     * NRIC must exist in the address book.
      */
     public void addAppointment(Appointment appt) {
         appointments.add(appt);
+        if (!hasPatientWithNric(appt.getNric())) {
+            throw new PatientNotFoundException();
+        }
         this.appointmentView.setAppointmentViews(patients, appointments);
     }
 

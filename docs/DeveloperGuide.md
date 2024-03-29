@@ -210,6 +210,46 @@ The following activity diagram summarises what happens when a user executes addA
     * Cons: Space inefficient, we double store `Patient`. We need to ensure `Patient` in `UniquePatientList` and `Patient` in
         each `Appointment` is always consistent which can be tricky.
 
+### Edit Appointment for a Patient
+
+#### Implementation
+
+The Edit Appointment feature will involve parsing user input and updating the existing appointment with new values.
+An appointment's DATE, START_TIME, END_TIME, APPOINTMENT_TYPE and NOTE can be edited. NRIC cannot be edited.
+
+The implementation will include the following key components:
+
+1. **Parsing User Input**: The application will parse user input to extract values for the target appointment (NRIC, DATE, START_TIME, END_TIME) and optional prefixes for new values such as newnote/, newd/.
+2. **Executing Edit Queries**: The application will search through the list of appointments stored in the database and identify the target appointment. It will then set the appointment with the new values inputted.
+3. **Presenting Updated Results**: The matched appointments will be presented to the user in a clear and organized manner, displaying relevant details such as the updated appointment time, date, and associated appointment information.
+
+#### Example Usage Scenario
+
+1. **Context**: User wants to edit the date of an appointment with a specific NRIC, date, start time and end time.
+2. **User Input**: The user enters the command `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21`.
+
+<puml src="diagrams/EditApptSequenceDiagram.puml" alt="EditApptSeqDiag" />
+
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`), start time (`11:00`) and end time (`11:30`) criteria for the target appointment. The new date is parsed as (`2024-02-21`).
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date, start time and end time criteria.
+5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case date (`2024-02-21`).
+6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
+
+The following activity diagram summarizes what happens when a user executes a new command:
+
+<puml src="diagrams/EditApptActivityDiagram.puml" alt="EditApptActivityDiagram" width="250" />
+
+#### Design considerations:
+
+**Aspect: How to differentiate prefixes for target appointment and prefixes for new values:**
+
+* **Alternative 1 (current choice):** Use the `new` prefix in addition to the original prefixes.
+    * Pros: Data integrity since unique prefix for new values
+    * Cons: May be less efficient as it requires the user to input a longer prefix
+
+* **Alternative 2:** Edit appointments by a unique index`
+    * Pros: Time efficient as we can make use of the shorter prefixes because there's no need to differentiate between target appointment and new appointment details, Easier to correct mistakes in updating wrong appointment
+    * Cons: Prone to errors as just a wrong number could cause the user to update the wrong appointment, Huge list could make it difficult to find a specific index
 
 ### \[Proposed\] Undo/redo feature
 

@@ -247,9 +247,9 @@ The following activity diagram summarizes what happens when a user executes a ne
     * Pros: Data integrity since unique prefix for new values
     * Cons: May be less efficient as it requires the user to input a longer prefix
 
-* **Alternative 2:** Edit appointments by a unique index, similar to edit patient`
-    * Pros: Time efficient as we can make use of the shorter prefixes
-    * Cons: Prone to errors as just a wrong number could cause the user to update the wrong appointment
+* **Alternative 2:** Edit appointments by a unique index`
+    * Pros: Time efficient as we can make use of the shorter prefixes because there's no need to differentiate between target appointment and new appointment details, Easier to correct mistakes in updating wrong appointment
+    * Cons: Prone to errors as just a wrong number could cause the user to update the wrong appointment, Huge list could make it difficult to find a specific index
 
 ### \[Proposed\] Undo/redo feature
 

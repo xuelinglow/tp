@@ -161,6 +161,7 @@ Examples:
 * `findPatient n/ John` returns patients with names `john` and `John Doe`
 * `findPatient n/ alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
 * `fp n/ alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
+
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Adding an Appointment: `addAppt` OR `aa`
@@ -254,7 +255,7 @@ Format: `unmark i/ NRIC d/ DATE /from START_TIME /to END_TIME`
 Examples:
 * `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`
 
-### Listing all patients : `list` OR `ls`
+### Listing all patients and appointments : `list` OR `ls`
 
 Shows a list of all patients and appointments in CLInic.
 

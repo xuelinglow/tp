@@ -36,43 +36,56 @@ public class MarkCommand extends Command {
 
     public static final String MESSAGE_MARK_APPOINTMENT_SUCCESS = "Appointment successfully marked as seen: %1$s";
 
-    private final Nric nric;
-    private final Date date;
-    private final TimePeriod timePeriod;
+    private final Nric targetNric;
+    private final Date targetDate;
+    private final TimePeriod targetTimePeriod;
 
     /**
-     * @param nric nric of the Patient to be identified
-     * @param date date of the existing Appointment to be specified
-     * @param timePeriod timePeriod of the existing Appointment to be marked
+     * Creates a MarkCommand to mark the appointment with the
+     * specified {@code Nric, Date, TimePeriod}
+     * @param targetNric nric of the Patient matching the existing Appointment to be marked
+     * @param targetDate date of the existing Appointment to be marked
+     * @param targetTimePeriod timePeriod of the existing Appointment to be marked
      */
-    public MarkCommand(Nric nric, Date date, TimePeriod timePeriod) {
-        requireNonNull(nric);
-        requireNonNull(date);
-        requireNonNull(timePeriod);
+    public MarkCommand(Nric targetNric, Date targetDate, TimePeriod targetTimePeriod) {
+        requireNonNull(targetNric);
+        requireNonNull(targetDate);
+        requireNonNull(targetTimePeriod);
 
-        this.nric = nric;
-        this.date = date;
-        this.timePeriod = timePeriod;
+        this.targetNric = targetNric;
+        this.targetDate = targetDate;
+        this.targetTimePeriod = targetTimePeriod;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Appointment mockAppointmentToMatch = new Appointment(nric, date, timePeriod,
+        if (!model.hasPatientWithNric(targetNric)) {
+            throw new CommandException(Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
+        }
+
+        Appointment mockAppointmentToMatch = new Appointment(targetNric, targetDate, targetTimePeriod,
             new AppointmentType("Anything"), new Note("Anything"), new Mark(false));
         if (!model.hasAppointment(mockAppointmentToMatch)) {
             throw new CommandException(Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
         }
 
-        Appointment appt = model.getMatchingAppointment(nric, date, timePeriod);
+        Appointment apptToMark = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
 
-        Appointment newAppt = new Appointment(appt.getNric(), appt.getDate(), appt.getTimePeriod(),
-            appt.getAppointmentType(), appt.getNote(), new Mark(true));
-
-        model.setAppointment(appt, newAppt);
+        Appointment markedAppt = createMarkedAppointment(apptToMark);
+        model.setAppointment(apptToMark, markedAppt);
         model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
-        return new CommandResult(String.format(MESSAGE_MARK_APPOINTMENT_SUCCESS, Messages.format(newAppt)));
+        return new CommandResult(String.format(MESSAGE_MARK_APPOINTMENT_SUCCESS, Messages.format(markedAppt)));
+    }
+
+    /**
+     * Creates and returns a {@code Appointment} that is marked
+     */
+    private static Appointment createMarkedAppointment(Appointment apptToMark) {
+        assert apptToMark != null;
+        return new Appointment(apptToMark.getNric(), apptToMark.getDate(), apptToMark.getTimePeriod(),
+                apptToMark.getAppointmentType(), apptToMark.getNote(), new Mark(true));
     }
 
     @Override
@@ -87,17 +100,17 @@ public class MarkCommand extends Command {
         }
 
         MarkCommand otherMarkCommand = (MarkCommand) other;
-        return nric.equals(otherMarkCommand.nric)
-                && date.equals(otherMarkCommand.date)
-                && timePeriod.equals(otherMarkCommand.timePeriod);
+        return targetNric.equals(otherMarkCommand.targetNric)
+                && targetDate.equals(otherMarkCommand.targetDate)
+                && targetTimePeriod.equals(otherMarkCommand.targetTimePeriod);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("nric", nric)
-                .add("date", date)
-                .add("timePeriod", timePeriod)
+                .add("nric", targetNric)
+                .add("date", targetDate)
+                .add("timePeriod", targetTimePeriod)
                 .toString();
     }
 }

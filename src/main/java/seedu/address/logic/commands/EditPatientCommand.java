@@ -60,6 +60,8 @@ public class EditPatientCommand extends Command {
     private final EditPatientDescriptor editPatientDescriptor;
 
     /**
+     * Creates an EditPatientCommand to edit the details of the patient identified by
+     * the {@code nric} using updated fields given by {@code editPatientDescriptor}
      * @param nric of the patient to edit
      * @param editPatientDescriptor details to edit the patient with
      */

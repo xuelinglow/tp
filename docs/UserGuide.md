@@ -8,6 +8,8 @@
 
 Welcome to **CLInic**, your digital assistant for managing patients and appointments! CLInic is a desktop app designed for clinic assistants, optimized for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI). <br/> <br/>If you're familiar with digitalized software or have used a CLI before, you'll find CLInic intuitive. Don't worry if you're new to CLI; we'll guide you through every step.
 
+As part of our Beta Testing, we would greatly appreciate feedback from actual users. Help us improve CLInic together [**here**](https://forms.gle/RSBeinMHPMYXyYyGA)!
+
 <!-- * Table of Contents -->
 <page-nav-print />
 
@@ -17,7 +19,7 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 
 1. System Requirements: Ensure you have [**Java 11**](https://www.oracle.com/java/technologies/downloads/#java11) or above installed on your computer.
 
-1. Download the latest `CLInic.jar` from [here](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
+1. Download the latest `CLInic.jar` from [**here**](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
 
 1. Save the file to a location on your computer that will serve as your home folder for CLInic.
 
@@ -48,7 +50,7 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+1. Refer to the [**Features**](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 

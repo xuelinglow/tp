@@ -190,6 +190,20 @@ public class ModelManager implements Model {
         return hasOverlap;
     }
 
+    @Override
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        requireAllNonNull(targetAppt, editedAppointment);
+        boolean hasOverlap = addressBook.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+        if (hasOverlap) {
+            updateFilteredAppointmentList(new AppointmentContainsKeywordsPredicate(
+                    Optional.of(editedAppointment.getNric()),
+                    Optional.of(editedAppointment.getDate()),
+                    Optional.empty())
+            );
+        }
+        return hasOverlap;
+    }
+
     //=========== Filtered Patient List Accessors =============================================================
 
     /**

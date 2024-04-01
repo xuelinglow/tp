@@ -74,7 +74,7 @@ public class AppointmentList implements Iterable<Appointment> {
             throw new DuplicateAppointmentException();
         }
 
-        if (samePatientHasOverlappingAppointment(editedAppointment)) {
+        if (hasOverlappingAppointmentExcluding(target, editedAppointment)) {
             throw new OverlappingAppointmentException();
         }
 
@@ -194,6 +194,24 @@ public class AppointmentList implements Iterable<Appointment> {
 
         for (Appointment appointment : this) {
             // Check for same patient and same date
+            if (appointment.getNric().equals(targetAppt.getNric())
+                    && appointment.getDate().equals(targetAppt.getDate())) {
+                return appointment.hasOverlappingTimePeriod(targetAppt);
+            }
+        }
+
+        return false; // No appointment for same patient or same date
+    }
+
+    /** Return true if new appt to be added overlaps with existing appointment of same Nric, excluding targetAppt **/
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        requireAllNonNull(targetAppt, editedAppointment);
+
+        for (Appointment appointment : this) {
+            // Check for same patient and same date except for same appt
+            if (appointment.equals(targetAppt)) {
+                continue;
+            }
             if (appointment.getNric().equals(targetAppt.getNric())
                     && appointment.getDate().equals(targetAppt.getDate())) {
                 return appointment.hasOverlappingTimePeriod(targetAppt);

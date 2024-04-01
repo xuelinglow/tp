@@ -158,4 +158,10 @@ public interface Model {
 
     /** Returns true if appointment overlaps in timePeriod with existing appointment for same patient **/
     boolean samePatientHasOverlappingAppointment(Appointment apptToAdd);
+
+    /**
+     * Returns true if appointment overlaps in timePeriod with existing appointment for same patient,
+     * except for a specified appointment
+     **/
+    boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment);
 }

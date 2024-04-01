@@ -260,6 +260,11 @@ public class AddApptCommandTest {
         }
 
         @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return false;
+        }
+
+        @Override
         public ObservableList<AppointmentView> getFilteredAppointmentViewList() {
             return null;
         }
@@ -292,6 +297,11 @@ public class AddApptCommandTest {
         @Override
         public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
             return true; //To test overlapping appt
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return true;
         }
     }
 

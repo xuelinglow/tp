@@ -329,6 +329,49 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasOverlappingAppointmentExcluding_validAppointments_noOverlap() {
+        // Prepare test data
+        Appointment targetAppt = new AppointmentBuilder().build();
+        Appointment editedAppointment = new AppointmentBuilder().build();
+
+        // Invoke method
+        boolean result = modelManager.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+
+        // Verify result
+        assertFalse(result);
+    }
+
+    @Test
+    public void hasOverlappingAppointmentExcluding_validAppointments_withOverlap() {
+        // Prepare test data
+        Patient patient = new PatientBuilder().build();
+        modelManager.addPatient(patient);
+        Appointment otherAppt = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("10:00")
+                .withEndTime("11:00")
+                .build();
+        Appointment targetAppt = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("20:00")
+                .withEndTime("21:00")
+                .build();
+        Appointment editedAppointment = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("09:00")
+                .withEndTime("12:00")
+                .build();
+        modelManager.addAppointment(targetAppt);
+        modelManager.addAppointment(otherAppt);
+
+        // Invoke method
+        boolean result = modelManager.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+
+        // Verify result
+        assertTrue(result);
+    }
+
+    @Test
     public void getFilteredAppointmentViewList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
             modelManager.getFilteredAppointmentViewList().remove(0));

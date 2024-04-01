@@ -256,7 +256,8 @@ public class CommandTestUtil {
      *  and patient list) and hence
      * - check {@code expectedModel}
      */
-    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage, Model expectedModel) {
+    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage,
+                                            Model expectedModel) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());

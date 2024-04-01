@@ -106,16 +106,16 @@ public class EditApptCommand extends Command {
 
         this.apptToEdit = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
 
-        Appointment editedAppointment = createEditedAppointment(apptToEdit, editApptDescriptor);
+        Appointment editedAppt = createEditedAppointment(apptToEdit, editApptDescriptor);
 
         // Must check for overlapping appointments of new appt besides current appt
-        if (model.hasOverlappingAppointmentExcluding(apptToEdit, editedAppointment)) {
+        if (model.hasOverlappingAppointmentExcluding(apptToEdit, editedAppt)) {
             throw new CommandException(MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE);
         }
 
-        model.setAppointment(apptToEdit, editedAppointment);
+        model.setAppointment(apptToEdit, editedAppt);
         model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
-        return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppointment)));
+        return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppt)));
     }
 
     /**

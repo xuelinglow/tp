@@ -73,11 +73,9 @@ class JsonSerializableAddressBook {
             if (addressBook.hasAppointment(appointment)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_APPOINTMENT);
             }
-
             if (addressBook.samePatientHasOverlappingAppointment(appointment)) {
                 throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
             }
-          
             if (!addressBook.hasPatientWithNric(appointment.getNric())) {
                 throw new IllegalValueException(MESSAGE_NRIC_DOES_NOT_EXIST);
             }

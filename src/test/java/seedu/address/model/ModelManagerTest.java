@@ -21,9 +21,11 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
 import seedu.address.model.patient.Nric;
+import seedu.address.model.patient.Patient;
 import seedu.address.model.patient.exceptions.PatientNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.AppointmentBuilder;
+import seedu.address.testutil.PatientBuilder;
 
 public class ModelManagerTest {
 
@@ -217,6 +219,7 @@ public class ModelManagerTest {
 
     @Test
     public void hasAppointment_validAppointment_returnsTrue() {
+        modelManager.addPatient(ALICE);
         Appointment validAppointment = new AppointmentBuilder(ALICE_APPT).build();
         modelManager.addAppointment(validAppointment);
         assertTrue(modelManager.hasAppointment(validAppointment));
@@ -224,12 +227,14 @@ public class ModelManagerTest {
 
     @Test
     public void hasAppointment_appointmentNotFound_returnsFalse() {
+        modelManager.addPatient(ALICE);
         Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
         assertFalse(modelManager.hasAppointment(appointment));
     }
 
     @Test
     public void cancelAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
         Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
         modelManager.addAppointment(appointment);
         assertTrue(modelManager.hasAppointment(appointment));
@@ -239,6 +244,7 @@ public class ModelManagerTest {
 
     @Test
     public void addAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
         Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
         modelManager.addAppointment(appointment);
         assertTrue(modelManager.hasAppointment(appointment));
@@ -246,6 +252,7 @@ public class ModelManagerTest {
 
     @Test
     public void setAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
         Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
         modelManager.addAppointment(appointment);
 
@@ -259,6 +266,7 @@ public class ModelManagerTest {
 
     @Test
     public void getMatchingAppointment_validInputs_returnsMatchingAppointment() {
+        modelManager.addPatient(ALICE);
         Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
         modelManager.addAppointment(appointment);
 
@@ -273,6 +281,8 @@ public class ModelManagerTest {
 
     @Test
     public void deleteAppointmentsWithNric_validNric_success() {
+        modelManager.addPatient(ALICE);
+        modelManager.addPatient(BOB);
         // Add appointments with the specified NRIC
         Appointment appointment1 = new AppointmentBuilder(ALICE_APPT).build();
         Appointment appointment2 = new AppointmentBuilder(BOB_APPT).build();
@@ -288,6 +298,8 @@ public class ModelManagerTest {
 
     @Test
     public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
+        Patient patient = new PatientBuilder().withNric("T0123456A").build();
+        modelManager.addPatient(patient);
         // Add appointments that don't overlap
         Appointment appointment1 = new AppointmentBuilder()
                 .withNric("T0123456A").withDate("2024-03-01")
@@ -302,6 +314,8 @@ public class ModelManagerTest {
 
     @Test
     public void samePatientHasOverlappingAppointment_withOverlap_returnsTrue() {
+        Patient patient = new PatientBuilder().withNric("T0123456A").build();
+        modelManager.addPatient(patient);
         // Add appointments that don't overlap
         Appointment appointment1 = new AppointmentBuilder()
                 .withNric("T0123456A").withDate("2024-03-01")

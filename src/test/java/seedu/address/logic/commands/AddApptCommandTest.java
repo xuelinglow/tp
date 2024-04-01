@@ -80,7 +80,7 @@ public class AddApptCommandTest {
         ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
 
         assertThrows(CommandException.class,
-                AddApptCommand.MESSAGE_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
+                AddApptCommand.MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
                         .execute(modelStub));
     }
 

@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
 import seedu.address.model.appointment.exceptions.DuplicateAppointmentException;
+import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 import seedu.address.model.patient.Nric;
 
 
@@ -50,6 +51,9 @@ public class AppointmentList implements Iterable<Appointment> {
         if (contains(toAdd)) {
             throw new DuplicateAppointmentException();
         }
+        if (samePatientHasOverlappingAppointment(toAdd)) {
+            throw new OverlappingAppointmentException();
+        }
         internalList.add(toAdd);
     }
 
@@ -68,6 +72,10 @@ public class AppointmentList implements Iterable<Appointment> {
 
         if (!target.isSameAppointment(editedAppointment) && contains(editedAppointment)) {
             throw new DuplicateAppointmentException();
+        }
+
+        if (samePatientHasOverlappingAppointment(editedAppointment)) {
+            throw new OverlappingAppointmentException();
         }
 
         internalList.set(index, editedAppointment);

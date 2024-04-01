@@ -208,13 +208,14 @@ public class AppointmentList implements Iterable<Appointment> {
         requireAllNonNull(targetAppt, editedAppointment);
 
         for (Appointment appointment : this) {
-            // Check for same patient and same date except for same appt
+            // Exclude targetAppt since that would be changed already
             if (appointment.equals(targetAppt)) {
                 continue;
             }
-            if (appointment.getNric().equals(targetAppt.getNric())
-                    && appointment.getDate().equals(targetAppt.getDate())) {
-                return appointment.hasOverlappingTimePeriod(targetAppt);
+            //Check if for same Patient, there is overlapping date and time period with editedAppointment
+            if (appointment.getNric().equals(editedAppointment.getNric())
+                    && appointment.getDate().equals(editedAppointment.getDate())) {
+                return appointment.hasOverlappingTimePeriod(editedAppointment);
             }
         }
 

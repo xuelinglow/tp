@@ -36,7 +36,7 @@ import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 
 /**
- * Contains integration tests (interaction with the Model) for {@code FindAppointmentCommand}.
+ * Contains integration tests (interaction with the Model) for {@code FindApptCommand}.
  */
 public class FindApptCommandTest {
     private Model model = new ModelManager(getTypicalAddressBookWithAppointmentViews(), new UserPrefs());

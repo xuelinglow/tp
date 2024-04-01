@@ -25,6 +25,8 @@ public class JsonSerializableAddressBookTest {
     private static final Path INVALID_APPOINTMENT_FILE = TEST_DATA_FOLDER.resolve("invalidAppointmentAddressBook.json");
     private static final Path DUPLICATE_APPOINTMENT_FILE = TEST_DATA_FOLDER
             .resolve("duplicateAppointmentAddressBook.json");
+    private static final Path INVALID_APPOINTMENT_NRIC_NOT_FOUND_FILE = TEST_DATA_FOLDER
+            .resolve("invalidAppointmentNricNotFoundAddressBook.json");
 
     @Test
     public void toModelType_typicalPatientsFile_success() throws Exception {
@@ -73,5 +75,12 @@ public class JsonSerializableAddressBookTest {
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_APPOINTMENT,
                 dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidAppointmentNricNotFoundFile_throwsIllegalValueException() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_APPOINTMENT_NRIC_NOT_FOUND_FILE,
+                JsonSerializableAddressBook.class).get();
+        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
     }
 }

@@ -8,6 +8,8 @@
 
 Welcome to **CLInic**, your digital assistant for managing patients and appointments! CLInic is a desktop app designed for clinic assistants, optimized for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI). <br/> <br/>If you're familiar with digitalized software or have used a CLI before, you'll find CLInic intuitive. Don't worry if you're new to CLI; we'll guide you through every step.
 
+As part of our Beta Testing, we would greatly appreciate feedback from actual users. Help us improve CLInic together [**here**](https://forms.gle/RSBeinMHPMYXyYyGA)!
+
 <!-- * Table of Contents -->
 <page-nav-print />
 
@@ -17,7 +19,7 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 
 1. System Requirements: Ensure you have [**Java 11**](https://www.oracle.com/java/technologies/downloads/#java11) or above installed on your computer.
 
-1. Download the latest `CLInic.jar` from [here](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
+1. Download the latest `CLInic.jar` from [**here**](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
 
 1. Save the file to a location on your computer that will serve as your home folder for CLInic.
 
@@ -38,17 +40,17 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all patients.
+   * `list` : Lists all patients and appointments.
 
-   * `addPatient n/John Doe i/T0123456A b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CLInic.
+   * `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CLInic.
 
    * `deletePatient T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
 
-   * `clear` : Deletes all contacts.
+   * `clear` : Deletes all patients and appointments.
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+1. Refer to the [**Features**](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -59,7 +61,7 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 **Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `addPatient n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+  e.g. in `addPatient n/NAME`, `NAME` is a parameter which can be used as `addPatient n/John Doe`.
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
@@ -78,7 +80,7 @@ Welcome to **CLInic**, your digital assistant for managing patients and appointm
 
 ### Viewing help : `help`
 
-Shows a message explaning how to access the help page.
+Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -89,8 +91,8 @@ Format: `help`
 
 Adds a patient to CLInic.
 
-Format: `addPatient n/NAME i/NRIC b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br/>
-Shorthand: `ap n/NAME i/NRIC b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br/>
+Shorthand: `ap i/NRIC n/NAME  b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -99,9 +101,9 @@ Shorthand: `ap n/NAME i/NRIC b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…�
 </box>
 
 Examples:
-* `addPatient n/John Doe i/T0123456A b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `addPatient n/Betsy Crowe i/S1234567A b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
-* `ap n/Betsy Crowe i/S1234567A b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `addPatient i/S1234567A n/Betsy Crowe b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `ap i/S1234567A n/Betsy Crowe b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 ### Deleting a patient : `deletePatient` OR `dp`
 
@@ -112,7 +114,7 @@ Format: `deletePatient NRIC` <br/>
 Shorthand: `dp NRIC`
 
 * Deletes the patient with specified `NRIC`.
-* The NRIC **must exist within database**.
+* The patient with specified NRIC **must exist within database**.
 
 Examples:
 * `deletePatient S1234567A` deletes the patient with NRIC S1234567A in CLInic.
@@ -121,19 +123,19 @@ Examples:
 
 Edits an existing patient in CLInic.
 
-Format: `editPatient NRIC [b/DOB] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​` <br/>
-Shorthand: `ep NRIC [b/DOB] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `editPatient NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​` <br/>
+Shorthand: `ep NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`
 
 * Edits the patient with the specified NRIC.
-* Ensure the NRIC is valid and exists in the system.
+* The patient with specified NRIC **must exist within database**.
 * Provide at least one optional field for editing.
 * Existing values will be updated to the input values.
 * When editing tags, existing tags of the patient will be removed, i.e., adding tags is not cumulative. Use t/ to remove all tags.
 
 Examples:
-*  `editPatient T0123456A p/91234567 e/johndoe@example.com` Edits the phone number and email address of the patient with NRIC:`T0123456A` to be `91234567` and `johndoe@example.com` respectively.
-*  `editPatient S8765432Z n/Betsy Crower t/` Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
-*  `ep S8765432Z n/Betsy Crower t/`
+*  `editPatient T0123456A newp/91234567 newe/johndoe@example.com` Edits the phone number and email address of the patient with NRIC:`T0123456A` to be `91234567` and `johndoe@example.com` respectively.
+*  `editPatient S8765432Z newn/Betsy Crower newt/` Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
+*  `ep S8765432Z newn/Betsy Crower newt/`
 
 ### Locating patients: `findPatient` OR `fp`
 
@@ -142,13 +144,17 @@ Finds patients whose name OR NRIC fit the given keywords.
 Format: `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD` <br/>
 Shorthand: `fp n/ KEYWORD [MORE_KEYWORDS]` OR `fp i/ KEYWORD`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name OR NRIC is searched at once. e.g. `n/ Bob i/ T0123456A` is illegal
+* The search is case-insensitive. e.g `hans` will match `Hans`
 * Partial words will be matched only if the start of the word is the same e.g. `Han` will match `Hans`
-* For name search: patients matching at least one keyword will be returned (i.e. `OR` search).
+
+Name Search
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Patients matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `n/ Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* For NRIC search: patients matching the given keyword will be returned.
+
+NRIC Search
+* Only patients matching the given keyword will be returned.
   e.g. `n/ T0` will return `T0123456A`, `T0234567B`
   e.g. `n/ T01 T012` will NOT return `T0123456A` as the given keyword is `T01 T012`
 
@@ -157,13 +163,8 @@ Examples:
 * `findPatient n/ John` returns patients with names `john` and `John Doe`
 * `findPatient n/ alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
 * `fp n/ alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
+
   ![result for 'find alex david'](images/findAlexDavidResult.png)
-
-### Listing all patients : `list`
-
-Shows a list of all patients in CLInic.
-
-Format: `list`
 
 ### Adding an Appointment: `addAppt` OR `aa`
 
@@ -190,7 +191,7 @@ Format: `deleteAppt i/NRIC d/DATE from/START_TIME to/END_TIME` <br/>
 Shorthand: `da i/NRIC d/DATE from/START_TIME to/END_TIME`
 
 * Deletes an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
-* Appointment with the following details **must exist within database**.
+* Appointment with the stated details **must exist within database**.
 
 Examples:
 * `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`
@@ -200,8 +201,8 @@ Examples:
 
 Edits an existing appointment in CLInic.
 
-Format: `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/DATE] [newfrom/START_TIME] [newto/END_TIME] [newt/APPOINTMENT_TYPE] [newnote/NOTE]` <br/>
-Shorthand: `ea i/NRIC d/DATE from/START_TIME to/END_TIME [newd/DATE] [newfrom/START_TIME] [newto/END_TIME] [newt/APPOINTMENT_TYPE] [newnote/NOTE]`
+Format: `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br/>
+Shorthand: `ea i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]`
 
 * Edits the appointment with the specified NRIC, DATE, START_TIME and END_TIME.
 * Ensure the NRIC is valid and exists in the system.
@@ -239,7 +240,7 @@ Marks an appointment from the address book.
 Format: `mark i/ NRIC d/ DATE /from START_TIME /to END_TIME`
 
 * Marks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
-* Appointment with the following details **must exist within database**.
+* Appointment with the stated details **must exist within database**.
 
 Examples:
 * `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`
@@ -251,14 +252,26 @@ Unmarks an appointment from the address book.
 Format: `unmark i/ NRIC d/ DATE /from START_TIME /to END_TIME`
 
 * Unmarks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
-* Appointment with the following details **must exist within database**.
+* Appointment with the stated details **must exist within database**.
 
 Examples:
 * `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`
 
+### Listing all patients and appointments : `list` OR `ls`
+
+Shows a list of all patients and appointments in CLInic.
+
+Format: `list` OR `ls`
+
+### Switch between Overall View and Day View : `switchView` OR `sv`
+
+Switches view from Overall View to Day View or vice versa.
+
+Format: `switchView` OR `sv`
+
 ### Clearing all entries : `clear`
 
-Clears all entries from CLInic.
+Clears all entries of patients and appointments from CLInic.
 
 Format: `clear`
 
@@ -316,19 +329,20 @@ _Details coming soon ..._
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
-| Action            | Format, Examples                                                                                                                                                                                                                      |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **AddPatient**    | `addPatient n/NAME i/NRIC b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/John Doe i/T0123456A b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`                                      |
-| **DeletePatient** | `deletePatient NRIC`<br> e.g., `delete T0123456A`                                                                                                                                                                                     |                                                                 |
-| **EditPatient**   | `editPatient NRIC [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`editPatient T0123456A n/James Lee e/jameslee@example.com`                                                                                      |
-| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/ James Jake`                                                                                                                            |
-| **List**          | `list`                                                                                                                                                                                                                                |
-| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 t/ Medical Check-up note/ Routine check-in`                                      |
-| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                       |
-| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/DATE] [newfrom/START_TIME] [newto/END_TIME] [newt/APPOINTMENT_TYPE] [newnote/NOTE]` <br> e.g., `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21` |
-| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                           |
-| **Mark**          | `mark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                   |
-| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                               |
-| **Clear**         | `clear`                                                                                                                                                                                                                               |
-| **Exit**          | `exit`                                                                                                                                                                                                                                |
-| **Help**          | `help`                                                                                                                                                                                                                                |
+| Action            | Format, Examples                                                                                                                                                                                                                                          |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **AddPatient**    | `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`                                                   |
+| **DeletePatient** | `deletePatient NRIC`<br> e.g., `deletePatient T0123456A`                                                                                                                                                                                                  |                                                                 |
+| **EditPatient**   | `editPatient NRIC [newn/NEW_NAME] [newp/NEW_PHONE_NUMBER] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`<br> e.g.,`editPatient T0123456A newn/James Lee newe/jameslee@example.com`                                                                 |
+| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/ James Jake`                                                                                                                                                |
+| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 t/ Medical Check-up note/ Routine check-in`                                                          |
+| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                           |
+| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br> e.g., `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21` |
+| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                               |
+| **Mark**          | `mark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                       |
+| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                   |
+| **List**          | `list`                                                                                                                                                                                                                                                    
+| **SwitchView**    | `switchView`
+| **Clear**         | `clear`                                                                                                                                                                                                                                                   |
+| **Exit**          | `exit`                                                                                                                                                                                                                                                    |
+| **Help**          | `help`                                                                                                                                                                                                                                                    |

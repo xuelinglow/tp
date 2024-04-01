@@ -1,12 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 
 import java.util.Collections;
@@ -41,16 +41,16 @@ public class EditPatientCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the details of the patient identified by their Nric number. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: NRIC (must be a valid NRIC in the system) "
-            + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_DOB + "DOB] "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Parameters: NRIC (patient with NRIC must exist) "
+            + "[" + PREFIX_NEW_NAME + "NAME] "
+            + "[" + PREFIX_NEW_DOB + "DOB] "
+            + "[" + PREFIX_NEW_PHONE + "PHONE] "
+            + "[" + PREFIX_NEW_EMAIL + "EMAIL] "
+            + "[" + PREFIX_NEW_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_NEW_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " T0123456A "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_NEW_PHONE + "91234567 "
+            + PREFIX_NEW_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PATIENT_SUCCESS = "Edited Patient: %1$s";
     public static final String MESSAGE_EDIT_PATIENT_NO_FIELDS_FAILURE =
@@ -60,6 +60,8 @@ public class EditPatientCommand extends Command {
     private final EditPatientDescriptor editPatientDescriptor;
 
     /**
+     * Creates an EditPatientCommand to edit the details of the patient identified by
+     * the {@code nric} using updated fields given by {@code editPatientDescriptor}
      * @param nric of the patient to edit
      * @param editPatientDescriptor details to edit the patient with
      */

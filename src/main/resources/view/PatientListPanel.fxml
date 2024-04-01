@@ -14,7 +14,7 @@
   </VBox>
   <VBox HBox.hgrow="ALWAYS">
     <children>
-        <Label text="Upcoming Appointments" />
+        <Label text="Appointments" />
         <ListView fx:id="appointmentListView" HBox.hgrow="ALWAYS" />
     </children>
   </VBox>

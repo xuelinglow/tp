@@ -45,11 +45,11 @@ public class EditApptCommand extends Command {
             + PREFIX_DATE + "DATE "
             + PREFIX_START_TIME + "START_TIME "
             + PREFIX_END_TIME + "END_TIME "
-            + "[" + PREFIX_NEW_DATE + "new DATE] "
-            + "[" + PREFIX_NEW_START_TIME + "new START_TIME] "
-            + "[" + PREFIX_NEW_END_TIME + "new END_TIME] "
-            + "[" + PREFIX_NEW_TAG + "new APPOINTMENT_TYPE] "
-            + "[" + PREFIX_NEW_NOTE + "new NOTE] \n"
+            + "[" + PREFIX_NEW_DATE + "NEW_DATE] "
+            + "[" + PREFIX_NEW_START_TIME + "NEW_START_TIME] "
+            + "[" + PREFIX_NEW_END_TIME + "NEW_END_TIME] "
+            + "[" + PREFIX_NEW_TAG + "NEW_APPOINTMENT_TYPE] "
+            + "[" + PREFIX_NEW_NOTE + "NEW_NOTE] \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NRIC + "T0123456A "
             + PREFIX_DATE + "2024-02-20 "
@@ -72,6 +72,9 @@ public class EditApptCommand extends Command {
     private final EditApptDescriptor editApptDescriptor;
 
     /**
+     * Creates a EditApptCommand to edit the appointment with the
+     * specified {@code Nric, Date, TimePeriod} using the details
+     * from {@code editApptDescriptor}
      * @param nric of the appointment for edit
      * @param date of the appointment to edit
      * @param timePeriod of the appointment to edit

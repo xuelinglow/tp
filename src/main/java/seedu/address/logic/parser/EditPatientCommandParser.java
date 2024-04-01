@@ -2,12 +2,12 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,8 +32,8 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
     public EditPatientCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DOB, PREFIX_PHONE,
-                        PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NEW_NAME, PREFIX_NEW_DOB, PREFIX_NEW_PHONE,
+                        PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS, PREFIX_NEW_TAG);
 
         Nric targetNric;
 
@@ -44,27 +44,28 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
                     EditPatientCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_DOB, PREFIX_PHONE,
-                PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NEW_NAME, PREFIX_NEW_DOB, PREFIX_NEW_PHONE,
+                PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS);
 
         EditPatientCommand.EditPatientDescriptor editPatientDescriptor = new EditPatientCommand.EditPatientDescriptor();
 
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editPatientDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+        if (argMultimap.getValue(PREFIX_NEW_NAME).isPresent()) {
+            editPatientDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NEW_NAME).get()));
         }
-        if (argMultimap.getValue(PREFIX_DOB).isPresent()) {
-            editPatientDescriptor.setDateOfBirth(ParserUtil.parseDateOfBirth(argMultimap.getValue(PREFIX_DOB).get()));
+        if (argMultimap.getValue(PREFIX_NEW_DOB).isPresent()) {
+            editPatientDescriptor.setDateOfBirth(ParserUtil
+                    .parseDateOfBirth(argMultimap.getValue(PREFIX_NEW_DOB).get()));
         }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPatientDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+        if (argMultimap.getValue(PREFIX_NEW_PHONE).isPresent()) {
+            editPatientDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_NEW_PHONE).get()));
         }
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPatientDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+        if (argMultimap.getValue(PREFIX_NEW_EMAIL).isPresent()) {
+            editPatientDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_NEW_EMAIL).get()));
         }
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editPatientDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+        if (argMultimap.getValue(PREFIX_NEW_ADDRESS).isPresent()) {
+            editPatientDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_NEW_ADDRESS).get()));
         }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPatientDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_NEW_TAG)).ifPresent(editPatientDescriptor::setTags);
 
         if (!editPatientDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditPatientCommand.MESSAGE_EDIT_PATIENT_NO_FIELDS_FAILURE);

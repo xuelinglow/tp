@@ -26,6 +26,12 @@ public class DeletePatientCommand extends Command {
 
     private final Nric targetNric;
 
+    /**
+     * Creates a DeletePatientCommand to delete the patient with the
+     * specified {@code Nric}
+     *
+     * @param targetNric nric of the Patient to be deleted
+     */
     public DeletePatientCommand(Nric targetNric) {
         this.targetNric = targetNric;
     }

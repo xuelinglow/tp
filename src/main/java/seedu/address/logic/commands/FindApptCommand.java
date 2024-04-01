@@ -34,6 +34,13 @@ public class FindApptCommand extends Command {
 
     private final AppointmentContainsKeywordsPredicate predicate;
 
+
+    /**
+     * Creates a FindApptCommand to find and list the appointments with the
+     * that fit the given {@code predicate}
+     *
+     * @param predicate for AppointmentView for conditions to match
+     */
     public FindApptCommand(AppointmentContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
     }

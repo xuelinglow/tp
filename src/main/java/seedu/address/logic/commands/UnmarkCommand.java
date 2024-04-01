@@ -37,44 +37,57 @@ public class UnmarkCommand extends Command {
     public static final String MESSAGE_UNMARK_APPOINTMENT_SUCCESS =
             "Appointment successfully unmarked as not seen: %1$s";
 
-    private final Nric nric;
-    private final Date date;
-    private final TimePeriod timePeriod;
+    private final Nric targetNric;
+    private final Date targetDate;
+    private final TimePeriod targetTimePeriod;
 
     /**
-     * @param nric nric of the Patient to be identified
-     * @param date date of the existing Appointment to be specified
-     * @param timePeriod timePeriod of the existing Appointment to be marked
+     * Creates a UnmarkCommand to unmark the appointment with the
+     * specified {@code Nric, Date, TimePeriod}
+     * @param targetNric nric of the Patient matching the existing Appointment to be unmarked
+     * @param targetDate date of the existing Appointment to be unmarked
+     * @param targetTimePeriod timePeriod of the existing Appointment to be unmarked
      */
-    public UnmarkCommand(Nric nric, Date date, TimePeriod timePeriod) {
-        requireNonNull(nric);
-        requireNonNull(date);
-        requireNonNull(timePeriod);
+    public UnmarkCommand(Nric targetNric, Date targetDate, TimePeriod targetTimePeriod) {
+        requireNonNull(targetNric);
+        requireNonNull(targetDate);
+        requireNonNull(targetTimePeriod);
 
-        this.nric = nric;
-        this.date = date;
-        this.timePeriod = timePeriod;
+        this.targetNric = targetNric;
+        this.targetDate = targetDate;
+        this.targetTimePeriod = targetTimePeriod;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Appointment mockAppointmentToMatch = new Appointment(nric, date, timePeriod,
+        if (!model.hasPatientWithNric(targetNric)) {
+            throw new CommandException(Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
+        }
+
+        Appointment mockAppointmentToMatch = new Appointment(targetNric, targetDate, targetTimePeriod,
             new AppointmentType("Anything"), new Note("Anything"), new Mark(false));
         if (!model.hasAppointment(mockAppointmentToMatch)) {
             throw new CommandException(Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
         }
 
-        Appointment appt = model.getMatchingAppointment(nric, date, timePeriod);
+        Appointment apptToUnmark = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
 
-        Appointment newAppt = new Appointment(appt.getNric(), appt.getDate(), appt.getTimePeriod(),
-            appt.getAppointmentType(), appt.getNote(), new Mark(false));
-
-        model.setAppointment(appt, newAppt);
-
+        Appointment unmarkedAppt = createUnmarkedAppointment(apptToUnmark);
+        model.setAppointment(apptToUnmark, unmarkedAppt);
         model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
-        return new CommandResult(String.format(MESSAGE_UNMARK_APPOINTMENT_SUCCESS, Messages.format(newAppt)));
+        return new CommandResult(String.format(MESSAGE_UNMARK_APPOINTMENT_SUCCESS, Messages.format(unmarkedAppt)));
+    }
+
+    /**
+     * Creates and returns a {@code Appointment} that is not marked
+     */
+    private static Appointment createUnmarkedAppointment(Appointment apptToUnmark) {
+        assert apptToUnmark != null;
+        return new Appointment(apptToUnmark.getNric(), apptToUnmark.getDate(),
+                apptToUnmark.getTimePeriod(), apptToUnmark.getAppointmentType(),
+                apptToUnmark.getNote(), new Mark(false));
     }
 
     @Override
@@ -89,17 +102,17 @@ public class UnmarkCommand extends Command {
         }
 
         UnmarkCommand otherUnmarkCommand = (UnmarkCommand) other;
-        return nric.equals(otherUnmarkCommand.nric)
-                && date.equals(otherUnmarkCommand.date)
-                && timePeriod.equals(otherUnmarkCommand.timePeriod);
+        return targetNric.equals(otherUnmarkCommand.targetNric)
+                && targetDate.equals(otherUnmarkCommand.targetDate)
+                && targetTimePeriod.equals(otherUnmarkCommand.targetTimePeriod);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("nric", nric)
-                .add("date", date)
-                .add("timePeriod", timePeriod)
+                .add("nric", targetNric)
+                .add("date", targetDate)
+                .add("timePeriod", targetTimePeriod)
                 .toString();
     }
 }

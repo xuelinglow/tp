@@ -43,17 +43,22 @@ public class DeleteApptCommand extends Command {
     public static final String MESSAGE_DELETE_APPOINTMENT_SUCCESS = "Deleted Appointment: %1$s";
 
     private Appointment apptToDelete;
-    private final Nric nricToMatch;
-    private final Date dateToMatch;
-    private final TimePeriod timePeriodToMatch;
+    private final Nric targetNric;
+    private final Date targetDate;
+    private final TimePeriod targetTimePeriod;
 
     /**
-     * Creates a CancelAppCommand to add the specified {@code Nric, Date, TimePeriod}
+     * Creates a DeleteApptCommand to delete the appointment with the
+     * specified {@code Nric, Date, TimePeriod}
+     *
+     * @param targetNric nric of the Patient matching the existing Appointment to be deleted
+     * @param targetDate date of the existing Appointment to be deleted
+     * @param targetTimePeriod timePeriod of the existing Appointment to be deleted
      */
-    public DeleteApptCommand(Nric nricToMatch, Date dateToMatch, TimePeriod timePeriodToMatch) {
-        this.nricToMatch = nricToMatch;
-        this.dateToMatch = dateToMatch;
-        this.timePeriodToMatch = timePeriodToMatch;
+    public DeleteApptCommand(Nric targetNric, Date targetDate, TimePeriod targetTimePeriod) {
+        this.targetNric = targetNric;
+        this.targetDate = targetDate;
+        this.targetTimePeriod = targetTimePeriod;
         this.apptToDelete = null;
     }
 
@@ -61,18 +66,17 @@ public class DeleteApptCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (!model.hasPatientWithNric(nricToMatch)) {
+        if (!model.hasPatientWithNric(targetNric)) {
             throw new CommandException(Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
         }
 
-        Appointment mockAppointmentToMatch = new Appointment(nricToMatch, dateToMatch, timePeriodToMatch,
+        Appointment mockAppointmentToMatch = new Appointment(targetNric, targetDate, targetTimePeriod,
             new AppointmentType("Anything"), new Note("Anything"), new Mark(false));
         if (!model.hasAppointment(mockAppointmentToMatch)) {
             throw new CommandException(Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
         }
 
-        this.apptToDelete = model.getMatchingAppointment(nricToMatch, dateToMatch, timePeriodToMatch);
-
+        this.apptToDelete = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
         model.cancelAppointment(apptToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS, Messages.format(apptToDelete)));
     }
@@ -91,18 +95,18 @@ public class DeleteApptCommand extends Command {
         DeleteApptCommand otherDeleteApptCommand = (DeleteApptCommand) other;
 
         // Check if all fields are equal except apptToCancel as not initialised until execute
-        return nricToMatch.equals(otherDeleteApptCommand.nricToMatch)
-                && dateToMatch.equals(otherDeleteApptCommand.dateToMatch)
-                && timePeriodToMatch.equals(otherDeleteApptCommand.timePeriodToMatch);
+        return targetNric.equals(otherDeleteApptCommand.targetNric)
+                && targetDate.equals(otherDeleteApptCommand.targetDate)
+                && targetTimePeriod.equals(otherDeleteApptCommand.targetTimePeriod);
     }
 
     @Override
     public String toString() {
         // Build based on all fields except apptToCancel as not initialised until execute
         return new ToStringBuilder(this)
-                .add("nric", nricToMatch)
-                .add("date", dateToMatch)
-                .add("timePeriod", timePeriodToMatch)
+                .add("nric", targetNric)
+                .add("date", targetDate)
+                .add("timePeriod", targetTimePeriod)
                 .toString();
     }
 }

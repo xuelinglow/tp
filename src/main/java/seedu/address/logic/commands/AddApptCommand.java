@@ -16,7 +16,7 @@ import seedu.address.model.appointment.Appointment;
 import seedu.address.model.patient.Nric;
 
 /**
- * Creates an AddApptCommand to add the specified {@code Appointment}
+ * Adds the specified {@code Appointment} to CLInic
  */
 public class AddApptCommand extends Command {
 
@@ -55,6 +55,7 @@ public class AddApptCommand extends Command {
 
     /**
      * Creates an AddApptCommand to add the specified {@code Appointment}
+     * @param appointment to be added
      */
     public AddApptCommand(Appointment appointment) {
         requireNonNull(appointment);

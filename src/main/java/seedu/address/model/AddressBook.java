@@ -123,6 +123,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPatient);
 
         patients.setPatient(target, editedPatient);
+        this.appointmentView.setAppointmentViews(patients, appointments);
     }
 
     /**
@@ -220,14 +221,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void deleteAppointmentsWithNric(Nric targetNric) {
         appointments.deleteAppointmentsWithNric(targetNric);
         this.appointmentView.setAppointmentViews(patients, appointments);
-    }
-
-    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
-        return appointments.samePatientHasOverlappingAppointment(targetAppt);
-    }
-
-    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
-        return appointments.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
     }
 
     /**

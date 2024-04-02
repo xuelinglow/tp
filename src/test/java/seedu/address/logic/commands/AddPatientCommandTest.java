@@ -201,7 +201,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public void updateFilteredAppointmentList(Predicate<AppointmentView> predicate) {
+        public void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -222,16 +222,6 @@ public class AddPatientCommandTest {
 
         @Override
         public void deleteAppointmentsWithNric(Nric targetNric) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
             throw new AssertionError("This method should not be called.");
         }
 

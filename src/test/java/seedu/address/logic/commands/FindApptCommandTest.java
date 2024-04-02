@@ -89,7 +89,7 @@ public class FindApptCommandTest {
                 " i/T0123456A d/2024-03-01 from/16:00"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW), model.getFilteredAppointmentViewList());
     }
@@ -101,7 +101,7 @@ public class FindApptCommandTest {
                 " i/T0123456A"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW, ALICE_APPT_VIEW_1),
                 model.getFilteredAppointmentViewList());
@@ -114,7 +114,7 @@ public class FindApptCommandTest {
                 " i/T0123456A from/16:00"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW, ALICE_APPT_VIEW_1),
                 model.getFilteredAppointmentViewList());
@@ -127,7 +127,7 @@ public class FindApptCommandTest {
                 " i/T6543210A"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(), model.getFilteredAppointmentViewList());
     }

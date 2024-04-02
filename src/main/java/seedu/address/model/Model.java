@@ -136,11 +136,11 @@ public interface Model {
     ObservableList<AppointmentView> getFilteredAppointmentViewList();
 
     /**
-     * Updates the filter of the filtered appointment list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered appointment view list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
 
-    void updateFilteredAppointmentList(Predicate<AppointmentView> predicate);
+    void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate);
 
     /** Returns an unmodifiable view of the appointment day-view list */
     ObservableList<AppointmentView> getFilteredAppointmentDayViewList();
@@ -155,13 +155,4 @@ public interface Model {
 
     /** Deletes all appointments of a targetNric **/
     void deleteAppointmentsWithNric(Nric targetNric);
-
-    /** Returns true if appointment overlaps in timePeriod with existing appointment for same patient **/
-    boolean samePatientHasOverlappingAppointment(Appointment apptToAdd);
-
-    /**
-     * Returns true if appointment overlaps in timePeriod with existing appointment for same patient,
-     * except for a specified appointment
-     **/
-    boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment);
 }

@@ -40,8 +40,7 @@ public class AddApptCommand extends Command {
             + PREFIX_END_TIME + "11:30 "
             + PREFIX_TAG + "Medical Check-up "
             + PREFIX_NOTE + "May come earlier ";
-
-
+    
     public static final String MESSAGE_ADD_APPOINTMENT_SUCCESS = "New appointment added: %1$s";
 
     public static final String MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE =

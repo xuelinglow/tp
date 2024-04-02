@@ -123,6 +123,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPatient);
 
         patients.setPatient(target, editedPatient);
+        this.appointmentView.setAppointmentViews(patients, appointments);
     }
 
     /**

@@ -136,11 +136,11 @@ public interface Model {
     ObservableList<AppointmentView> getFilteredAppointmentViewList();
 
     /**
-     * Updates the filter of the filtered appointment list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered appointment view list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
 
-    void updateFilteredAppointmentList(Predicate<AppointmentView> predicate);
+    void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate);
 
     /** Returns an unmodifiable view of the appointment day-view list */
     ObservableList<AppointmentView> getFilteredAppointmentDayViewList();

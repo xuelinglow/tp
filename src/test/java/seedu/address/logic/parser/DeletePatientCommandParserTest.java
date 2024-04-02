@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -25,10 +24,9 @@ public class DeletePatientCommandParserTest {
     public void parse_validArgs_returnsDeleteCommand() {
         assertParseSuccess(parser, VALID_NRIC_AMY, new DeletePatientCommand(new Nric(VALID_NRIC_AMY)));
     }
-
     @Test
-    public void parse_invalidArgs_throwsParseException() {
+    public void parse_invalidNric_throwsParseException() {
         assertParseFailure(parser, "a",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
+                String.format(Nric.MESSAGE_CONSTRAINTS));
     }
 }

@@ -22,9 +22,10 @@ class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PATIENT = "Patients list contains duplicate patient(s).";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "Appointment list contains duplicate appointment(s)";
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
+            "Appointment list contains overlapping appointment(s) for the same patient on the same date";
     public static final String MESSAGE_NRIC_DOES_NOT_EXIST =
             "Appointment list contains appointment(s) with NRIC that does not belong to any patient";
-
 
     private final List<JsonAdaptedPatient> patients = new ArrayList<>();
     private final List<JsonAdaptedAppointment> appointments = new ArrayList<>();
@@ -71,6 +72,9 @@ class JsonSerializableAddressBook {
             Appointment appointment = jsonAdaptedAppointment.toModelType();
             if (addressBook.hasAppointment(appointment)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_APPOINTMENT);
+            }
+            if (addressBook.samePatientHasOverlappingAppointment(appointment)) {
+                throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
             }
             if (!addressBook.hasPatientWithNric(appointment.getNric())) {
                 throw new IllegalValueException(MESSAGE_NRIC_DOES_NOT_EXIST);

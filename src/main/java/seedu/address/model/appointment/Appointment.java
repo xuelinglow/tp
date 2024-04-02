@@ -85,14 +85,6 @@ public class Appointment {
     }
 
     /**
-     * Returns true if both appointments has overlapping time period.
-     * Overlapping is defined as within, the same or partly coinciding timePeriods.
-     */
-    public boolean hasOverlappingTimePeriod(Appointment otherAppt) {
-        return this.timePeriod.overlapsWith(otherAppt.timePeriod);
-    }
-
-    /**
      * Returns true if both appointments have the same patient and data fields.
      * This defines a stronger notion of equality between two appointments.
      */

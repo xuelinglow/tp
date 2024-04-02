@@ -15,6 +15,7 @@ import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.patient.Nric;
 
+
 /**
  * Adds the specified {@code Appointment} to CLInic
  */
@@ -47,10 +48,6 @@ public class AddApptCommand extends Command {
     public static final String MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE =
             "This appointment already exists in CLInic";
 
-    public static final String MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE =
-            "This appointment overlaps with an existing appointment for the same patient.\n"
-                    + "Please refer to appointments listed below for that patient on the same date.";
-
     private final Appointment apptToAdd;
 
     /**
@@ -73,10 +70,6 @@ public class AddApptCommand extends Command {
 
         if (model.hasAppointment(apptToAdd)) {
             throw new CommandException(MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE);
-        }
-
-        if (model.samePatientHasOverlappingAppointment(apptToAdd)) {
-            throw new CommandException(MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE);
         }
 
         model.addAppointment(apptToAdd);

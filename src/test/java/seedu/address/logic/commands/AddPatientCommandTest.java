@@ -226,16 +226,6 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ObservableList<AppointmentView> getFilteredAppointmentViewList() {
             throw new AssertionError("This method should not be called.");
         }

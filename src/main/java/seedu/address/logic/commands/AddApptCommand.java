@@ -42,11 +42,12 @@ public class AddApptCommand extends Command {
             + PREFIX_TAG + "Medical Check-up "
             + PREFIX_NOTE + "May come earlier ";
 
-
     public static final String MESSAGE_ADD_APPOINTMENT_SUCCESS = "New appointment added: %1$s";
-
     public static final String MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE =
             "This appointment already exists in CLInic";
+    public static final String MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE =
+            "This appointment overlaps with an existing appointment for the same patient.\n"
+                    + "Please refer to appointments listed below for that patient on the same date.";
 
     private final Appointment apptToAdd;
 

@@ -62,9 +62,6 @@ public class EditApptCommand extends Command {
     public static final String MESSAGE_EDIT_APPT_SUCCESS = "Edited Appointment: %1$s";
     public static final String MESSAGE_EDIT_APPT_NO_FIELDS_FAILURE = "At least one field to edit must be provided.";
 
-    public static final String MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE =
-            "New appointment information overlaps with an existing appointment for the same patient.\n"
-                    + "Please refer to appointments listed below for that patient on the same date.";
     private final Nric targetNric;
     private final Date targetDate;
     private final TimePeriod targetTimePeriod;
@@ -110,12 +107,6 @@ public class EditApptCommand extends Command {
         this.apptToEdit = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
 
         Appointment editedAppt = createEditedAppointment(apptToEdit, editApptDescriptor);
-
-        // Must check for overlapping appointments of new appt besides current appt
-        if (model.hasOverlappingAppointmentExcluding(apptToEdit, editedAppt)) {
-            throw new CommandException(MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE);
-        }
-
         model.setAppointment(apptToEdit, editedAppt);
         model.updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
         return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppt)));

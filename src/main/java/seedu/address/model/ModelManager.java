@@ -156,7 +156,7 @@ public class ModelManager implements Model {
     @Override
     public void addAppointment(Appointment appointment) {
         addressBook.addAppointment(appointment);
-        updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
+        updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
     }
 
     @Override
@@ -206,7 +206,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredAppointmentList(Predicate<AppointmentView> predicate) {
+    public void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate) {
         requireNonNull(predicate);
         filteredAppointmentsView.setPredicate(predicate);
     }

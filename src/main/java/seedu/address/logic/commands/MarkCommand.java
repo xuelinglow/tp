@@ -75,7 +75,7 @@ public class MarkCommand extends Command {
 
         Appointment markedAppt = createMarkedAppointment(apptToMark);
         model.setAppointment(apptToMark, markedAppt);
-        model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
+        model.updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
         return new CommandResult(String.format(MESSAGE_MARK_APPOINTMENT_SUCCESS, Messages.format(markedAppt)));
     }
 

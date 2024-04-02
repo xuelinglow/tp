@@ -76,7 +76,7 @@ public class UnmarkCommand extends Command {
 
         Appointment unmarkedAppt = createUnmarkedAppointment(apptToUnmark);
         model.setAppointment(apptToUnmark, unmarkedAppt);
-        model.updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
+        model.updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
         return new CommandResult(String.format(MESSAGE_UNMARK_APPOINTMENT_SUCCESS, Messages.format(unmarkedAppt)));
     }
 

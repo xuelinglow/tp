@@ -17,7 +17,7 @@ import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentContainsKeywordsPredicate;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 
@@ -156,7 +156,7 @@ public class ModelManager implements Model {
     @Override
     public void addAppointment(Appointment appointment) {
         addressBook.addAppointment(appointment);
-        updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
+        updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
     }
 
     @Override
@@ -166,14 +166,47 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
-        return addressBook.getMatchingAppointment(nric, date, timePeriod);
+    public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
+        return addressBook.getMatchingAppointment(nric, date, startTime);
     }
 
     @Override
     public void deleteAppointmentsWithNric(Nric targetNric) {
         requireNonNull(targetNric);
         addressBook.deleteAppointmentsWithNric(targetNric);
+    }
+
+    @Override
+    public boolean hasAppointmentWithDetails(Nric nric, Date date, Time startTime) {
+        return addressBook.hasAppointmentWithDetails(nric, date, startTime);
+    }
+
+    @Override
+    public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+        requireNonNull(apptToAdd);
+        boolean hasOverlap = addressBook.samePatientHasOverlappingAppointment(apptToAdd);
+        if (hasOverlap) {
+            updateFilteredAppointmentViewList(new AppointmentContainsKeywordsPredicate(
+                    Optional.of(apptToAdd.getNric()),
+                    Optional.of(apptToAdd.getDate()),
+                    Optional.empty())
+            );
+        }
+        return hasOverlap;
+    }
+
+    @Override
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        requireAllNonNull(targetAppt, editedAppointment);
+        boolean hasOverlap = addressBook.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+        if (hasOverlap) {
+            updateFilteredAppointmentViewList(new AppointmentContainsKeywordsPredicate(
+                    Optional.of(editedAppointment.getNric()),
+                    Optional.of(editedAppointment.getDate()),
+                    Optional.empty())
+            );
+        }
+        return hasOverlap;
     }
 
     //=========== Filtered Patient List Accessors =============================================================
@@ -206,7 +239,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredAppointmentList(Predicate<AppointmentView> predicate) {
+    public void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate) {
         requireNonNull(predicate);
         filteredAppointmentsView.setPredicate(predicate);
     }

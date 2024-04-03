@@ -187,34 +187,35 @@ Examples:
 
 Deleting an appointment from CLInic.
 
-Format: `deleteAppt i/NRIC d/DATE from/START_TIME to/END_TIME` <br/>
-Shorthand: `da i/NRIC d/DATE from/START_TIME to/END_TIME`
+Format: `deleteAppt i/NRIC d/DATE from/START_TIME` <br/>
+Shorthand: `da i/NRIC d/DATE from/START_TIME`
 
-* Deletes an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
+* Deletes an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME`.
 * Appointment with the stated details **must exist within database**.
+* `END_TIME` not needed as same patient can never have overlapping appointments, hence `START_TIME` is unique 
 
 Examples:
-* `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`
-* `da i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`
+* `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00`
+* `da i/ S8743880A d/ 2024-02-20 from/ 11:00`
 
 ### Editing an Appointment : `editAppointment` OR `ea`
 
 Edits an existing appointment in CLInic.
 
-Format: `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br/>
-Shorthand: `ea i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]`
+Format: `editAppt i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br/>
+Shorthand: `ea i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]`
 
-* Edits the appointment with the specified NRIC, DATE, START_TIME and END_TIME.
+* Edits the appointment with the specified NRIC, DATE and START_TIME.
 * Ensure the NRIC is valid and exists in the system.
 * Provide at least one optional field for editing.
 * Existing values will be updated to the input values.
 
 Examples:
-*  `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21`
-  * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, END_TIME: `11:30` to be `2024-02-21` instead.
-*  `editAppt i/ S8743880A d/ 2024-10-20 from/ 14:00 to/ 16:30 newnote/ `
-  * Clears note for appointment with NRIC:`S8743880A`, DATE: `2024-10-20`, START_TIME: `14:00`, END_TIME: `16:30`.
-*  `ea i/ S8743880A d/ 2024-10-20 from/ 14:00 to/ 16:30 newnote/ `
+*  `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 newd/ 2024-02-21` 
+  * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, to be `2024-02-21` instead.
+*  `editAppt i/ S8743880A d/ 2024-10-20 from/ 14:00 newnote/ ` 
+  * Clears note for appointment with NRIC:`S8743880A`, DATE: `2024-10-20`, START_TIME: `14:00`.
+*  `ea i/ S8743880A d/ 2024-10-20 from/ 14:00 newnote/ `
 
 ### Finding appointments: `findAppt` OR `fa`
 
@@ -237,25 +238,27 @@ Examples:
 
 Marks an appointment from the address book.
 
-Format: `mark i/ NRIC d/ DATE /from START_TIME /to END_TIME`
+Format: `mark i/ NRIC d/ DATE /from START_TIME`
 
-* Marks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
+* Marks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME`
 * Appointment with the stated details **must exist within database**.
+* `END_TIME` not needed as same patient can never have overlapping appointments, hence `START_TIME` is unique
 
 Examples:
-* `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`
+* `mark i/ T0123456A d/ 2024-02-20 from/ 11:00`
 
 ### Unmarking an Appointment: `unmark`
 
 Unmarks an appointment from the address book.
 
-Format: `unmark i/ NRIC d/ DATE /from START_TIME /to END_TIME`
+Format: `unmark i/ NRIC d/ DATE /from START_TIME`
 
-* Unmarks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
+* Unmarks an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME`
 * Appointment with the stated details **must exist within database**.
+* `END_TIME` not needed as same patient can never have overlapping appointments, hence `START_TIME` is unique
 
 Examples:
-* `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`
+* `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00`
 
 ### Listing all patients and appointments : `list` OR `ls`
 
@@ -329,20 +332,20 @@ _Details coming soon ..._
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
-| Action            | Format, Examples                                                                                                                                                                                                                                          |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **AddPatient**    | `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`                                                   |
-| **DeletePatient** | `deletePatient NRIC`<br> e.g., `deletePatient T0123456A`                                                                                                                                                                                                  |                                                                 |
-| **EditPatient**   | `editPatient NRIC [newn/NEW_NAME] [newp/NEW_PHONE_NUMBER] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`<br> e.g.,`editPatient T0123456A newn/James Lee newe/jameslee@example.com`                                                                 |
-| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/ James Jake`                                                                                                                                                |
-| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 t/ Medical Check-up note/ Routine check-in`                                                          |
-| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                           |
-| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br> e.g., `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21` |
-| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                               |
-| **Mark**          | `mark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                       |
-| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                   |
-| **List**          |`list`                                                                                                                                                                                                                                                    
+| Action            | Format, Examples                                                                                                                                                                                                                                     |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **AddPatient**    | `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`                                              |
+| **DeletePatient** | `deletePatient NRIC`<br> e.g., `deletePatient T0123456A`                                                                                                                                                                                             |                                                                 |
+| **EditPatient**   | `editPatient NRIC [newn/NEW_NAME] [newp/NEW_PHONE_NUMBER] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`<br> e.g.,`editPatient T0123456A newn/James Lee newe/jameslee@example.com`                                                            |
+| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/ James Jake`                                                                                                                                           |
+| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 t/ Medical Check-up note/ Routine check-in`                                                     |
+| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME` <br> e.g., `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00`                                                                                                                          |
+| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br> e.g., `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 newd/ 2024-02-21` |
+| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                          |
+| **Mark**          | `mark i/NRIC d/DATE from/START_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                   |
+| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                              |
+| **List**          | `list`                                                                                                                                                                                                                                         
 | **SwitchView**    | `switchView`
-| **Clear**         | `clear`                                                                                                                                                                                                                                                   |
-| **Exit**          | `exit`                                                                                                                                                                                                                                                    |
-| **Help**          | `help`                                                                                                                                                                                                                                                    |
+| **Clear**         | `clear`                                                                                                                                                                                                                                        |
+| **Exit**          | `exit`                                                                                                                                                                                                                                               |
+| **Help**          | `help`                                                                                                                                                                                                                                               |

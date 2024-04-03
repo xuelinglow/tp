@@ -25,6 +25,9 @@ public class JsonSerializableAddressBookTest {
     private static final Path INVALID_APPOINTMENT_FILE = TEST_DATA_FOLDER.resolve("invalidAppointmentAddressBook.json");
     private static final Path DUPLICATE_APPOINTMENT_FILE = TEST_DATA_FOLDER
             .resolve("duplicateAppointmentAddressBook.json");
+
+    private static final Path OVERLAPPING_APPOINTMENT_FILE = TEST_DATA_FOLDER
+            .resolve("overlappingAppointmentAddressBook.json");
     private static final Path INVALID_APPOINTMENT_NRIC_NOT_FOUND_FILE = TEST_DATA_FOLDER
             .resolve("invalidAppointmentNricNotFoundAddressBook.json");
 
@@ -74,6 +77,14 @@ public class JsonSerializableAddressBookTest {
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_APPOINTMENT_FILE,
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_APPOINTMENT,
+                dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_overlappingAppointments_throwsIllegalValueException() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(OVERLAPPING_APPOINTMENT_FILE,
+                JsonSerializableAddressBook.class).get();
+        assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_OVERLAPPING_APPOINTMENT,
                 dataFromFile::toModelType);
     }
 

@@ -25,7 +25,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.testutil.PatientBuilder;
@@ -201,7 +201,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public void updateFilteredAppointmentList(Predicate<AppointmentView> predicate) {
+        public void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -216,12 +216,27 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
+        public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void deleteAppointmentsWithNric(Nric targetNric) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
             throw new AssertionError("This method should not be called.");
         }
 

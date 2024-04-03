@@ -210,9 +210,9 @@ Shorthand: `ea i/NRIC d/DATE from/START_TIME to/END_TIME [newd/NEW_DATE] [newfro
 * Existing values will be updated to the input values.
 
 Examples:
-*  `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21` 
+*  `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21`
   * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, END_TIME: `11:30` to be `2024-02-21` instead.
-*  `editAppt i/ S8743880A d/ 2024-10-20 from/ 14:00 to/ 16:30 newnote/ ` 
+*  `editAppt i/ S8743880A d/ 2024-10-20 from/ 14:00 to/ 16:30 newnote/ `
   * Clears note for appointment with NRIC:`S8743880A`, DATE: `2024-10-20`, START_TIME: `14:00`, END_TIME: `16:30`.
 *  `ea i/ S8743880A d/ 2024-10-20 from/ 14:00 to/ 16:30 newnote/ `
 
@@ -231,7 +231,7 @@ Shorthand: `fa [i/NRIC] [d/DATE] [from/START_TIME]`
 Examples:
 * `findAppt d/ 2024-02-20 from/ 11:00`
 * `fa d/ 2024-02-20 from/ 11:00`
-*  returns you all appointments on `2024-02-20` starting from `11:00` and later. 
+*  returns you all appointments on `2024-02-20` starting from `11:00` and later.
 
 ### Marking an Appointment: `mark`
 
@@ -341,7 +341,7 @@ _Details coming soon ..._
 | **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                               |
 | **Mark**          | `mark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                       |
 | **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME to/END_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30`                                                                                                                                   |
-| **List**          | `list`                                                                                                                                                                                                                                                    
+| **List**          |`list`                                                                                                                                                                                                                                                    
 | **SwitchView**    | `switchView`
 | **Clear**         | `clear`                                                                                                                                                                                                                                                   |
 | **Exit**          | `exit`                                                                                                                                                                                                                                                    |

@@ -75,7 +75,7 @@ public class AddressBookParserTest {
         DeleteApptCommand command = (DeleteApptCommand) parser.parseCommand(AppointmentUtil
                 .getDeleteApptCommand(appt));
 
-        assertEquals(new DeleteApptCommand(appt.getNric(), appt.getDate(), appt.getTimePeriod()), command);
+        assertEquals(new DeleteApptCommand(appt.getNric(), appt.getDate(), appt.getStartTime()), command);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class AddressBookParserTest {
         EditApptCommand command = (EditApptCommand) parser.parseCommand(EditApptCommand.COMMAND_WORD
                 + " " + AppointmentUtil.getAppointmentUniqueDetails(appt)
                 + " " + AppointmentUtil.getEditApptDescriptorDetails(descriptor));
-        assertEquals(new EditApptCommand(appt.getNric(), appt.getDate(), appt.getTimePeriod(), descriptor), command);
+        assertEquals(new EditApptCommand(appt.getNric(), appt.getDate(), appt.getStartTime(), descriptor), command);
     }
 
     @Test

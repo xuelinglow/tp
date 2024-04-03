@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS;
@@ -13,10 +12,8 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.appointment.AppointmentType;
 import seedu.address.model.appointment.Mark;
-import seedu.address.model.appointment.Note;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 
 /**
@@ -31,31 +28,30 @@ public class UnmarkCommand extends Command {
             + "Parameters: "
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "
-            + PREFIX_START_TIME + "START_TIME "
-            + PREFIX_END_TIME + "END_TIME";
+            + PREFIX_START_TIME + "START_TIME ";
 
     public static final String MESSAGE_UNMARK_APPOINTMENT_SUCCESS =
             "Appointment successfully unmarked as not seen: %1$s";
 
     private final Nric targetNric;
     private final Date targetDate;
-    private final TimePeriod targetTimePeriod;
+    private final Time targetStartTime;
 
     /**
      * Creates a UnmarkCommand to unmark the appointment with the
-     * specified {@code Nric, Date, TimePeriod}
+     * specified {@code Nric, Date, StartTime}
      * @param targetNric nric of the Patient matching the existing Appointment to be unmarked
      * @param targetDate date of the existing Appointment to be unmarked
-     * @param targetTimePeriod timePeriod of the existing Appointment to be unmarked
+     * @param targetStartTime startTime of the existing Appointment to be unmarked
      */
-    public UnmarkCommand(Nric targetNric, Date targetDate, TimePeriod targetTimePeriod) {
+    public UnmarkCommand(Nric targetNric, Date targetDate, Time targetStartTime) {
         requireNonNull(targetNric);
         requireNonNull(targetDate);
-        requireNonNull(targetTimePeriod);
+        requireNonNull(targetStartTime);
 
         this.targetNric = targetNric;
         this.targetDate = targetDate;
-        this.targetTimePeriod = targetTimePeriod;
+        this.targetStartTime = targetStartTime;
     }
 
     @Override
@@ -66,13 +62,11 @@ public class UnmarkCommand extends Command {
             throw new CommandException(Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
         }
 
-        Appointment mockAppointmentToMatch = new Appointment(targetNric, targetDate, targetTimePeriod,
-            new AppointmentType("Anything"), new Note("Anything"), new Mark(false));
-        if (!model.hasAppointment(mockAppointmentToMatch)) {
+        if (!model.hasAppointmentWithDetails(targetNric, targetDate, targetStartTime)) {
             throw new CommandException(Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
         }
 
-        Appointment apptToUnmark = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
+        Appointment apptToUnmark = model.getMatchingAppointment(targetNric, targetDate, targetStartTime);
 
         Appointment unmarkedAppt = createUnmarkedAppointment(apptToUnmark);
         model.setAppointment(apptToUnmark, unmarkedAppt);
@@ -104,7 +98,7 @@ public class UnmarkCommand extends Command {
         UnmarkCommand otherUnmarkCommand = (UnmarkCommand) other;
         return targetNric.equals(otherUnmarkCommand.targetNric)
                 && targetDate.equals(otherUnmarkCommand.targetDate)
-                && targetTimePeriod.equals(otherUnmarkCommand.targetTimePeriod);
+                && targetStartTime.equals(otherUnmarkCommand.targetStartTime);
     }
 
     @Override
@@ -112,7 +106,7 @@ public class UnmarkCommand extends Command {
         return new ToStringBuilder(this)
                 .add("nric", targetNric)
                 .add("date", targetDate)
-                .add("timePeriod", targetTimePeriod)
+                .add("startTime", targetStartTime)
                 .toString();
     }
 }

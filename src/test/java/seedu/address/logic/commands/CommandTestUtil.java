@@ -246,6 +246,31 @@ public class CommandTestUtil {
         assertEquals(expectedFilteredPatientList, actualModel.getFilteredPatientList());
         assertEquals(expectedFilteredAppointmentViewList, actualModel.getFilteredAppointmentViewList());
     }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - a {@code CommandException} is thrown <br>
+     * - the CommandException message matches {@code expectedMessage} <br>
+     * - the address book, filtered patient list, filtered appointment list and
+     * - selected patient in {@code actualModel} could have changes in appointmentViewList (but not addressbook
+     *  and patient list) and hence
+     * - check {@code expectedModel}
+     */
+    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage,
+                                            Model expectedModel) {
+        // we are unable to defensively copy the model for comparison later, so we can
+        // only do so by copying its components.
+        AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
+        List<Patient> expectedFilteredPatientList = new ArrayList<>(actualModel.getFilteredPatientList());
+        List<AppointmentView> expectedFilteredAppointmentViewList =
+                new ArrayList<>(expectedModel.getFilteredAppointmentViewList());
+        assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
+        assertEquals(expectedAddressBook, actualModel.getAddressBook());
+        assertEquals(expectedFilteredPatientList, actualModel.getFilteredPatientList());
+        assertEquals(expectedFilteredAppointmentViewList, actualModel.getFilteredAppointmentViewList());
+    }
+
+
     /**
      * Updates {@code model}'s filtered list to show only the patient at the given {@code targetIndex} in the
      * {@code model}'s address book.

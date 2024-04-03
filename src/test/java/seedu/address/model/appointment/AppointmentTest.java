@@ -2,6 +2,7 @@ package seedu.address.model.appointment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_DATE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_END_TIME_BOB;
@@ -13,6 +14,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalAppointments.ALICE_APPT;
 import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_1;
 import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_TRUE;
+import static seedu.address.testutil.TypicalAppointments.BOB_APPT;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +55,62 @@ public class AppointmentTest {
                 .withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .build();
         assertFalse(ALICE_APPT.isSameAppointment(editedAliceAppt));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_sameTimePeriod_returnsTrue() {
+        // Both appointments have the same time period
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_partialOverlapBack_returnsTrue() {
+        // Appointments have partially overlapping time periods
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("09:30").withEndTime("10:30").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_partialOverlapFront_returnsTrue() {
+        // Appointments have partially overlapping time periods
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("08:30").withEndTime("09:30").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_noOverlap_returnsFalse() {
+        // Appointments have no overlapping time periods
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("10:00").withEndTime("12:00").build();
+        assertFalse(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_sameStartTimeWithOverlap_returnsTrue() {
+        // Appointments have the same start time
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("10:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("09:00").withEndTime("12:00").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_sameEndTimeWithOverlap_returnsTrue() {
+        // Appointments have the same end time
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("11:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("10:00").withEndTime("11:00").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingTimePeriod_oneAppointmentInsideAnother_returnsTrue() {
+        // Appointments have the same end time
+        Appointment appointment1 = new AppointmentBuilder().withStartTime("09:00").withEndTime("11:00").build();
+        Appointment appointment2 = new AppointmentBuilder().withStartTime("10:00").withEndTime("10:30").build();
+        assertTrue(appointment1.hasOverlappingTimePeriod(appointment2));
     }
 
     @Test
@@ -111,5 +169,22 @@ public class AppointmentTest {
                 + ", note=" + ALICE_APPT_1.getNote()
                 + ", mark=" + ALICE_APPT_1.getMark() + "}";
         assertEquals(expected, ALICE_APPT_1.toString());
+    }
+
+    @Test
+    public void hashCode_equalAppointments_sameHashCode() {
+        Appointment appointment1 = new AppointmentBuilder(ALICE_APPT).build();
+
+        Appointment appointment2 = new AppointmentBuilder(ALICE_APPT).build();
+
+        assertEquals(appointment1.hashCode(), appointment2.hashCode());
+    }
+
+    @Test
+    public void hashCode_unequalAppointments_differentHashCode() {
+        Appointment appointment1 = new AppointmentBuilder(ALICE_APPT).build();
+        Appointment appointment2 = new AppointmentBuilder(BOB_APPT).build();
+
+        assertNotEquals(appointment1.hashCode(), appointment2.hashCode());
     }
 }

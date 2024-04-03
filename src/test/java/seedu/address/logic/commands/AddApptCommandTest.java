@@ -71,6 +71,21 @@ public class AddApptCommandTest {
     }
 
     @Test
+    public void execute_overlappingAppointment_throwsCommandException() {
+        Appointment existingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("17:00").withEndTime("18:00").build();
+        Appointment overlappingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("16:00").withEndTime("18:00").build();
+        AddApptCommand addApptCommand = new AddApptCommand(overlappingAppointment);
+        ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
+
+        assertThrows(CommandException.class,
+                AddApptCommand.MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
+                        .execute(modelStub));
+    }
+
+
+    @Test
     public void equals() {
         Appointment aliceAppointment = new AppointmentBuilder().withNric("T0000001A").build();
         Appointment bobAppointment = new AppointmentBuilder().withNric("T0000002A").build();
@@ -241,6 +256,16 @@ public class AddApptCommandTest {
         }
 
         @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            return false;
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return false;
+        }
+
+        @Override
         public ObservableList<AppointmentView> getFilteredAppointmentViewList() {
             return null;
         }
@@ -266,6 +291,16 @@ public class AddApptCommandTest {
         public boolean hasAppointment(Appointment appointment) {
             requireNonNull(appointment);
             return this.appointment.equals(appointment);
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            return true; //To test overlapping appt
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return true;
         }
     }
 

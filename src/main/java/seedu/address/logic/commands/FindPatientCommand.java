@@ -26,9 +26,9 @@ public class FindPatientCommand extends Command {
             + ": Finds all patients whose names OR nric start with "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + PREFIX_NAME + "NAME(S) OR  "
-            + PREFIX_NRIC + "NRIC \n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alex"
+            + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS] OR "
+            + PREFIX_NRIC + "KEYWORD \n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alex Ben"
             + " OR " + COMMAND_WORD + " " + PREFIX_NRIC + "T0123456A";
 
     public static final String MESSAGE_MULTIPLE_FIELDS_FAILURE = "Find by either NRIC or name, not both!";

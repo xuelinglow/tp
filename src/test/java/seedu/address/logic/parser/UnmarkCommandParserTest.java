@@ -2,17 +2,14 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.DATE_DESC_APPOINTMENT_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.END_TIME_DESC_APPOINTMENT_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_DATE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_END_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NRIC_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_START_TIME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.START_TIME_DESC_APPOINTMENT_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_DATE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_END_TIME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_START_TIME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -24,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.date.Date;
 import seedu.address.logic.commands.UnmarkCommand;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.testutil.AppointmentBuilder;
 
@@ -38,11 +35,11 @@ public class UnmarkCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB
-                        + START_TIME_DESC_APPOINTMENT_BOB + END_TIME_DESC_APPOINTMENT_BOB,
+                        + START_TIME_DESC_APPOINTMENT_BOB,
                 new UnmarkCommand(
                         expectedAppointment.getNric(),
                         expectedAppointment.getDate(),
-                        expectedAppointment.getTimePeriod()
+                        expectedAppointment.getStartTime()
                 ));
     }
 
@@ -51,28 +48,20 @@ public class UnmarkCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE);
 
         // missing NRIC prefix
-        assertParseFailure(parser, DATE_DESC_APPOINTMENT_BOB + START_TIME_DESC_APPOINTMENT_BOB
-                        + END_TIME_DESC_APPOINTMENT_BOB,
+        assertParseFailure(parser, DATE_DESC_APPOINTMENT_BOB + START_TIME_DESC_APPOINTMENT_BOB,
                 expectedMessage);
 
         // missing date prefix
-        assertParseFailure(parser, NRIC_DESC_BOB + START_TIME_DESC_APPOINTMENT_BOB
-                        + END_TIME_DESC_APPOINTMENT_BOB,
+        assertParseFailure(parser, NRIC_DESC_BOB + START_TIME_DESC_APPOINTMENT_BOB,
                 expectedMessage);
 
         // missing start time prefix
-        assertParseFailure(parser, NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB
-                        + END_TIME_DESC_APPOINTMENT_BOB,
-                expectedMessage);
-
-        // missing end time prefix
-        assertParseFailure(parser, NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB
-                        + START_TIME_DESC_APPOINTMENT_BOB,
+        assertParseFailure(parser, NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB,
                 expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NRIC_BOB + VALID_APPOINTMENT_DATE_BOB
-                        + VALID_APPOINTMENT_START_TIME_BOB + VALID_APPOINTMENT_END_TIME_BOB,
+                        + VALID_APPOINTMENT_START_TIME_BOB,
                 expectedMessage);
     }
 
@@ -80,23 +69,23 @@ public class UnmarkCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid NRIC
         assertParseFailure(parser, INVALID_NRIC_DESC + DATE_DESC_APPOINTMENT_BOB
-                + START_TIME_DESC_APPOINTMENT_BOB + END_TIME_DESC_APPOINTMENT_BOB, Nric.MESSAGE_CONSTRAINTS);
+                + START_TIME_DESC_APPOINTMENT_BOB, Nric.MESSAGE_CONSTRAINTS);
 
         // invalid date
         assertParseFailure(parser, NRIC_DESC_BOB + INVALID_DATE_DESC
-                + START_TIME_DESC_APPOINTMENT_BOB + END_TIME_DESC_APPOINTMENT_BOB, Date.MESSAGE_CONSTRAINTS);
+                + START_TIME_DESC_APPOINTMENT_BOB, Date.MESSAGE_CONSTRAINTS);
 
-        // invalid time period
+        // invalid start time (as a time var)
         assertParseFailure(parser, NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB
-                + INVALID_START_TIME_DESC + INVALID_END_TIME_DESC, TimePeriod.MESSAGE_CONSTRAINTS);
+                + INVALID_TIME_DESC, Time.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values, only the first one reported
         assertParseFailure(parser, INVALID_NRIC_DESC + INVALID_DATE_DESC
-                + START_TIME_DESC_APPOINTMENT_BOB + END_TIME_DESC_APPOINTMENT_BOB, Nric.MESSAGE_CONSTRAINTS);
+                + START_TIME_DESC_APPOINTMENT_BOB, Nric.MESSAGE_CONSTRAINTS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NRIC_DESC_BOB + DATE_DESC_APPOINTMENT_BOB
-                        + START_TIME_DESC_APPOINTMENT_BOB + END_TIME_DESC_APPOINTMENT_BOB,
+                        + START_TIME_DESC_APPOINTMENT_BOB,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE));
     }
 }

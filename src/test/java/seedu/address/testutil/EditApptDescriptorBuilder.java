@@ -6,7 +6,6 @@ import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentType;
 import seedu.address.model.appointment.Note;
 import seedu.address.model.appointment.Time;
-import seedu.address.model.appointment.TimePeriod;
 
 /**
  * A utility class to help with building EditApptDescriptor objects.
@@ -29,7 +28,8 @@ public class EditApptDescriptorBuilder {
     public EditApptDescriptorBuilder(Appointment appointment) {
         descriptor = new EditApptDescriptor();
         descriptor.setDate(appointment.getDate());
-        descriptor.setTimePeriod(appointment.getTimePeriod());
+        descriptor.setStartTime(appointment.getStartTime());
+        descriptor.setEndTime(appointment.getEndTime());
         descriptor.setAppointmentType(appointment.getAppointmentType());
         descriptor.setNote(appointment.getNote());
     }
@@ -43,10 +43,18 @@ public class EditApptDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code TimePeriod} of the {@code EditApptDescriptor} that we are building.
+     * Sets the {@code StartTime} of the {@code EditApptDescriptor} that we are building.
      */
-    public EditApptDescriptorBuilder withTimePeriod(String startTime, String endTime) {
-        descriptor.setTimePeriod(new TimePeriod(new Time(startTime), new Time(endTime)));
+    public EditApptDescriptorBuilder withStartTime(String startTime) {
+        descriptor.setStartTime(new Time(startTime));
+        return this;
+    }
+
+    /**
+     * Sets the {@code EndTime} of the {@code EditApptDescriptor} that we are building.
+     */
+    public EditApptDescriptorBuilder withEndTime(String endTime) {
+        descriptor.setEndTime(new Time(endTime));
         return this;
     }
 

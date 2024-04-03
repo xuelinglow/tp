@@ -8,7 +8,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 
@@ -140,9 +140,23 @@ public interface Model {
      */
     void updateFilteredAppointmentDayViewList();
 
-    /** Returns an Appointment that matches based on Nric, Date and TimePeriod given **/
-    Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod);
+    /** Returns an Appointment that matches based on Nric, Date and StartTime given **/
+    Appointment getMatchingAppointment(Nric nric, Date date, Time timePeriod);
 
     /** Deletes all appointments of a targetNric **/
     void deleteAppointmentsWithNric(Nric targetNric);
+
+
+    /** Returns true if there is an existing appointment with the details Nric, Date and StartTime given **/
+    boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime);
+
+    /** Returns true if appointment overlaps in timePeriod with existing appointment for same patient **/
+    boolean samePatientHasOverlappingAppointment(Appointment apptToAdd);
+
+    /**
+     * Returns true if appointment overlaps in timePeriod with existing appointment for same patient,
+     * except for a specified appointment
+     **/
+    boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment);
+
 }

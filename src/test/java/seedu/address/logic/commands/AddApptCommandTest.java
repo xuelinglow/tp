@@ -173,16 +173,6 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public boolean hasPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePatient(Patient target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setPatient(Patient target, Patient editedPatient) {
             throw new AssertionError("This method should not be called.");
         }
@@ -203,7 +193,7 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public void cancelAppointment(Appointment appointment) {
+        public void deleteAppointment(Appointment appointment) {
             throw new AssertionError("This method should not be called.");
         }
 

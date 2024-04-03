@@ -73,19 +73,19 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPatient_nullPatient_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasPatient(null));
+    public void hasPatientWithNric_nullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasPatientWithNric(null));
     }
 
     @Test
-    public void hasPatient_patientNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasPatient(ALICE));
+    public void hasPatientWithNric_patientNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test
-    public void hasPatient_patientInAddressBook_returnsTrue() {
+    public void hasPatientWithNric_patientInAddressBook_returnsTrue() {
         modelManager.addPatient(ALICE);
-        assertTrue(modelManager.hasPatient(ALICE));
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test

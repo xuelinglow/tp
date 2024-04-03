@@ -28,6 +28,8 @@ public class AppointmentTypeTest {
         // invalid appointment type
         assertFalse(AppointmentType.isValidAppointmentType("")); // empty string
         assertFalse(AppointmentType.isValidAppointmentType("  ")); // blank spaces
+        assertFalse(AppointmentType.isValidAppointmentType(
+                "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh  ")); // too many characters
 
         // valid appointment type
         assertTrue(AppointmentType.isValidAppointmentType("X-ray"));

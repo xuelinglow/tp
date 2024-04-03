@@ -90,19 +90,12 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Deletes if a patient with the same nric as {@code nric} exists in the address book.
+     * Corresponding appointments are deleted as well.
      */
     public void deletePatientWithNric(Nric nric) {
         requireNonNull(nric);
         patients.deletePatientWithNric(nric);
         appointments.deleteAppointmentsWithNric(nric);
-    }
-
-    /**
-     * Returns true if a patient with the same identity as {@code patient} exists in the address book.
-     */
-    public boolean hasPatient(Patient patient) {
-        requireNonNull(patient);
-        return patients.contains(patient);
     }
 
     /**
@@ -124,14 +117,6 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         patients.setPatient(target, editedPatient);
         this.appointmentView.setAppointmentViews(patients, appointments);
-    }
-
-    /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
-     */
-    public void removePatient(Patient key) {
-        patients.remove(key);
     }
 
     //// appointment-level operations
@@ -184,7 +169,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Cancels {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void cancelAppointment(Appointment key) {
+    public void deleteAppointment(Appointment key) {
         appointments.remove(key);
         this.appointmentView.setAppointmentViews(patients, appointments);
     }

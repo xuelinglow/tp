@@ -62,7 +62,7 @@ public class AddPatientCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPatient(patientToAdd)) {
+        if (model.hasPatientWithNric(patientToAdd.getNric())) {
             throw new CommandException(MESSAGE_ADD_DUPLICATE_PATIENT_FAILURE);
         }
 

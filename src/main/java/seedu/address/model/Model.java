@@ -70,19 +70,9 @@ public interface Model {
 
     /**
      * Deletes patient with the same nric as {@code nric}.
+     * Corresponding appointments should be deleted as well.
      */
     void deletePatientWithNric(Nric nric);
-
-    /**
-     * Returns true if a patient with the same identity as {@code patient} exists in the address book.
-     */
-    boolean hasPatient(Patient patient);
-
-    /**
-     * Deletes the given patient.
-     * The patient must exist in the address book.
-     */
-    void deletePatient(Patient target);
 
     /**
      * Adds the given patient.
@@ -116,7 +106,7 @@ public interface Model {
      * Cancels the given appointment.
      * The appointment must exist in the address book.
      */
-    void cancelAppointment(Appointment key);
+    void deleteAppointment(Appointment key);
 
     /**
      * Adds the given appointment.

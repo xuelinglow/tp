@@ -77,7 +77,7 @@ public class DeleteApptCommand extends Command {
         }
 
         this.apptToDelete = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
-        model.cancelAppointment(apptToDelete);
+        model.deleteAppointment(apptToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS, Messages.format(apptToDelete)));
     }
 

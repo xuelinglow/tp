@@ -10,8 +10,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_STA
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_START_TIME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_TYPE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_TYPE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
+import static seedu.address.testutil.TypicalPatients.HOON;
+import static seedu.address.testutil.TypicalPatients.IDA;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
 import java.util.ArrayList;
@@ -20,6 +24,7 @@ import java.util.List;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentView;
 
 /**
  * A utility class containing a list of {@code Appointment} objects to be used in tests.
@@ -49,6 +54,12 @@ public class TypicalAppointments {
             .withAppointmentType("X-Ray")
             .withNote("Fractured finger").withMark(false).build();
 
+    // Manually added
+    public static final Appointment HOON_APPT = new AppointmentBuilder()
+            .withNric(HOON.getNric().value).build();
+    public static final Appointment IDA_APPT = new AppointmentBuilder()
+            .withNric(IDA.getNric().value).build();
+
     // Manually added - Appointment's details found in {@code CommandTestUtil}
     public static final Appointment AMY_APPT = new AppointmentBuilder()
             .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_AMY)
@@ -60,6 +71,23 @@ public class TypicalAppointments {
             .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
             .withAppointmentType(VALID_APPOINTMENT_TYPE_BOB)
             .withNote(VALID_APPOINTMENT_NOTE_BOB).withMark(false).build();
+
+    // AppointmentViews
+    public static final AppointmentView ALICE_APPT_VIEW = new AppointmentBuilder(ALICE_APPT)
+            .buildViewWithName("Alice Pauline");
+
+    public static final AppointmentView ALICE_APPT_VIEW_1 = new AppointmentBuilder(ALICE_APPT_1)
+            .buildViewWithName("Alice Pauline");
+
+    public static final AppointmentView BENSON_APPT_VIEW = new AppointmentBuilder(BENSON_APPT)
+            .buildViewWithName("Benson Meier");
+
+    //set up appointmentViews
+    public static final AppointmentView AMY_APPT_VIEW = new AppointmentBuilder(AMY_APPT)
+            .buildViewWithName(VALID_NAME_AMY);
+
+    public static final AppointmentView BOB_APPT_VIEW = new AppointmentBuilder(BOB_APPT)
+            .buildViewWithName(VALID_NAME_BOB);
 
     private TypicalAppointments() {
     } // prevents instantiation

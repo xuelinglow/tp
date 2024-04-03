@@ -142,26 +142,16 @@ public class AddPatientCommandTest {
 
         @Override
         public boolean hasPatientWithNric(Nric nric) {
-            return false;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public Patient getPatientWithNric(Nric nric) {
-            return null;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void deletePatientWithNric(Nric nric) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePatient(Patient target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -186,7 +176,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public void cancelAppointment(Appointment key) {
+        public void deleteAppointment(Appointment key) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -241,11 +231,9 @@ public class AddPatientCommandTest {
             requireNonNull(patient);
             this.patient = patient;
         }
-
         @Override
-        public boolean hasPatient(Patient patient) {
-            requireNonNull(patient);
-            return this.patient.isSamePatient(patient);
+        public boolean hasPatientWithNric(Nric nric) {
+            return patient.getNric().equals(nric);
         }
     }
 
@@ -256,15 +244,19 @@ public class AddPatientCommandTest {
         final ArrayList<Patient> patientsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPatient(Patient patient) {
-            requireNonNull(patient);
-            return patientsAdded.stream().anyMatch(patient::isSamePatient);
-        }
-
-        @Override
         public void addPatient(Patient patient) {
             requireNonNull(patient);
             patientsAdded.add(patient);
+        }
+
+        @Override
+        public boolean hasPatientWithNric(Nric nric) {
+            for (Patient patient : patientsAdded) {
+                if (patient.getNric().equals(nric)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override

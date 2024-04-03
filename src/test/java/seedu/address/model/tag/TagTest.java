@@ -23,6 +23,14 @@ public class TagTest {
     public void isValidTagName() {
         // null tag name
         assertThrows(NullPointerException.class, () -> Tag.isValidTagName(null));
+
+        // invalid tag name
+        assertFalse(Tag.isValidTagName(" "));
+        assertFalse(Tag.isValidTagName(
+                "hhhhhh hhhhhh hhhhhh hhhhhh hhhhhh hhhhhh hhhhhh hhhhhh")); // more than 50 char
+
+        // valid tag name
+        assertTrue(Tag.isValidTagName("tag"));
     }
 
     @Test

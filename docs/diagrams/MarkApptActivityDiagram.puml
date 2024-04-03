@@ -1,0 +1,15 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User executes MarkApptCommand;
+
+if () then ([Appt with NRIC, Date, StartTime, EndTime found])
+        :Mark Appointment in
+        AppointmentList in AddressBook;
+else ([Appt not found]))
+    : CommandException;
+endif
+stop
+@enduml

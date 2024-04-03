@@ -288,6 +288,35 @@ The following activity diagram summarizes what happens when a user executes a ne
     * Pros: Time efficient as we can make use of the shorter prefixes because there's no need to differentiate between target appointment and new appointment details, Easier to correct mistakes in updating wrong appointment
     * Cons: Prone to errors as just a wrong number could cause the user to update the wrong appointment, Huge list could make it difficult to find a specific index
 
+
+### Mark/Unmark Appointment for a Patient
+
+#### Implementation
+
+The Mark Appointment feature will involve parsing user input and marking the appointment as completed/ not completed. 
+
+The implementation will include the following key components:
+
+1. **Parsing User Input**: The application will parse user input to extract values to find the target appointment (NRIC, DATE, START_TIME, END_TIME).
+2. **Executing Mark Queries** The application will search through the list of appointments and identify the target appointment to be marked/unmarked. It will then set the mark boolean condition based on the mark/unmark command. 
+3. **Appointment Status Updated Results** The appointment will be updated accordingly to show whether it has been marked/unmarked successfully based on color code. 
+
+#### Example Usage Scenario 
+1. Context: User wants to mark a specfic appointment as completed. 
+2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00 to/11:30' 
+
+<puml src="diagrams/MarkApptSequenceDiagram.puml" alt="MarkApptSeqDiag" />
+
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`), start time (`11:00`) and end time (`11:30`) criteria for the target appointment. 
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date, start time and end time criteria.
+5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case mark (true).
+6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
+
+The following activity diagram summarizes what happens when a user executes a new command:
+
+<puml src="diagrams/MarkApptActivityDiagram.puml" alt="MarkApptActivityDiagram" width="250" />
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation

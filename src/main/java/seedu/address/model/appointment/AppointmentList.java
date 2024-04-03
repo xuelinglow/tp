@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
 import seedu.address.model.appointment.exceptions.DuplicateAppointmentException;
+import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 import seedu.address.model.patient.Nric;
 
 
@@ -50,6 +51,9 @@ public class AppointmentList implements Iterable<Appointment> {
         if (contains(toAdd)) {
             throw new DuplicateAppointmentException();
         }
+        if (samePatientHasOverlappingAppointment(toAdd)) {
+            throw new OverlappingAppointmentException();
+        }
         internalList.add(toAdd);
     }
 
@@ -68,6 +72,10 @@ public class AppointmentList implements Iterable<Appointment> {
 
         if (!target.isSameAppointment(editedAppointment) && contains(editedAppointment)) {
             throw new DuplicateAppointmentException();
+        }
+
+        if (hasOverlappingAppointmentExcluding(target, editedAppointment)) {
+            throw new OverlappingAppointmentException();
         }
 
         internalList.set(index, editedAppointment);
@@ -197,5 +205,39 @@ public class AppointmentList implements Iterable<Appointment> {
         }
 
         return false;
+    }
+  
+    /** Return true if new appt to be added overlaps with existing appointment of same Nric **/
+    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
+        requireNonNull(targetAppt);
+
+        for (Appointment appointment : this) {
+            // Check for same patient and same date
+            if (appointment.getNric().equals(targetAppt.getNric())
+                    && appointment.getDate().equals(targetAppt.getDate())) {
+                return appointment.hasOverlappingTimePeriod(targetAppt);
+            }
+        }
+
+        return false; // No appointment for same patient or same date
+    }
+
+    /** Return true if new appt to be added overlaps with existing appointment of same Nric, excluding targetAppt **/
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        requireAllNonNull(targetAppt, editedAppointment);
+
+        for (Appointment appointment : this) {
+            // Exclude targetAppt since that would be changed already
+            if (appointment.equals(targetAppt)) {
+                continue;
+            }
+            //Check if for same Patient, there is overlapping date and time period with editedAppointment
+            if (appointment.getNric().equals(editedAppointment.getNric())
+                    && appointment.getDate().equals(editedAppointment.getDate())) {
+                return appointment.hasOverlappingTimePeriod(editedAppointment);
+            }
+        }
+
+        return false; // No appointment for same patient or same date
     }
 }

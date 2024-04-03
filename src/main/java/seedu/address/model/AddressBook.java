@@ -227,6 +227,14 @@ public class AddressBook implements ReadOnlyAddressBook {
         return appointments.hasAppointmentWithDetails(nric, date, startTime);
     }
 
+    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
+        return appointments.samePatientHasOverlappingAppointment(targetAppt);
+    }
+
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        return appointments.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+    }
+
     /**
      * Create AppointmentView from appointment
      */

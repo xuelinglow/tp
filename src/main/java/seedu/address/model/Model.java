@@ -156,6 +156,17 @@ public interface Model {
     /** Deletes all appointments of a targetNric **/
     void deleteAppointmentsWithNric(Nric targetNric);
 
+
     /** Returns true if there is an existing appointment with the details Nric, Date and StartTime given **/
     boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime);
+
+    /** Returns true if appointment overlaps in timePeriod with existing appointment for same patient **/
+    boolean samePatientHasOverlappingAppointment(Appointment apptToAdd);
+
+    /**
+     * Returns true if appointment overlaps in timePeriod with existing appointment for same patient,
+     * except for a specified appointment
+     **/
+    boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment);
+
 }

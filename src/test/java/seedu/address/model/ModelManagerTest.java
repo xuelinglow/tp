@@ -285,7 +285,7 @@ public class ModelManagerTest {
         Appointment matchingAppointment = modelManager.getMatchingAppointment(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         assertEquals(appointment, matchingAppointment);

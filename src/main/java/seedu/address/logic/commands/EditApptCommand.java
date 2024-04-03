@@ -108,7 +108,7 @@ public class EditApptCommand extends Command {
         if (model.hasOverlappingAppointmentExcluding(apptToEdit, editedAppt)) {
             throw new CommandException(MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE);
         }
-      
+
         model.setAppointment(apptToEdit, editedAppt);
         model.updateFilteredAppointmentViewList(PREDICATE_SHOW_ALL_APPOINTMENT_VIEWS);
         return new CommandResult(String.format(MESSAGE_EDIT_APPT_SUCCESS, Messages.format(editedAppt)));

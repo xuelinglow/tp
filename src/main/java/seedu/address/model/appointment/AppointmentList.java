@@ -203,10 +203,8 @@ public class AppointmentList implements Iterable<Appointment> {
                 return true;
             }
         }
-
         return false;
     }
-  
     /** Return true if new appt to be added overlaps with existing appointment of same Nric **/
     public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
         requireNonNull(targetAppt);

@@ -125,7 +125,7 @@ public class EditApptCommandTest {
         EditApptCommand editApptCommand = new EditApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod(),
+                ALICE_APPT.getStartTime(),
                 descriptor
         );
 

@@ -282,8 +282,7 @@ public class AppointmentListTest {
         assertThrows(NullPointerException.class, () -> appointmentList.hasAppointmentWithDetails(
                 null, null, null)
         );
-    }  
-  
+    }
     @Test
     public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
         // Appointments have no overlapping time periods

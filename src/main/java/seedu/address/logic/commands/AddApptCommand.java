@@ -73,6 +73,10 @@ public class AddApptCommand extends Command {
             throw new CommandException(MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE);
         }
 
+        if (model.samePatientHasOverlappingAppointment(apptToAdd)) {
+            throw new CommandException(MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE);
+        }
+
         model.addAppointment(apptToAdd);
         return new CommandResult(String.format(MESSAGE_ADD_APPOINTMENT_SUCCESS, Messages.format(apptToAdd)));
     }

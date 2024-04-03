@@ -13,7 +13,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalAppointments.ALICE_APPT;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_1;
 import static seedu.address.testutil.TypicalAppointments.getTypicalAddressBookWithAppointments;
+import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -113,6 +115,28 @@ public class EditApptCommandTest {
         );
 
         assertCommandFailure(editApptCommand, model, Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
+    }
+
+    @Test
+    public void execute_overlappingEditedAppointment_failure() {
+        EditApptDescriptor descriptor = new EditApptDescriptorBuilder()
+                .withDate(ALICE_APPT_1.getDate().toString())
+                .build();
+
+        EditApptCommand editApptCommand = new EditApptCommand(
+                ALICE_APPT.getNric(),
+                ALICE_APPT.getDate(),
+                ALICE_APPT.getTimePeriod(),
+                descriptor
+        );
+
+        //The expected model will still show an updated filtered list with just dates
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModel.addAppointment(ALICE_APPT_1);
+
+        // Assert that the command fails with the appropriate error message, where model has changes
+        assertCommandFailure(editApptCommand, model,
+                EditApptCommand.MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE, expectedModel);
     }
 
     @Test

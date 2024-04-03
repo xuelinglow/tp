@@ -207,9 +207,9 @@ public class AppointmentListTest {
         appointmentList.add(ALICE_APPT);
         Nric nricToMatch = ALICE_APPT.getNric();
         Date dateToMatch = ALICE_APPT.getDate();
-        TimePeriod timePeriodToMatch = ALICE_APPT.getTimePeriod();
+        Time startTimeToMatch = ALICE_APPT.getStartTime();
 
-        assertEquals(ALICE_APPT, appointmentList.getMatchingAppointment(nricToMatch, dateToMatch, timePeriodToMatch));
+        assertEquals(ALICE_APPT, appointmentList.getMatchingAppointment(nricToMatch, dateToMatch, startTimeToMatch));
     }
 
     @Test
@@ -217,15 +217,17 @@ public class AppointmentListTest {
         appointmentList.add(ALICE_APPT);
         Nric nricToMatch = ALICE_APPT_1.getNric();
         Date dateToMatch = ALICE_APPT_1.getDate();
-        TimePeriod timePeriodToMatch = ALICE_APPT_1.getTimePeriod();
+        Time startTimeToMatch = ALICE_APPT_1.getStartTime();
 
         assertThrows(AppointmentNotFoundException.class, () ->
-                appointmentList.getMatchingAppointment(nricToMatch, dateToMatch, timePeriodToMatch));
+                appointmentList.getMatchingAppointment(nricToMatch, dateToMatch, startTimeToMatch));
     }
 
     @Test
     public void getMatchingAppointment_nullInput_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> appointmentList.getMatchingAppointment(null, null, null));
+        assertThrows(NullPointerException.class, () -> appointmentList.getMatchingAppointment(
+                null, null, null)
+        );
     }
 
     @Test
@@ -260,6 +262,27 @@ public class AppointmentListTest {
         assertThrows(NullPointerException.class, () -> appointmentList.deleteAppointmentsWithNric(null));
     }
 
+    @Test
+    public void hasAppointmentWithDetails_existingAppointment_returnsTrue() {
+        appointmentList.add(ALICE_APPT);
+        assertTrue(appointmentList.hasAppointmentWithDetails(
+                ALICE_APPT.getNric(), ALICE_APPT.getDate(), ALICE_APPT.getStartTime())
+        );
+    }
+
+    @Test
+    public void hasAppointmentWithDetails_nonExistingAppointment_returnsFalse() {
+        assertFalse(appointmentList.hasAppointmentWithDetails(
+                ALICE_APPT.getNric(), ALICE_APPT.getDate(), ALICE_APPT.getStartTime())
+        );
+    }
+
+    @Test
+    public void hasAppointmentWithDetails_nullParameters_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> appointmentList.hasAppointmentWithDetails(
+                null, null, null)
+        );
+    }
     @Test
     public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
         // Appointments have no overlapping time periods

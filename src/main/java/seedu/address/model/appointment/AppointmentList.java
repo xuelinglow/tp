@@ -123,18 +123,18 @@ public class AppointmentList implements Iterable<Appointment> {
     }
 
     /**
-     * Returns an Appointment that matches from the Appointment list based on {@code Nric, Date, TimePeriod} given.
+     * Returns an Appointment that matches from the Appointment list based on {@code Nric, Date, StartTime} given.
      * Throws an {@code AppointmentNotFoundException} if no matching appointment is found.
      */
-    public Appointment getMatchingAppointment(Nric nricToMatch, Date dateToMatch, TimePeriod timePeriodToMatch) {
+    public Appointment getMatchingAppointment(Nric nricToMatch, Date dateToMatch, Time startTimeToMatch) {
         requireNonNull(nricToMatch);
         requireNonNull(dateToMatch);
-        requireNonNull(timePeriodToMatch);
+        requireNonNull(startTimeToMatch);
 
         for (Appointment appointment : this) {
             if (appointment.getNric().equals(nricToMatch)
                     && appointment.getDate().equals(dateToMatch)
-                    && appointment.getTimePeriod().equals(timePeriodToMatch)) {
+                    && appointment.getStartTime().equals(startTimeToMatch)) {
                 return appointment;
             }
         }
@@ -188,6 +188,23 @@ public class AppointmentList implements Iterable<Appointment> {
         internalList.removeIf(appointment -> appointment.getNric().equals(nric));
     }
 
+    /**
+     * Returns true if appointment list has appointment with {@code nric, date, startTime}
+     */
+    public boolean hasAppointmentWithDetails(Nric nricToMatch, Date dateToMatch, Time startTimeToMatch) {
+        requireNonNull(nricToMatch);
+        requireNonNull(dateToMatch);
+        requireNonNull(startTimeToMatch);
+
+        for (Appointment appointment : this) {
+            if (appointment.getNric().equals(nricToMatch)
+                    && appointment.getDate().equals(dateToMatch)
+                    && appointment.getStartTime().equals(startTimeToMatch)) {
+                return true;
+            }
+        }
+        return false;
+    }
     /** Return true if new appt to be added overlaps with existing appointment of same Nric **/
     public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
         requireNonNull(targetAppt);

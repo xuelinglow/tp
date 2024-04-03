@@ -153,8 +153,14 @@ public class CommandTestUtil {
     public static final String INVALID_APPOINTMENT_NOTE_DESC = " " + PREFIX_NOTE + "@@"; // non-alphanumeric
     public static final String INVALID_APPOINTMENT_MARK_DESC = " " + PREFIX_NOTE + "abc"; // not true or false
     public static final String INVALID_NEW_DATE_DESC = " " + PREFIX_NEW_DATE + "2024-32-32"; //exceeds month & day range
-    public static final String INVALID_NEW_START_TIME_DESC = " " + PREFIX_NEW_START_TIME + "11:30"; // is after end time
-    public static final String INVALID_NEW_END_TIME_DESC = " " + PREFIX_NEW_END_TIME + "11:00"; // is before start time
+    public static final String INVALID_NEW_START_TIME_RANGE_DESC = " " + PREFIX_NEW_START_TIME
+            + "11:30"; // is after end time
+    public static final String INVALID_NEW_END_TIME_RANGE_DESC = " " + PREFIX_NEW_END_TIME
+            + "11:00"; // is before start time
+    public static final String INVALID_NEW_START_TIME_DESC = " " + PREFIX_NEW_START_TIME
+            + "24:00"; // exceeds 24 hour clock range
+    public static final String INVALID_NEW_END_TIME_DESC = " " + PREFIX_NEW_END_TIME
+            + "24:00"; // exceeds 24 hour clock range
     public static final String INVALID_NEW_APPOINTMENT_TYPE_DESC = " " + PREFIX_NEW_TAG + "  "; // only white spaces
     public static final String INVALID_NEW_APPOINTMENT_NOTE_DESC = " " + PREFIX_NEW_NOTE + "@@"; // non-alphanumeric
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -181,12 +187,14 @@ public class CommandTestUtil {
     static {
         DESC_APPT_AMY = new EditApptDescriptorBuilder()
                 .withDate(VALID_APPOINTMENT_DATE_AMY)
-                .withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY)
+                .withStartTime(VALID_APPOINTMENT_START_TIME_AMY)
+                .withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
                 .withNote(VALID_APPOINTMENT_NOTE_AMY).build();
         DESC_APPT_BOB = new EditApptDescriptorBuilder()
                 .withDate(VALID_APPOINTMENT_DATE_BOB)
-                .withTimePeriod(VALID_APPOINTMENT_START_TIME_BOB, VALID_APPOINTMENT_END_TIME_BOB)
+                .withStartTime(VALID_APPOINTMENT_START_TIME_BOB)
+                .withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_BOB)
                 .withNote(VALID_APPOINTMENT_NOTE_BOB).build();
     }

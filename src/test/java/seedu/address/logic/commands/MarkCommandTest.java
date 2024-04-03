@@ -29,7 +29,7 @@ public class MarkCommandTest {
         MarkCommand markCommand = new MarkCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         // Expected message after successful mark
@@ -45,12 +45,12 @@ public class MarkCommandTest {
         MarkCommand markFirstAppointment = new MarkCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
         MarkCommand markSecondAppointment = new MarkCommand(
                 ALICE_APPT_1.getNric(),
                 ALICE_APPT_1.getDate(),
-                ALICE_APPT_1.getTimePeriod()
+                ALICE_APPT_1.getStartTime()
         );
 
         // same object -> returns true
@@ -60,7 +60,7 @@ public class MarkCommandTest {
         MarkCommand markFirstAppointmentCopy = new MarkCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
         assertTrue(markFirstAppointment.equals(markFirstAppointmentCopy));
 
@@ -80,13 +80,13 @@ public class MarkCommandTest {
         MarkCommand markCommand = new MarkCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         String expected = MarkCommand.class.getCanonicalName()
                 + "{nric=" + ALICE_APPT.getNric() + ", "
                 + "date=" + ALICE_APPT.getDate() + ", "
-                + "timePeriod=" + ALICE_APPT.getTimePeriod() + "}";
+                + "startTime=" + ALICE_APPT.getStartTime() + "}";
         assertEquals(expected, markCommand.toString());
     }
 

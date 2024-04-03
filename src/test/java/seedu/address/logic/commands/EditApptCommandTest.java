@@ -28,7 +28,6 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.Time;
-import seedu.address.model.appointment.TimePeriod;
 import seedu.address.model.patient.Nric;
 import seedu.address.testutil.AppointmentBuilder;
 import seedu.address.testutil.EditApptDescriptorBuilder;
@@ -46,7 +45,7 @@ public class EditApptCommandTest {
         Appointment editedAppt = new AppointmentBuilder().withNric(ALICE_APPT.getNric().value).build();
         EditApptCommand.EditApptDescriptor descriptor = new EditApptDescriptorBuilder(editedAppt).build();
         EditApptCommand editApptCommand = new EditApptCommand(ALICE_APPT.getNric(), ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod(), descriptor);
+                ALICE_APPT.getStartTime(), descriptor);
 
         String expectedMessage = String.format(EditApptCommand.MESSAGE_EDIT_APPT_SUCCESS,
                 Messages.format(editedAppt));
@@ -64,9 +63,9 @@ public class EditApptCommandTest {
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY).build();
 
         EditApptDescriptor descriptor = new EditApptDescriptorBuilder().withDate(VALID_APPOINTMENT_DATE_AMY)
-                .withTimePeriod(VALID_APPOINTMENT_START_TIME_AMY, VALID_APPOINTMENT_END_TIME_AMY).build();
+                .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY).build();
         EditApptCommand editApptCommand = new EditApptCommand(ALICE_APPT.getNric(),
-                ALICE_APPT.getDate(), ALICE_APPT.getTimePeriod(), descriptor);
+                ALICE_APPT.getDate(), ALICE_APPT.getStartTime(), descriptor);
 
         String expectedMessage = String.format(EditApptCommand.MESSAGE_EDIT_APPT_SUCCESS,
                 Messages.format(editedAppt));
@@ -81,9 +80,9 @@ public class EditApptCommandTest {
     public void execute_noFieldSpecified_success() {
         EditApptCommand editApptCommand =
                 new EditApptCommand(ALICE_APPT.getNric(),
-                        ALICE_APPT.getDate(), ALICE_APPT.getTimePeriod(), new EditApptCommand.EditApptDescriptor());
+                        ALICE_APPT.getDate(), ALICE_APPT.getStartTime(), new EditApptCommand.EditApptDescriptor());
         Appointment editedAppointment = model.getMatchingAppointment(ALICE_APPT.getNric(),
-                ALICE_APPT.getDate(), ALICE_APPT.getTimePeriod());
+                ALICE_APPT.getDate(), ALICE_APPT.getStartTime());
 
         String expectedMessage = String.format(EditApptCommand.MESSAGE_EDIT_APPT_SUCCESS,
                 Messages.format(editedAppointment));
@@ -99,7 +98,7 @@ public class EditApptCommandTest {
         Nric notFoundNric = new Nric("G9999999X");
         EditApptDescriptor descriptor = new EditApptDescriptorBuilder().withDate(VALID_APPOINTMENT_DATE_AMY).build();
         EditApptCommand editApptCommand = new EditApptCommand(notFoundNric,
-                ALICE_APPT.getDate(), ALICE_APPT.getTimePeriod(), descriptor);
+                ALICE_APPT.getDate(), ALICE_APPT.getStartTime(), descriptor);
 
         assertCommandFailure(editApptCommand, model, Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
     }
@@ -110,7 +109,7 @@ public class EditApptCommandTest {
         EditApptCommand editApptCommand = new EditApptCommand(
                 ALICE_APPT.getNric(),
                 new Date("1900-02-02"),
-                ALICE_APPT.getTimePeriod(),
+                ALICE_APPT.getStartTime(),
                 descriptor
         );
 
@@ -126,7 +125,7 @@ public class EditApptCommandTest {
         EditApptCommand editApptCommand = new EditApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod(),
+                ALICE_APPT.getStartTime(),
                 descriptor
         );
 
@@ -146,7 +145,7 @@ public class EditApptCommandTest {
         final EditApptCommand standardCommand = new EditApptCommand(
                 new Nric(VALID_NRIC_AMY),
                 new Date(VALID_APPOINTMENT_DATE_AMY),
-                new TimePeriod(new Time(VALID_APPOINTMENT_START_TIME_AMY), new Time(VALID_APPOINTMENT_END_TIME_AMY)),
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
                 descriptor);
 
         // same values -> returns true
@@ -154,7 +153,7 @@ public class EditApptCommandTest {
         EditApptCommand commandWithSameValues = new EditApptCommand(
                 new Nric(VALID_NRIC_AMY),
                 new Date(VALID_APPOINTMENT_DATE_AMY),
-                new TimePeriod(new Time(VALID_APPOINTMENT_START_TIME_AMY), new Time(VALID_APPOINTMENT_END_TIME_AMY)),
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
                 copyDescriptor);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
@@ -171,7 +170,7 @@ public class EditApptCommandTest {
         assertFalse(standardCommand.equals(new EditApptCommand(
                 new Nric(VALID_NRIC_BOB),
                 new Date(VALID_APPOINTMENT_DATE_AMY),
-                new TimePeriod(new Time(VALID_APPOINTMENT_START_TIME_AMY), new Time(VALID_APPOINTMENT_END_TIME_AMY)),
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
                 descriptor)));
 
         final EditApptDescriptor diffDescriptor = new EditApptDescriptorBuilder()
@@ -181,7 +180,7 @@ public class EditApptCommandTest {
         assertFalse(standardCommand.equals(new EditApptCommand(
                 new Nric(VALID_NRIC_AMY),
                 new Date(VALID_APPOINTMENT_DATE_AMY),
-                new TimePeriod(new Time(VALID_APPOINTMENT_START_TIME_AMY), new Time(VALID_APPOINTMENT_END_TIME_AMY)),
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
                 diffDescriptor)));
     }
 
@@ -191,13 +190,12 @@ public class EditApptCommandTest {
         EditApptCommand editApptCommand = new EditApptCommand(
                 new Nric(VALID_NRIC_AMY),
                 new Date(VALID_APPOINTMENT_DATE_AMY),
-                new TimePeriod(new Time(VALID_APPOINTMENT_START_TIME_AMY), new Time(VALID_APPOINTMENT_END_TIME_AMY)),
+                new Time(VALID_APPOINTMENT_START_TIME_AMY),
                 editApptDescriptor);
         String expected = EditApptCommand.class.getCanonicalName()
                 + "{nric=" + VALID_NRIC_AMY
                 + ", date=" + VALID_APPOINTMENT_DATE_AMY
-                + ", timePeriod=" + VALID_APPOINTMENT_START_TIME_AMY
-                + " to " + VALID_APPOINTMENT_END_TIME_AMY
+                + ", startTime=" + VALID_APPOINTMENT_START_TIME_AMY
                 + ", editApptDescriptor=" + editApptDescriptor + "}";
         assertEquals(expected, editApptCommand.toString());
     }

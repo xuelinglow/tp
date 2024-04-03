@@ -11,7 +11,7 @@ import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.appointment.AppointmentView;
 import seedu.address.model.appointment.AppointmentViewList;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.model.patient.UniquePatientList;
@@ -213,14 +213,18 @@ public class AddressBook implements ReadOnlyAddressBook {
         return appointmentView.asUnmodifiableObservableList();
     }
 
-    public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
-        return appointments.getMatchingAppointment(nric, date, timePeriod);
+    public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
+        return appointments.getMatchingAppointment(nric, date, startTime);
     }
 
-    /** delete appointments when patient is deleted */
+    /** Delete appointments that have a target Nric, meant to help with cascading */
     public void deleteAppointmentsWithNric(Nric targetNric) {
         appointments.deleteAppointmentsWithNric(targetNric);
         this.appointmentView.setAppointmentViews(patients, appointments);
+    }
+
+    public boolean hasAppointmentWithDetails(Nric nric, Date date, Time startTime) {
+        return appointments.hasAppointmentWithDetails(nric, date, startTime);
     }
 
     public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
@@ -230,7 +234,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
         return appointments.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
     }
-
 
     /**
      * Create AppointmentView from appointment
@@ -260,4 +263,5 @@ public class AddressBook implements ReadOnlyAddressBook {
     public int hashCode() {
         return patients.hashCode();
     }
+
 }

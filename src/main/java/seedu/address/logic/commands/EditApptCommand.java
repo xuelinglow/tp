@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
@@ -23,8 +22,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentType;
-import seedu.address.model.appointment.Mark;
 import seedu.address.model.appointment.Note;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.appointment.TimePeriod;
 import seedu.address.model.patient.Nric;
 
@@ -38,13 +37,12 @@ public class EditApptCommand extends Command {
     public static final String COMMAND_WORD_ALT = "ea";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the details of the appointment identified by its Nric, Date, End and Start time.\n"
+            + ": Edits the details of the appointment identified by its Nric, Date, and Start time.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: "
             + PREFIX_NRIC + "NRIC (must be a valid NRIC in the system) "
             + PREFIX_DATE + "DATE "
             + PREFIX_START_TIME + "START_TIME "
-            + PREFIX_END_TIME + "END_TIME "
             + "[" + PREFIX_NEW_DATE + "NEW_DATE] "
             + "[" + PREFIX_NEW_START_TIME + "NEW_START_TIME] "
             + "[" + PREFIX_NEW_END_TIME + "NEW_END_TIME] "
@@ -54,7 +52,6 @@ public class EditApptCommand extends Command {
             + PREFIX_NRIC + "T0123456A "
             + PREFIX_DATE + "2024-02-20 "
             + PREFIX_START_TIME + "11:00 "
-            + PREFIX_END_TIME + "11:30 "
             + PREFIX_NEW_END_TIME + "12:30 "
             + PREFIX_NEW_TAG + "Blood test "
             + PREFIX_NEW_NOTE + "May come later ";
@@ -68,30 +65,28 @@ public class EditApptCommand extends Command {
 
     private final Nric targetNric;
     private final Date targetDate;
-    private final TimePeriod targetTimePeriod;
-    private Appointment apptToEdit;
+    private final Time targetStartTime;
     private final EditApptDescriptor editApptDescriptor;
 
     /**
      * Creates a EditApptCommand to edit the appointment with the
-     * specified {@code Nric, Date, TimePeriod} using the details
+     * specified {@code Nric, Date, StartTime} using the details
      * from {@code editApptDescriptor}
      * @param nric of the appointment for edit
      * @param date of the appointment to edit
-     * @param timePeriod of the appointment to edit
+     * @param startTime of the appointment to edit
      * @param editApptDescriptor details to edit the appointment with
      */
-    public EditApptCommand(Nric nric, Date date, TimePeriod timePeriod, EditApptDescriptor editApptDescriptor) {
+    public EditApptCommand(Nric nric, Date date, Time startTime, EditApptDescriptor editApptDescriptor) {
         requireNonNull(nric);
         requireNonNull(date);
-        requireNonNull(timePeriod);
+        requireNonNull(startTime);
         requireNonNull(editApptDescriptor);
 
         this.targetNric = nric;
         this.targetDate = date;
-        this.targetTimePeriod = timePeriod;
+        this.targetStartTime = startTime;
         this.editApptDescriptor = new EditApptDescriptor(editApptDescriptor);
-        this.apptToEdit = null;
     }
 
     @Override
@@ -102,14 +97,11 @@ public class EditApptCommand extends Command {
             throw new CommandException(Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
         }
 
-        Appointment mockAppointmentToMatch = new Appointment(targetNric, targetDate, targetTimePeriod,
-                new AppointmentType("Anything"), new Note("Anything"), new Mark(false));
-        if (!model.hasAppointment(mockAppointmentToMatch)) {
+        if (!model.hasAppointmentWithDetails(targetNric, targetDate, targetStartTime)) {
             throw new CommandException(Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
         }
 
-        this.apptToEdit = model.getMatchingAppointment(targetNric, targetDate, targetTimePeriod);
-
+        Appointment apptToEdit = model.getMatchingAppointment(targetNric, targetDate, targetStartTime);
         Appointment editedAppt = createEditedAppointment(apptToEdit, editApptDescriptor);
 
         // Must check for overlapping appointments of new appt besides current appt
@@ -130,10 +122,13 @@ public class EditApptCommand extends Command {
         assert apptToEdit != null;
 
         Date updatedDate = editApptDescriptor.getDate().orElse(apptToEdit.getDate());
-        TimePeriod updatedTimePeriod = editApptDescriptor.getTimePeriod().orElse(apptToEdit.getTimePeriod());
+        Time updatedStartTime = editApptDescriptor.getStartTime().orElse(apptToEdit.getStartTime());
+        Time updatedEndTime = editApptDescriptor.getEndTime().orElse(apptToEdit.getEndTime());
         AppointmentType updatedAppointmentType = editApptDescriptor.getAppointmentType()
                 .orElse(apptToEdit.getAppointmentType());
         Note updatedNote = editApptDescriptor.getNote().orElse(apptToEdit.getNote());
+
+        TimePeriod updatedTimePeriod = new TimePeriod(updatedStartTime, updatedEndTime);
 
         return new Appointment(apptToEdit.getNric(), updatedDate, updatedTimePeriod,
                 updatedAppointmentType, updatedNote, apptToEdit.getMark());
@@ -152,6 +147,8 @@ public class EditApptCommand extends Command {
 
         EditApptCommand otherEditApptCommand = (EditApptCommand) other;
         return targetNric.equals(otherEditApptCommand.targetNric)
+                && targetDate.equals(otherEditApptCommand.targetDate)
+                && targetStartTime.equals(otherEditApptCommand.targetStartTime)
                 && editApptDescriptor.equals(otherEditApptCommand.editApptDescriptor);
     }
 
@@ -160,7 +157,7 @@ public class EditApptCommand extends Command {
         return new ToStringBuilder(this)
                 .add("nric", targetNric)
                 .add("date", targetDate)
-                .add("timePeriod", targetTimePeriod)
+                .add("startTime", targetStartTime)
                 .add("editApptDescriptor", editApptDescriptor)
                 .toString();
     }
@@ -172,7 +169,8 @@ public class EditApptCommand extends Command {
      */
     public static class EditApptDescriptor {
         private Date date;
-        private TimePeriod timePeriod;
+        private Time startTime;
+        private Time endTime;
         private AppointmentType appointmentType;
         private Note note;
 
@@ -183,7 +181,8 @@ public class EditApptCommand extends Command {
          */
         public EditApptDescriptor(EditApptDescriptor toCopy) {
             setDate(toCopy.date);
-            setTimePeriod(toCopy.timePeriod);
+            setStartTime(toCopy.startTime);
+            setEndTime(toCopy.endTime);
             setAppointmentType(toCopy.appointmentType);
             setNote(toCopy.note);
         }
@@ -192,7 +191,7 @@ public class EditApptCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(date, timePeriod, appointmentType, note);
+            return CollectionUtil.isAnyNonNull(date, startTime, endTime, appointmentType, note);
         }
 
         public void setDate(Date date) {
@@ -203,13 +202,22 @@ public class EditApptCommand extends Command {
             return Optional.ofNullable(date);
         }
 
-        public void setTimePeriod(TimePeriod timePeriod) {
-            this.timePeriod = timePeriod;
+        public void setStartTime(Time startTime) {
+            this.startTime = startTime;
         }
 
-        public Optional<TimePeriod> getTimePeriod() {
-            return Optional.ofNullable(timePeriod);
+        public Optional<Time> getStartTime() {
+            return Optional.ofNullable(startTime);
         }
+
+        public void setEndTime(Time endTime) {
+            this.endTime = endTime;
+        }
+
+        public Optional<Time> getEndTime() {
+            return Optional.ofNullable(endTime);
+        }
+
 
         public void setAppointmentType(AppointmentType appointmentType) {
             this.appointmentType = appointmentType;
@@ -240,7 +248,8 @@ public class EditApptCommand extends Command {
 
             EditApptDescriptor otherEditApptDescriptor = (EditApptDescriptor) other;
             return Objects.equals(date, otherEditApptDescriptor.date)
-                    && Objects.equals(timePeriod, otherEditApptDescriptor.timePeriod)
+                    && Objects.equals(startTime, otherEditApptDescriptor.startTime)
+                    && Objects.equals(endTime, otherEditApptDescriptor.endTime)
                     && Objects.equals(appointmentType, otherEditApptDescriptor.appointmentType)
                     && Objects.equals(note, otherEditApptDescriptor.note);
         }
@@ -249,7 +258,8 @@ public class EditApptCommand extends Command {
         public String toString() {
             return new ToStringBuilder(this)
                     .add("date", date)
-                    .add("timePeriod", timePeriod)
+                    .add("startTime", startTime)
+                    .add("endTime", endTime)
                     .add("appointmentType", appointmentType)
                     .add("note", note)
                     .toString();

@@ -15,9 +15,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 import static seedu.address.model.appointment.Time.isValidTime;
 import static seedu.address.model.patient.Nric.isValidNric;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalAppointmentViews.ALICE_APPT_VIEW;
-import static seedu.address.testutil.TypicalAppointmentViews.ALICE_APPT_VIEW_1;
-import static seedu.address.testutil.TypicalAppointmentViews.getTypicalAddressBookWithAppointmentViews;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_VIEW;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_VIEW_1;
+import static seedu.address.testutil.TypicalAppointments.getTypicalAddressBookWithAppointments;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -39,8 +39,8 @@ import seedu.address.model.patient.Nric;
  * Contains integration tests (interaction with the Model) for {@code FindApptCommand}.
  */
 public class FindApptCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBookWithAppointmentViews(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalAddressBookWithAppointmentViews(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBookWithAppointments(), new UserPrefs());
+    private Model expectedModel = new ModelManager(getTypicalAddressBookWithAppointments(), new UserPrefs());
 
     @Test
     public void equals() {
@@ -89,7 +89,7 @@ public class FindApptCommandTest {
                 " i/T0123456A d/2024-03-01 from/16:00"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW), model.getFilteredAppointmentViewList());
     }
@@ -101,7 +101,7 @@ public class FindApptCommandTest {
                 " i/T0123456A"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW, ALICE_APPT_VIEW_1),
                 model.getFilteredAppointmentViewList());
@@ -114,7 +114,7 @@ public class FindApptCommandTest {
                 " i/T0123456A from/16:00"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALICE_APPT_VIEW, ALICE_APPT_VIEW_1),
                 model.getFilteredAppointmentViewList());
@@ -127,7 +127,7 @@ public class FindApptCommandTest {
                 " i/T6543210A"
         );
         FindApptCommand command = new FindApptCommand(predicate);
-        expectedModel.updateFilteredAppointmentList(predicate);
+        expectedModel.updateFilteredAppointmentViewList(predicate);
         assertOverallCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(), model.getFilteredAppointmentViewList());
     }

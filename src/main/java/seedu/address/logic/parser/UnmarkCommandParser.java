@@ -16,7 +16,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.commons.core.date.Date;
 import seedu.address.logic.commands.UnmarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 
 
@@ -46,13 +46,12 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME,
                 PREFIX_END_TIME);
+
         Nric nric = ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get());
         Date date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
-        TimePeriod timePeriod = ParserUtil.parseTimePeriod(
-                argMultimap.getValue(PREFIX_START_TIME).get(),
-                argMultimap.getValue(PREFIX_END_TIME).get());
+        Time startTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_START_TIME).get());
 
-        return new UnmarkCommand(nric, date, timePeriod);
+        return new UnmarkCommand(nric, date, startTime);
     }
 
 }

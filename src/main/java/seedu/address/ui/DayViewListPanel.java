@@ -27,6 +27,7 @@ public class DayViewListPanel extends UiPart<Region> {
         super(FXML);
         dayViewListView.setItems(dayViewList);
         dayViewListView.setCellFactory(listView -> new DayViewListViewCell());
+        dayViewListView.setSelectionModel(new NoSelectionModel<AppointmentView>());
     }
 
     /**

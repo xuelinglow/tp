@@ -65,6 +65,10 @@ public class FindPatientCommandParser implements Parser<FindPatientCommand> {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
             }
+            if (trimmedNricArgs.split("\\s+").length != 1) {
+                throw new ParseException(
+                        FindPatientCommand.MESSAGE_NRIC_EXCEED_ONE_KEYWORD_FAILURE);
+            }
             return new FindPatientCommand(new NricContainsMatchPredicate(trimmedNricArgs));
         }
         throw new ParseException(

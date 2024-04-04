@@ -1,11 +1,14 @@
 {
   "patients": [ {
-    "name": "Valid Person",
-    "phone": "9482424",
-    "email": "hans@example.com",
-    "address": "4th street"
+    "name" : "Valid person",
+    "nric" : "T0123456A",
+    "dob" : "2001-01-01",
+    "phone" : "98765432",
+    "email" : "alexyeoh@example.com",
+    "address" : "Blk 30 Geylang St 29, #06-40",
+    "tags" : [ "Insulin" ]
   }, {
-    "name": "Person With Invalid Phone Field",
+    "name": "Invalid person with missing fields",
     "phone": "948asdf2424",
     "email": "hans@example.com",
     "address": "4th street"

@@ -26,7 +26,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.testutil.AppointmentBuilder;
@@ -69,6 +69,21 @@ public class AddApptCommandTest {
         assertThrows(CommandException.class, Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND, () -> addApptCommand
                 .execute(modelStub));
     }
+
+    @Test
+    public void execute_overlappingAppointment_throwsCommandException() {
+        Appointment existingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("17:00").withEndTime("18:00").build();
+        Appointment overlappingAppointment = new AppointmentBuilder().withNric("T0123456A")
+                .withDate("2024-03-01").withStartTime("16:00").withEndTime("18:00").build();
+        AddApptCommand addApptCommand = new AddApptCommand(overlappingAppointment);
+        ModelStub modelStub = new ModelStubWithAppointment(existingAppointment);
+
+        assertThrows(CommandException.class,
+                AddApptCommand.MESSAGE_ADD_OVERLAPPING_APPOINTMENT_FAILURE, () -> addApptCommand
+                        .execute(modelStub));
+    }
+
 
     @Test
     public void equals() {
@@ -173,16 +188,6 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public boolean hasPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePatient(Patient target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setPatient(Patient target, Patient editedPatient) {
             throw new AssertionError("This method should not be called.");
         }
@@ -203,7 +208,7 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public void cancelAppointment(Appointment appointment) {
+        public void deleteAppointment(Appointment appointment) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -218,7 +223,7 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public void updateFilteredAppointmentList(Predicate<AppointmentView> predicate) {
+        public void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate) {
         }
 
         @Override
@@ -231,13 +236,28 @@ public class AddApptCommandTest {
         }
 
         @Override
-        public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
+        public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void deleteAppointmentsWithNric(Nric targetNric) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            return false;
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return false;
         }
 
         @Override
@@ -266,6 +286,16 @@ public class AddApptCommandTest {
         public boolean hasAppointment(Appointment appointment) {
             requireNonNull(appointment);
             return this.appointment.equals(appointment);
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            return true; //To test overlapping appt
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
+            return true;
         }
     }
 

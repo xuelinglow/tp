@@ -8,7 +8,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 
@@ -70,19 +70,9 @@ public interface Model {
 
     /**
      * Deletes patient with the same nric as {@code nric}.
+     * Corresponding appointments should be deleted as well.
      */
     void deletePatientWithNric(Nric nric);
-
-    /**
-     * Returns true if a patient with the same identity as {@code patient} exists in the address book.
-     */
-    boolean hasPatient(Patient patient);
-
-    /**
-     * Deletes the given patient.
-     * The patient must exist in the address book.
-     */
-    void deletePatient(Patient target);
 
     /**
      * Adds the given patient.
@@ -116,7 +106,7 @@ public interface Model {
      * Cancels the given appointment.
      * The appointment must exist in the address book.
      */
-    void cancelAppointment(Appointment key);
+    void deleteAppointment(Appointment key);
 
     /**
      * Adds the given appointment.
@@ -136,11 +126,11 @@ public interface Model {
     ObservableList<AppointmentView> getFilteredAppointmentViewList();
 
     /**
-     * Updates the filter of the filtered appointment list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered appointment view list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
 
-    void updateFilteredAppointmentList(Predicate<AppointmentView> predicate);
+    void updateFilteredAppointmentViewList(Predicate<AppointmentView> predicate);
 
     /** Returns an unmodifiable view of the appointment day-view list */
     ObservableList<AppointmentView> getFilteredAppointmentDayViewList();
@@ -150,9 +140,23 @@ public interface Model {
      */
     void updateFilteredAppointmentDayViewList();
 
-    /** Returns an Appointment that matches based on Nric, Date and TimePeriod given **/
-    Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod);
+    /** Returns an Appointment that matches based on Nric, Date and StartTime given **/
+    Appointment getMatchingAppointment(Nric nric, Date date, Time timePeriod);
 
     /** Deletes all appointments of a targetNric **/
     void deleteAppointmentsWithNric(Nric targetNric);
+
+
+    /** Returns true if there is an existing appointment with the details Nric, Date and StartTime given **/
+    boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime);
+
+    /** Returns true if appointment overlaps in timePeriod with existing appointment for same patient **/
+    boolean samePatientHasOverlappingAppointment(Appointment apptToAdd);
+
+    /**
+     * Returns true if appointment overlaps in timePeriod with existing appointment for same patient,
+     * except for a specified appointment
+     **/
+    boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment);
+
 }

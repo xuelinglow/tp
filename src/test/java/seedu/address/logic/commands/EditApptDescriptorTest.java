@@ -41,9 +41,14 @@ public class EditApptDescriptorTest {
                 .withDate(VALID_APPOINTMENT_DATE_BOB).build();
         assertFalse(DESC_APPT_AMY.equals(editedAmyAppt));
 
-        // different timePeriod -> returns false
+        // different startTime -> returns false
         editedAmyAppt = new EditApptDescriptorBuilder(DESC_APPT_AMY)
-                .withTimePeriod(VALID_APPOINTMENT_START_TIME_BOB, VALID_APPOINTMENT_END_TIME_BOB).build();
+                .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).build();
+        assertFalse(DESC_APPT_AMY.equals(editedAmyAppt));
+
+        // different endTime -> returns false
+        editedAmyAppt = new EditApptDescriptorBuilder(DESC_APPT_AMY)
+                .withEndTime(VALID_APPOINTMENT_END_TIME_BOB).build();
         assertFalse(DESC_APPT_AMY.equals(editedAmyAppt));
 
         // different appointmentType -> returns false
@@ -61,8 +66,9 @@ public class EditApptDescriptorTest {
     public void toStringMethod() {
         EditApptDescriptor editApptDescriptor = new EditApptDescriptor();
         String expected = EditApptDescriptor.class.getCanonicalName() + "{date="
-                + editApptDescriptor.getDate().orElse(null) + ", timePeriod="
-                + editApptDescriptor.getTimePeriod().orElse(null) + ", appointmentType="
+                + editApptDescriptor.getDate().orElse(null) + ", startTime="
+                + editApptDescriptor.getStartTime().orElse(null) + ", endTime="
+                + editApptDescriptor.getEndTime().orElse(null) + ", appointmentType="
                 + editApptDescriptor.getAppointmentType().orElse(null) + ", note="
                 + editApptDescriptor.getNote().orElse(null) + "}";
         assertEquals(expected, editApptDescriptor.toString());

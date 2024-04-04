@@ -12,6 +12,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
+
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.logic.parser.exceptions.ParseException;

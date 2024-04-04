@@ -14,9 +14,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
-import static seedu.address.testutil.TypicalAppointmentViews.ALICE_APPT_VIEW;
-import static seedu.address.testutil.TypicalAppointmentViews.AMY_APPT_VIEW;
-import static seedu.address.testutil.TypicalAppointmentViews.BOB_APPT_VIEW;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT_VIEW;
+import static seedu.address.testutil.TypicalAppointments.AMY_APPT_VIEW;
+import static seedu.address.testutil.TypicalAppointments.BOB_APPT_VIEW;
 
 import java.util.Optional;
 
@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.patient.Nric;
 import seedu.address.testutil.AppointmentBuilder;
-import seedu.address.testutil.AppointmentViewBuilder;
 
 public class AppointmentContainsKeywordsPredicateTest {
 
@@ -77,28 +76,25 @@ public class AppointmentContainsKeywordsPredicateTest {
 
         assertTrue(predicate.test(AMY_APPT_VIEW));
         // Test for same date and same NRIC but different time
-        assertTrue(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertTrue(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         assertFalse(predicate.test(BOB_APPT_VIEW));
         // Test for differing dates but same NRIC
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
         // Test for differing NRIC but same date
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_BOB).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_BOB).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_BOB)));
     }
 
     @Test
@@ -110,36 +106,32 @@ public class AppointmentContainsKeywordsPredicateTest {
 
         assertTrue(predicate.test(AMY_APPT_VIEW));
         // Test for same date and time but different NRIC
-        assertTrue(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertTrue(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_BOB).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
         // Test for same date but different time (but time >= filter time)
-        assertTrue(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertTrue(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         assertFalse(predicate.test(BOB_APPT_VIEW));
         // Test for different date and time but same NRIC
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         // Test for different date or time but same NRIC
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
     }
 
     @Test
@@ -150,29 +142,26 @@ public class AppointmentContainsKeywordsPredicateTest {
 
         assertTrue(predicate.test(AMY_APPT_VIEW));
         // Test for same NRIC and time but different date
-        assertTrue(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertTrue(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         assertFalse(predicate.test(BOB_APPT_VIEW));
         // Test for different NRIC but same date and time
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_BOB).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_BOB).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_AMY).withEndTime(VALID_APPOINTMENT_END_TIME_AMY)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_BOB)));
 
         // Test for different NRIC, date, and time
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_BOB).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_BOB).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_BOB)));
     }
 
     @Test
@@ -184,20 +173,18 @@ public class AppointmentContainsKeywordsPredicateTest {
 
         assertTrue(predicate.test(AMY_APPT_VIEW));
         // Test for same NRIC and date but different time (time >= filterTime)
-        assertTrue(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertTrue(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_AMY)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         // Test for same NRIC but different date and time
-        assertFalse(predicate.test(new AppointmentViewBuilder()
-                .withName(VALID_NAME_AMY).withAppointment(new AppointmentBuilder()
+        assertFalse(predicate.test(new AppointmentBuilder()
                 .withNric(VALID_NRIC_AMY).withDate(VALID_APPOINTMENT_DATE_BOB)
                 .withStartTime(VALID_APPOINTMENT_START_TIME_BOB).withEndTime(VALID_APPOINTMENT_END_TIME_BOB)
                 .withAppointmentType(VALID_APPOINTMENT_TYPE_AMY)
-                .withNote(VALID_APPOINTMENT_NOTE_AMY).build()).build()));
+                .withNote(VALID_APPOINTMENT_NOTE_AMY).buildViewWithName(VALID_NAME_AMY)));
 
         // Test for different NRIC, date, and time
         assertFalse(predicate.test(BOB_APPT_VIEW));

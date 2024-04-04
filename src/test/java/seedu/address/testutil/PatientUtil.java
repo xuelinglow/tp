@@ -17,6 +17,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.Set;
 
 import seedu.address.logic.commands.AddPatientCommand;
+import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.model.patient.Patient;
 import seedu.address.model.tag.Tag;
@@ -27,10 +28,17 @@ import seedu.address.model.tag.Tag;
 public class PatientUtil {
 
     /**
-     * Returns an add command string for adding the {@code patient}.
+     * Returns an addPatient command string for adding the {@code patient}.
      */
-    public static String getAddCommand(Patient patient) {
+    public static String getAddPatientCommand(Patient patient) {
         return AddPatientCommand.COMMAND_WORD + " " + getPatientDetails(patient);
+    }
+
+    /**
+     * Returns the deletePatient command string for adding the {@code patient}.
+     */
+    public static String getDeletePatientCommand(Patient patient) {
+        return DeletePatientCommand.COMMAND_WORD + " " + PREFIX_NRIC + patient.getNric();
     }
 
     /**

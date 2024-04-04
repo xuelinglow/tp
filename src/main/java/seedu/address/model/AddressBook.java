@@ -11,7 +11,7 @@ import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.appointment.AppointmentView;
 import seedu.address.model.appointment.AppointmentViewList;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.model.patient.UniquePatientList;
@@ -90,19 +90,12 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Deletes if a patient with the same nric as {@code nric} exists in the address book.
+     * Corresponding appointments are deleted as well.
      */
     public void deletePatientWithNric(Nric nric) {
         requireNonNull(nric);
         patients.deletePatientWithNric(nric);
         appointments.deleteAppointmentsWithNric(nric);
-    }
-
-    /**
-     * Returns true if a patient with the same identity as {@code patient} exists in the address book.
-     */
-    public boolean hasPatient(Patient patient) {
-        requireNonNull(patient);
-        return patients.contains(patient);
     }
 
     /**
@@ -123,14 +116,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPatient);
 
         patients.setPatient(target, editedPatient);
-    }
-
-    /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * {@code key} must exist in the address book.
-     */
-    public void removePatient(Patient key) {
-        patients.remove(key);
+        this.appointmentView.setAppointmentViews(patients, appointments);
     }
 
     //// appointment-level operations
@@ -183,7 +169,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Cancels {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void cancelAppointment(Appointment key) {
+    public void deleteAppointment(Appointment key) {
         appointments.remove(key);
         this.appointmentView.setAppointmentViews(patients, appointments);
     }
@@ -212,14 +198,26 @@ public class AddressBook implements ReadOnlyAddressBook {
         return appointmentView.asUnmodifiableObservableList();
     }
 
-    public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
-        return appointments.getMatchingAppointment(nric, date, timePeriod);
+    public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
+        return appointments.getMatchingAppointment(nric, date, startTime);
     }
 
-    /** delete appointments when patient is deleted */
+    /** Delete appointments that have a target Nric, meant to help with cascading */
     public void deleteAppointmentsWithNric(Nric targetNric) {
         appointments.deleteAppointmentsWithNric(targetNric);
         this.appointmentView.setAppointmentViews(patients, appointments);
+    }
+
+    public boolean hasAppointmentWithDetails(Nric nric, Date date, Time startTime) {
+        return appointments.hasAppointmentWithDetails(nric, date, startTime);
+    }
+
+    public boolean samePatientHasOverlappingAppointment(Appointment targetAppt) {
+        return appointments.samePatientHasOverlappingAppointment(targetAppt);
+    }
+
+    public boolean hasOverlappingAppointmentExcluding(Appointment targetAppt, Appointment editedAppointment) {
+        return appointments.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
     }
 
     /**
@@ -250,4 +248,5 @@ public class AddressBook implements ReadOnlyAddressBook {
     public int hashCode() {
         return patients.hashCode();
     }
+
 }

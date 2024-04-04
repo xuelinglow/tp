@@ -32,7 +32,7 @@ public class DeleteApptCommandTest {
         DeleteApptCommand deleteApptCommand = new DeleteApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         // Expected message after successful cancellation
@@ -47,7 +47,7 @@ public class DeleteApptCommandTest {
         DeleteApptCommand deleteApptCommand = new DeleteApptCommand(
                 ALICE_APPT.getNric(),
                 new Date("1900-02-02"),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         assertCommandFailure(deleteApptCommand, model, Messages.MESSAGE_APPOINTMENT_NOT_FOUND);
@@ -59,7 +59,7 @@ public class DeleteApptCommandTest {
         DeleteApptCommand deleteApptCommand = new DeleteApptCommand(
                 missingNric,
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         assertCommandFailure(deleteApptCommand, model, Messages.MESSAGE_PATIENT_NRIC_NOT_FOUND);
@@ -71,12 +71,12 @@ public class DeleteApptCommandTest {
         DeleteApptCommand cancelFirstAppointment = new DeleteApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
         DeleteApptCommand cancelSecondAppointment = new DeleteApptCommand(
                 ALICE_APPT_1.getNric(),
                 ALICE_APPT_1.getDate(),
-                ALICE_APPT_1.getTimePeriod()
+                ALICE_APPT_1.getStartTime()
         );
 
         // same object -> returns true
@@ -86,7 +86,7 @@ public class DeleteApptCommandTest {
         DeleteApptCommand cancelFirstAppointmentCopy = new DeleteApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
         assertTrue(cancelFirstAppointment.equals(cancelFirstAppointmentCopy));
 
@@ -106,13 +106,13 @@ public class DeleteApptCommandTest {
         DeleteApptCommand deleteApptCommand = new DeleteApptCommand(
                 ALICE_APPT.getNric(),
                 ALICE_APPT.getDate(),
-                ALICE_APPT.getTimePeriod()
+                ALICE_APPT.getStartTime()
         );
 
         String expected = DeleteApptCommand.class.getCanonicalName()
                 + "{nric=" + ALICE_APPT.getNric() + ", "
                 + "date=" + ALICE_APPT.getDate() + ", "
-                + "timePeriod=" + ALICE_APPT.getTimePeriod() + "}";
+                + "startTime=" + ALICE_APPT.getStartTime() + "}";
         assertEquals(expected, deleteApptCommand.toString());
     }
 }

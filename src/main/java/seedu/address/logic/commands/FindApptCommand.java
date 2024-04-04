@@ -47,7 +47,7 @@ public class FindApptCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredAppointmentList(predicate);
+        model.updateFilteredAppointmentViewList(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_APPOINTMENTS_LISTED_OVERVIEW,
                         model.getFilteredAppointmentViewList().size()), ViewMode.OVERALL);

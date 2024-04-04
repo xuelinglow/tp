@@ -42,8 +42,8 @@ public class FindApptCommandParser implements Parser<FindApptCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_NRIC,
-                PREFIX_DATE, PREFIX_START_TIME, PREFIX_END_TIME);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC,
+                PREFIX_DATE, PREFIX_START_TIME);
 
         if (argMultimap.anyPrefixesPresent(PREFIX_NAME, PREFIX_END_TIME, PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_ADDRESS, PREFIX_TAG, PREFIX_NOTE) || argMultimap.anyNewPrefixesPresent()

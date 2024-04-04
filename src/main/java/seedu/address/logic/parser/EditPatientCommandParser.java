@@ -49,7 +49,7 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
 
         if (argMultimap.anyPrefixesPresent(PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
                 PREFIX_NAME, PREFIX_NOTE, PREFIX_NEW_START_TIME, PREFIX_NEW_END_TIME, PREFIX_NEW_DATE,
-                PREFIX_NEW_DATE, PREFIX_NEW_NOTE)) {
+                PREFIX_NEW_NOTE)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditPatientCommand.MESSAGE_USAGE));
         }
 

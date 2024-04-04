@@ -255,19 +255,19 @@ An appointment's DATE, START_TIME, END_TIME, APPOINTMENT_TYPE and NOTE can be ed
 
 The implementation will include the following key components:
 
-1. **Parsing User Input**: The application will parse user input to extract values for the target appointment (NRIC, DATE, START_TIME, END_TIME) and optional prefixes for new values such as newnote/, newd/.
+1. **Parsing User Input**: The application will parse user input to extract values for the target appointment (NRIC, DATE, START_TIME) and optional prefixes for new values such as newnote/, newd/.
 2. **Executing Edit Queries**: The application will search through the list of appointments stored in the database and identify the target appointment. It will then set the appointment with the new values inputted.
 3. **Presenting Updated Results**: The matched appointments will be presented to the user in a clear and organized manner, displaying relevant details such as the updated appointment time, date, and associated appointment information.
 
 #### Example Usage Scenario
 
-1. **Context**: User wants to edit the date of an appointment with a specific NRIC, date, start time and end time.
-2. **User Input**: The user enters the command `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21`.
+1. **Context**: User wants to edit the date of an appointment with a specific NRIC, date, start time.
+2. **User Input**: The user enters the command `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 newd/ 2024-02-21`.
 
 <puml src="diagrams/EditApptSequenceDiagram.puml" alt="EditApptSeqDiag" />
 
-3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`), start time (`11:00`) and end time (`11:30`) criteria for the target appointment. The new date is parsed as (`2024-02-21`).
-4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date, start time and end time criteria.
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`) and start time (`11:00`) criteria for the target appointment. The new date is parsed as (`2024-02-21`).
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date and start time criteria.
 5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case date (`2024-02-21`).
 6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
 
@@ -296,18 +296,18 @@ The Mark Appointment feature will involve parsing user input and marking the app
 
 The implementation will include the following key components:
 
-1. **Parsing User Input**: The application will parse user input to extract values to find the target appointment (NRIC, DATE, START_TIME, END_TIME).
+1. **Parsing User Input**: The application will parse user input to extract values to find the target appointment (NRIC, DATE, START_TIME).
 2. **Executing Mark Queries** The application will search through the list of appointments and identify the target appointment to be marked/unmarked. It will then set the mark boolean condition based on the mark/unmark command.
 3. **Appointment Status Updated Results** The appointment will be updated accordingly to show whether it has been marked/unmarked successfully based on color code.
 
 #### Example Usage Scenario
 1. Context: User wants to mark a specfic appointment as completed.
-2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00 to/11:30'
+2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00'
 
 <puml src="diagrams/MarkApptSequenceDiagram.puml" alt="MarkApptSeqDiag" />
 
-3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`), start time (`11:00`) and end time (`11:30`) criteria for the target appointment.
-4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date, start time and end time criteria.
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`) and start time (`11:00`) criteria for the target appointment.
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date and start time criteria.
 5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case mark (true).
 6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
 

@@ -26,7 +26,7 @@ public class JsonAdaptedAppointment {
     private final String endTime;
     private final String appointmentType;
     private final String note;
-    private final boolean isMarked;
+    private final String isMarked;
     /**
      * Constructs a {@code JsonAdaptedAppointment} with the given appointment details.
      */
@@ -35,7 +35,7 @@ public class JsonAdaptedAppointment {
                              @JsonProperty("date") String date,
                              @JsonProperty("startTime") String startTime, @JsonProperty("endTime") String endTime,
                              @JsonProperty("appointmentType") String appointmentType,
-                                  @JsonProperty("note") String note, @JsonProperty("mark") boolean isMarked) {
+                                  @JsonProperty("note") String note, @JsonProperty("mark") String isMarked) {
         this.nric = nric;
         this.date = date;
         this.startTime = startTime;
@@ -55,7 +55,7 @@ public class JsonAdaptedAppointment {
         endTime = source.getEndTime().toString();
         appointmentType = source.getAppointmentType().typeName;
         note = source.getNote().note;
-        isMarked = source.getMark().isMarked;
+        isMarked = source.getMark().toString();
     }
 
     /**
@@ -118,7 +118,16 @@ public class JsonAdaptedAppointment {
         }
         final Note modelNote = new Note(note);
 
-        final Mark modelMarked = new Mark(isMarked);
+        if (isMarked == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Mark.class.getSimpleName()));
+        }
+
+        String testMarkString = isMarked.trim().toLowerCase();
+        if (!Mark.isValidMark(testMarkString)) {
+            throw new IllegalValueException(Mark.MESSAGE_CONSTRAINTS);
+        }
+
+        final Mark modelMarked = new Mark(Boolean.parseBoolean(testMarkString));
 
         Appointment newAppt = new Appointment(modelNric, modelDate, modelTimePeriod,
             modelAppointmentType, modelNote, modelMarked);

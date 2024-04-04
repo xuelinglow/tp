@@ -24,6 +24,16 @@ public class Mark {
         return Boolean.toString(isMarked);
     }
 
+    /**
+     * Returns true if a given string is a valid appointment mark.
+     */
+    public static boolean isValidMark(String test) {
+        if (!test.equals("true") && !test.equals("false")) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

@@ -87,7 +87,7 @@ Restrictions:
 
 **Notes about the command format:**<br>
 
-* Commands are case-sensitive, including shorthand formats.
+* Commands are case-sensitive, including shorthand formats.<br>
   e.g Invalid commands like `AddPatient`, `addpatient`, `Addpatient`, `AP`, `aP` and `Ap` will not be recognised by CLInic. 
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>

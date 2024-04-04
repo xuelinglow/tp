@@ -25,7 +25,7 @@ CLInic is designed to keep track of your patient data and appointment schedules.
 
 Restrictions:
 * A patient's `NRIC` is restricted to Singapore's official NRIC format. 
-  * CLInic assumes that foreign patients may use Foreign Identification Number (FIN) or passport number as according to Singaporean NRIC format.
+  * CLInic assumes that foreign patients may instead use a Foreign Identification Number (FIN) that is according to the Singaporean NRIC format.
 
 **Appointment**
 * An appointment belongs to one patient. 
@@ -87,7 +87,7 @@ Restrictions:
 
 **Notes about the command format:**<br>
 
-* Commands are case-sensitive, including shorthand formats.
+* Commands are case-sensitive, including shorthand formats.<br>
   e.g Invalid commands like `AddPatient`, `addpatient`, `Addpatient`, `AP`, `aP` and `Ap` will not be recognised by CLInic. 
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>

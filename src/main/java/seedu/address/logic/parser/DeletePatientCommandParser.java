@@ -9,12 +9,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
-
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -35,6 +33,10 @@ public class DeletePatientCommandParser implements Parser<DeletePatientCommand> 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
+        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC) || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
+        }
+
         // Deals with prefixes that are not supposed to be present
         if (argMultimap.anyPrefixesPresent(PREFIX_START_TIME, PREFIX_END_TIME, PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_ADDRESS, PREFIX_TAG, PREFIX_DATE, PREFIX_NOTE, PREFIX_NAME)
@@ -42,7 +44,8 @@ public class DeletePatientCommandParser implements Parser<DeletePatientCommand> 
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
         }
 
-        Nric nric = ParserUtil.parseNric(args);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC);
+        Nric nric = ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get());
         return new DeletePatientCommand(nric);
     }
 }

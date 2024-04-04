@@ -34,13 +34,13 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
-        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME, PREFIX_END_TIME)
+        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE));
         }
 
         if (argMultimap.anyPrefixesPresent(PREFIX_NAME, PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_TAG, PREFIX_NOTE) || argMultimap.anyNewPrefixesPresent()) {
+                PREFIX_TAG, PREFIX_NOTE, PREFIX_END_TIME) || argMultimap.anyNewPrefixesPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE));
         }
 

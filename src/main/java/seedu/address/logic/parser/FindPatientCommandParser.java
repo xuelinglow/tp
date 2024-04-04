@@ -34,13 +34,19 @@ public class FindPatientCommandParser implements Parser<FindPatientCommand> {
     public FindPatientCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_NRIC);
+
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
+        }
 
         // Deals with prefixes that are not supposed to be present
         if (argMultimap.anyPrefixesPresent(PREFIX_START_TIME, PREFIX_END_TIME, PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_ADDRESS, PREFIX_TAG, PREFIX_DATE, PREFIX_NOTE) || argMultimap.anyNewPrefixesPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
         }
+
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC, PREFIX_NAME);
 
         boolean isFindPatientByNric = argMultimap.getValue(PREFIX_NRIC).isPresent();
         boolean isFindPatientByName = argMultimap.getValue(PREFIX_NAME).isPresent();

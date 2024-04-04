@@ -44,14 +44,14 @@ public class EditApptCommandParser implements Parser<EditApptCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args);
 
-        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME, PREFIX_END_TIME)
+        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditApptCommand.MESSAGE_USAGE));
         }
 
         if (argMultimap.anyPrefixesPresent(PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
-                PREFIX_NAME, PREFIX_NOTE, PREFIX_NEW_DOB, PREFIX_NEW_PHONE, PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS,
-                PREFIX_NEW_NAME)) {
+                PREFIX_NAME, PREFIX_END_TIME, PREFIX_NOTE, PREFIX_NEW_DOB, PREFIX_NEW_PHONE, PREFIX_NEW_EMAIL,
+                PREFIX_NEW_ADDRESS, PREFIX_NEW_NAME)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditApptCommand.MESSAGE_USAGE));
         }
 

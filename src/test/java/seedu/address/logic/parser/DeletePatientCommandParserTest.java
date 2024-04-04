@@ -37,9 +37,9 @@ public class DeletePatientCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
     }
     @Test
-    public void parse_invalidNric_throwsParseException() {
+    public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser, "a",
-                String.format(Nric.MESSAGE_CONSTRAINTS));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
     }
 
     @Test

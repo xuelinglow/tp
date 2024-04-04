@@ -16,7 +16,7 @@ import seedu.address.model.patient.Nric;
  */
 public class AppointmentBuilder {
     public static final String DEFAULT_NRIC = "T0123456I";
-    public static final String DEFAULT_DATE = "2001-01-01";
+    public static final String DEFAULT_DATE = "2024-04-04";
     public static final String DEFAULT_START_TIME = "23:58";
     public static final String DEFAULT_END_TIME = "23:59";
     public static final String DEFAULT_APPOINTMENT_TYPE = "Health Check-up";

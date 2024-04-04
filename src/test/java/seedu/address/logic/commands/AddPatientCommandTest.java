@@ -146,6 +146,11 @@ public class AddPatientCommandTest {
         }
 
         @Override
+        public boolean isValidApptForPatient(Appointment appointment) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public Patient getPatientWithNric(Nric nric) {
             throw new AssertionError("This method should not be called.");
         }

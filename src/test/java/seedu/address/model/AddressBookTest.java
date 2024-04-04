@@ -124,6 +124,22 @@ public class AddressBookTest {
     }
 
     @Test
+    public void isValidApptForPatient_dobAfterApptDate_returnsTrue() {
+        addressBook.addPatient(ALICE);
+        Appointment editedAliceAppt = new AppointmentBuilder(ALICE_APPT)
+                .withDate("2024-04-04").build();
+        assertTrue(addressBook.isValidApptForPatient(editedAliceAppt));
+    }
+
+    @Test
+    public void isValidApptForPatient_dobBeforeApptDate_returnsFalse() {
+        addressBook.addPatient(ALICE);
+        Appointment editedAliceAppt = new AppointmentBuilder(ALICE_APPT)
+                .withDate("1990-01-02").build();
+        assertFalse(addressBook.isValidApptForPatient(editedAliceAppt));
+    }
+
+    @Test
     public void toStringMethod() {
         String expected = AddressBook.class.getCanonicalName() + "{patients=" + addressBook.getPatientList() + "}";
         assertEquals(expected, addressBook.toString());

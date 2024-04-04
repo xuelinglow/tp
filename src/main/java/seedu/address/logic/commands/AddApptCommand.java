@@ -49,6 +49,8 @@ public class AddApptCommand extends Command {
             "New appointment overlaps with an existing appointment for the same patient.\n"
                     + "Please refer to the Overall-View for the list of appointments "
                     + "for that patient on the same date.";
+    public static final String MESSAGE_ADD_APPOINTMENT_BEFORE_DOB_FAILURE =
+            "The appointment date for this appointment is before the date of birth of the given patient.";
 
     private final Appointment apptToAdd;
 
@@ -72,6 +74,10 @@ public class AddApptCommand extends Command {
 
         if (model.hasAppointment(apptToAdd)) {
             throw new CommandException(MESSAGE_ADD_DUPLICATE_APPOINTMENT_FAILURE);
+        }
+
+        if (!model.isValidApptForPatient(apptToAdd)) {
+            throw new CommandException(MESSAGE_ADD_APPOINTMENT_BEFORE_DOB_FAILURE);
         }
 
         if (model.samePatientHasOverlappingAppointment(apptToAdd)) {

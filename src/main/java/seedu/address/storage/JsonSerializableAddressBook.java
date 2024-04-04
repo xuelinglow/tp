@@ -26,6 +26,8 @@ class JsonSerializableAddressBook {
             "Appointment list contains overlapping appointment(s) for the same patient on the same date";
     public static final String MESSAGE_NRIC_DOES_NOT_EXIST =
             "Appointment list contains appointment(s) with NRIC that does not belong to any patient";
+    public static final String MESSAGE_APPOINTMENT_BEFORE_PATIENT_DOB =
+            "Appointment list contains appointment(s) on date before the date of birth of the patient";
 
 
     private final List<JsonAdaptedPatient> patients = new ArrayList<>();
@@ -79,6 +81,9 @@ class JsonSerializableAddressBook {
             }
             if (!addressBook.hasPatientWithNric(appointment.getNric())) {
                 throw new IllegalValueException(MESSAGE_NRIC_DOES_NOT_EXIST);
+            }
+            if (!addressBook.isValidApptForPatient(appointment)) {
+                throw new IllegalValueException(MESSAGE_APPOINTMENT_BEFORE_PATIENT_DOB);
             }
             addressBook.addAppointment(appointment);
         }

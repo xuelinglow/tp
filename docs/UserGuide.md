@@ -44,7 +44,7 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 
    * `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CLInic.
 
-   * `deletePatient T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
+   * `deletePatient i/T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
 
    * `clear` : Deletes all patients and appointments.
 
@@ -59,6 +59,9 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 <box type="info" seamless>
 
 **Notes about the command format:**<br>
+
+* Commands are case-sensitive, including shorthand formats.
+  e.g Invalid commands like `AddPatient`, `addpatient`, `Addpatient`, `AP`, `aP` and `Ap` will not be recognised by CLInic. 
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `addPatient n/NAME`, `NAME` is a parameter which can be used as `addPatient n/John Doe`.
@@ -76,6 +79,10 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+  
+**Notes about the data:**<br>
+
+* Initiating CLInic without CLInic.json will result in the loading of dummy data into CLInic.
 </box>
 
 ### Viewing help : `help`
@@ -142,7 +149,7 @@ Examples:
 *  `editPatient i/S8765432Z newn/Betsy Crower newt/` Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
 *  `ep i/S8765432Z newn/Betsy Crower newt/`
 
-### Locating patients: `findPatient` OR `fp`
+### Finding patients: `findPatient` OR `fp`
 
 Finds patients whose name OR NRIC fit the given keywords.
 
@@ -152,6 +159,7 @@ Shorthand: `fp n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `fp i/NRIC_KEYWORD`
 * Only the name OR NRIC is searched at once. e.g. `n/Bob i/T0123456A` is illegal
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Partial words will be matched only if the start of the word is the same e.g. `Han` will match `Hans`
+* To accommodate for future extensions, special characters can be searched. However, no search results may be found as special characters are currently not supported in `NAME` and `NRIC`
 
 Name Search
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -162,6 +170,12 @@ NRIC Search
 * Only patients matching the given keyword will be returned.
   e.g. `n/T0` will return `T0123456A`, `T0234567B`
   e.g. `n/T01 T012` will NOT return `T0123456A` as the given keyword is `T01 T012`
+
+<box type="tip" seamless>
+
+**Tip:** If currently on Day View, this command will cause a `switchView` to automatically occur.
+
+</box>
 
 Examples:
 * `findPatient i/S9` returns patients with NRICs `S9876543A` and `S9765432A`
@@ -182,6 +196,12 @@ Shorthand: `aa i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE [not
 * Patient with this NRIC **must exist within database**.
 * Details of `APPOINTMENT_TYPE` and `NOTE` will be captured for reference
 * `note/` is an optional field
+
+<box type="tip" seamless>
+
+**Tip:** If new appointment overlaps with an existing appointment for the same patient, all overlapping appointments will be shown on Overall View. If currently on Day View, see [here](#switch-between-overall-view-and-day-view--switchview-or-sv).
+
+</box>
 
 Examples:
 * `addAppt i/T0123456A d/2024-02-20 from/11:00 to/11:30 t/Medical Check-up note/Routine check-in`
@@ -215,6 +235,12 @@ Shorthand: `ea i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_
 * Provide at least one optional field for editing.
 * Existing values will be updated to the input values.
 
+<box type="tip" seamless>
+
+**Tip:** If edited appointment overlaps with an existing appointment for the same patient, all overlapping appointments will be shown on Overall View. If currently on Day View, see [here](#switch-between-overall-view-and-day-view--switchview-or-sv).
+
+</box>
+
 Examples:
 *  `editAppt i/T0123456A d/2024-02-20 from/11:00 newd/2024-02-21` 
   * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, to be `2024-02-21` instead.
@@ -233,6 +259,12 @@ Shorthand: `fa [i/NRIC] [d/DATE] [from/START_TIME]`
 * If invalid parameters, error detailing what went wrong will be displayed.
 * For argument concerning TIME, all appointments that start at the given time and later than that are returned.
 * Fetching for TIME without DATE will return all appointments whose start from that time or later than that on any date.
+
+<box type="tip" seamless>
+
+**Tip:** If currently on Day View, this command will cause a `switchView` to automatically occur. 
+
+</box>
 
 Examples:
 * `findAppt d/2024-02-20 from/11:00`
@@ -350,3 +382,4 @@ Furthermore, certain edits can cause the CLInic to behave in unexpected ways (e.
 | **Clear**         | `clear`                                                                                                                                                                                                          |
 | **Exit**          | `exit`                                                                                                                                                                                                           |
 | **Help**          | `help`                                                                                                                                                                                                           |
+

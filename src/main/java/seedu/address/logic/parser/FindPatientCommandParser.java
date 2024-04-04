@@ -26,6 +26,12 @@ public class FindPatientCommandParser implements Parser<FindPatientCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_NRIC);
+
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
+        }
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC, PREFIX_NAME);
+
         boolean isFindPatientByNric = argMultimap.getValue(PREFIX_NRIC).isPresent();
         boolean isFindPatientByName = argMultimap.getValue(PREFIX_NAME).isPresent();
 
@@ -48,6 +54,10 @@ public class FindPatientCommandParser implements Parser<FindPatientCommand> {
             if (trimmedNricArgs.isEmpty()) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
+            }
+            if (trimmedNricArgs.split("\\s+").length != 1) {
+                throw new ParseException(
+                        FindPatientCommand.MESSAGE_NRIC_EXCEED_ONE_KEYWORD_FAILURE);
             }
             return new FindPatientCommand(new NricContainsMatchPredicate(trimmedNricArgs));
         }

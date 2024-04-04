@@ -33,6 +33,10 @@ public class FindPatientCommand extends Command {
 
     public static final String MESSAGE_MULTIPLE_FIELDS_FAILURE = "Find by either NRIC or name, not both!";
 
+    public static final String MESSAGE_NRIC_EXCEED_ONE_KEYWORD_FAILURE =
+            "You have provided more than one word of NRIC keywords to match. \n"
+            + "findPatient supports only one keyword at a time for NRIC search.";
+
     private final Predicate<Patient> predicate;
 
     public FindPatientCommand(Predicate<Patient> predicate) {

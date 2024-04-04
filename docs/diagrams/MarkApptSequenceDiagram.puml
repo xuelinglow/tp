@@ -49,7 +49,7 @@ deactivate AddressBookParser
 LogicManager -> MarkCommand : execute(m)
 activate MarkCommand
 
-MarkCommand -> Model : getMatchingAppointment(targetNric, targetDate, targetTimePeriod)
+MarkCommand -> Model : getMatchingAppointment(targetNric, targetDate, targetStartTime)
 Model --> MarkCommand
 MarkCommand -> Model : setAppointment(Appointment, markedAppointment)
 activate Model

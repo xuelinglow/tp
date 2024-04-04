@@ -49,7 +49,7 @@ deactivate AddressBookParser
 LogicManager -> EditApptCommand : execute(m)
 activate EditApptCommand
 
-EditApptCommand -> Model : getMatchingAppointment(targetNric, targetDate, targetTimePeriod)
+EditApptCommand -> Model : getMatchingAppointment(targetNric, targetDate, targetStartTime)
 Model --> EditApptCommand
 EditApptCommand -> Model : setAppointment(Appointment, editedAppointment)
 activate Model

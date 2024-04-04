@@ -197,7 +197,7 @@ Shorthand: `da i/NRIC d/DATE from/START_TIME`
 
 * Deletes an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME`.
 * Appointment with the stated details **must exist within database**.
-* `END_TIME` not needed as same patient can never have overlapping appointments, hence `START_TIME` is unique 
+* `END_TIME` not needed as same patient can never have overlapping appointments, hence `START_TIME` is unique
 
 Examples:
 * `deleteAppt i/S8743880A d/2024-02-20 from/11:00`
@@ -216,9 +216,9 @@ Shorthand: `ea i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_
 * Existing values will be updated to the input values.
 
 Examples:
-*  `editAppt i/T0123456A d/2024-02-20 from/11:00 newd/2024-02-21` 
+*  `editAppt i/T0123456A d/2024-02-20 from/11:00 newd/2024-02-21`
   * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, to be `2024-02-21` instead.
-*  `editAppt i/S8743880A d/2024-10-20 from/14:00 newnote/ ` 
+*  `editAppt i/S8743880A d/2024-10-20 from/14:00 newnote/ `
   * Clears note for appointment with NRIC:`S8743880A`, DATE: `2024-10-20`, START_TIME: `14:00`.
 *  `ea i/S8743880A d/2024-10-20 from/14:00 newnote/ `
 
@@ -345,7 +345,7 @@ Furthermore, certain edits can cause the CLInic to behave in unexpected ways (e.
 | **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                          |
 | **Mark**          | `mark i/NRIC d/DATE from/START_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                   |
 | **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                              |
-| **List**          | `list`                                                                                                                                                                                                                                         
+| **List**          |`list`                                                                                                                                                                                                                                         
 | **SwitchView**    | `switchView`
 | **Clear**         | `clear`                                                                                                                                                                                                                                        |
 | **Exit**          | `exit`                                                                                                                                                                                                                                               |

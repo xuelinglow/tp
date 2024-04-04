@@ -300,9 +300,9 @@ The implementation will include the following key components:
 2. **Executing Mark Queries** The application will search through the list of appointments and identify the target appointment to be marked/unmarked. It will then set the mark boolean condition based on the mark/unmark command.
 3. **Appointment Status Updated Results** The appointment will be updated accordingly to show whether it has been marked/unmarked successfully based on color code.
 
-#### Example Usage Scenario 
-1. Context: User wants to mark a specfic appointment as completed. 
-2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00 to/11:30' 
+#### Example Usage Scenario
+1. Context: User wants to mark a specfic appointment as completed.
+2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00 to/11:30'
 
 <puml src="diagrams/MarkApptSequenceDiagram.puml" alt="MarkApptSeqDiag" />
 

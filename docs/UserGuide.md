@@ -23,6 +23,10 @@ CLInic is designed to keep track of your patient data and appointment schedules.
 * A patient has: NRIC, Name, Date of Birth, Phone Number, Email, Address, Tags
 * A patient can be: added, deleted, edited, found
 
+Restrictions:
+* A patient's `NRIC` is restricted to Singapore's official NRIC format. 
+  * CLInic assumes that foreign patients may use Foreign Identification Number (FIN) or passport number as according to Singaporean NRIC format.
+
 **Appointment**
 * An appointment belongs to one patient. 
 * Each appointment is identified by a unique `NRIC`, `DATE` and `START_TIME`

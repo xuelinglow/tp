@@ -14,6 +14,33 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
+## Introducing CLInic
+
+CLInic is designed to keep track of your patient data and appointment schedules. To ensure a smooth and focused user experience, we have specified certain requirements for patient and appointment data.
+
+**Patient**
+* Each patient is identified by a unique `NRIC`
+* A patient has: NRIC, Name, Date of Birth, Phone Number, Email, Address, Tags
+* A patient can be: added, deleted, edited, found
+
+Restrictions:
+* A patient's `NRIC` is restricted to Singapore's official NRIC format. 
+  * CLInic assumes that foreign patients may use Foreign Identification Number (FIN) or passport number as according to Singaporean NRIC format.
+
+**Appointment**
+* An appointment belongs to one patient. 
+* Each appointment is identified by a unique `NRIC`, `DATE` and `START_TIME`
+* An appointment has: NRIC, Date, Start Time, End Time, Appointment Type, Note
+* An appointment can be: added, deleted, edited, found, marked, unmarked
+
+Restrictions:
+* An appointment **cannot** be added if it overlaps with an existing appointment for the same patient. Otherwise, it will be flagged as seen [here](#adding-an-appointment-addappt-or-aa).
+  * CLInic allows appointments of different patients to overlap as they may be seen concurrently by different doctors or have different tests.
+* An appointment **cannot** span across different days or be overnight.
+  * CLInic allows appointments to be made anytime within a single day **but not overnight** to simplify daily operations and avoid ambiguity.
+
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
@@ -44,7 +71,7 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 
    * `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CLInic.
 
-   * `deletePatient T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
+   * `deletePatient i/T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
 
    * `clear` : Deletes all patients and appointments.
 
@@ -59,6 +86,9 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 <box type="info" seamless>
 
 **Notes about the command format:**<br>
+
+* Commands are case-sensitive, including shorthand formats.
+  e.g Invalid commands like `AddPatient`, `addpatient`, `Addpatient`, `AP`, `aP` and `Ap` will not be recognised by CLInic. 
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `addPatient n/NAME`, `NAME` is a parameter which can be used as `addPatient n/John Doe`.
@@ -76,6 +106,10 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+  
+**Notes about the data:**<br>
+
+* Initiating CLInic without CLInic.json will result in the loading of dummy data into CLInic.
 </box>
 
 ### Viewing help : `help`
@@ -142,7 +176,7 @@ Examples:
 *  `editPatient i/S8765432Z newn/Betsy Crower newt/` Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
 *  `ep i/S8765432Z newn/Betsy Crower newt/`
 
-### Locating patients: `findPatient` OR `fp`
+### Finding patients: `findPatient` OR `fp`
 
 Finds patients whose name OR NRIC fit the given keywords.
 
@@ -152,6 +186,7 @@ Shorthand: `fp n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `fp i/NRIC_KEYWORD`
 * Only the name OR NRIC is searched at once. e.g. `n/Bob i/T0123456A` is illegal
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Partial words will be matched only if the start of the word is the same e.g. `Han` will match `Hans`
+* To accommodate for future extensions, special characters can be searched. However, no search results may be found as special characters are currently not supported in `NAME` and `NRIC`
 
 Name Search
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -162,6 +197,12 @@ NRIC Search
 * Only patients matching the given keyword will be returned.
   e.g. `n/T0` will return `T0123456A`, `T0234567B`
   e.g. `n/T01 T012` will NOT return `T0123456A` as the given keyword is `T01 T012`
+
+<box type="tip" seamless>
+
+**Tip:** If currently on Day View, this command will cause a `switchView` to automatically occur.
+
+</box>
 
 Examples:
 * `findPatient i/S9` returns patients with NRICs `S9876543A` and `S9765432A`
@@ -182,6 +223,12 @@ Shorthand: `aa i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE [not
 * Patient with this NRIC **must exist within database**.
 * Details of `APPOINTMENT_TYPE` and `NOTE` will be captured for reference
 * `note/` is an optional field
+
+<box type="tip" seamless>
+
+**Tip:** If new appointment overlaps with an existing appointment for the same patient, all overlapping appointments will be shown on Overall View. If currently on Day View, see [here](#switch-between-overall-view-and-day-view--switchview-or-sv).
+
+</box>
 
 Examples:
 * `addAppt i/T0123456A d/2024-02-20 from/11:00 to/11:30 t/Medical Check-up note/Routine check-in`
@@ -215,6 +262,12 @@ Shorthand: `ea i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_
 * Provide at least one optional field for editing.
 * Existing values will be updated to the input values.
 
+<box type="tip" seamless>
+
+**Tip:** If edited appointment overlaps with an existing appointment for the same patient, all overlapping appointments will be shown on Overall View. If currently on Day View, see [here](#switch-between-overall-view-and-day-view--switchview-or-sv).
+
+</box>
+
 Examples:
 *  `editAppt i/T0123456A d/2024-02-20 from/11:00 newd/2024-02-21`
   * Edits the date of the appointment with NRIC:`T0123456A`, DATE: `2024-02-20`, START_TIME: `11:00`, to be `2024-02-21` instead.
@@ -233,6 +286,12 @@ Shorthand: `fa [i/NRIC] [d/DATE] [from/START_TIME]`
 * If invalid parameters, error detailing what went wrong will be displayed.
 * For argument concerning TIME, all appointments that start at the given time and later than that are returned.
 * Fetching for TIME without DATE will return all appointments whose start from that time or later than that on any date.
+
+<box type="tip" seamless>
+
+**Tip:** If currently on Day View, this command will cause a `switchView` to automatically occur. 
+
+</box>
 
 Examples:
 * `findAppt d/ 2024-02-20 from/ 11:00`
@@ -316,6 +375,7 @@ Furthermore, certain edits can cause the CLInic to behave in unexpected ways (e.
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **When missing read/write permissions**, the application may not work. Ensure that read/write permissions are enabled for CLInic.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -332,21 +392,58 @@ Furthermore, certain edits can cause the CLInic to behave in unexpected ways (e.
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Prefix summary for patients
+| Prefix | Field                                                                             | Caveats                                                                                                                                                                                                                                                                                                                                                                       
+|-----------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **i/**          | Unique ID in Singapore's context - NRIC (e.g. `T0123456A`)                        | - Possible invalid NRICs not accounted for due to uncertainty in checksum of Singapore's system and FIN numbers. <br/> - Also allowing for NRICs beyond current date e.g. `T99...` to allow flexibility of app without having to constantly readjust fields <br/> - For foreign visitors, placeholder NRIC eg. `K0000001A`, since foreigners should not be staying long-term. |
+| **n/**          | Name of patient.                                                                  | - Will restrict to alphanumeric characters to avoid parsing errors, since data is stored as JSON. <br/> - Extra spacing is allowed within the name to allow for user convenience and flexibility.                                                                                                                                                                             |                                                                 |
+| **b/**          | Date of birth of patient.                                                         | - Only allows valid dates after 1 Jan 1990.                                                                                                                                                                                                                                                                                                                                   |
+| **p/**          | Emergency contact number.                                                         | - Only Singapore phone numbers allowed. <br/> - Duplicate phone numbers allowed in case of children with parent's contact number.                                                                                                                                                                                                                                             |
+| **e/**          | Email of patient.                                                                 |                                                                                                                                                                                                                                                                                                                                                                               |
+| **a/**          | Address of patient.                                                               |                                                                                                                                                                                                                                                                                                                                                                               |
+| **t/**          | Tag attached to patient for extra information. e.g. `Fall risk, Hokkien speaking` |                                                                                                                                                                                                                                                                                                                                                                               |
+| **newn/**       | New name of patient if change required.                                           |                                                                                                                                                                                                                                                                                                                                                                               |
+| **newp/**       | New phone number of patient if change required.                                   |                                                                                                                                                                                                                                                                                                                                                                               |
+| **newe/**       | New email of patient if change required.                                          |                                                                                                                                                                                                                                                                                                                                                                               |
+| **newa/**       | New address of patient if change required.                                        |                                                                                                                                                                                                                                                                                                               
+| **newt/**       | New tag of patient if change required.                                            |
+
+## Prefix summary for appointments
+| Prefix | Field                                                                                      | Caveats                                                                                                                                                                                                                                                           
+|----------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **i/**               | Unique ID in Singapore's context - NRIC <br/> (e.g. `T0123456A`) <br/> to identify patient | - Possible invalid NRICs not accounted for due to uncertainty in checksum of Singapore's system and FIN numbers. <br/> - Also allowing for NRICs beyond current date e.g. `T99...` to allow flexibility of app without having to constantly readjust fields <br/> - For foreign visitors, placeholder NRIC eg. `K0000001A`, since foreigners should not be staying long-term. |
+| **d/**               | Date of appointment in YYYY-MM-DD format e.g. `2024-02-20`                                 | - Valid dates after 1 Jan 1990                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                         |
+| **from/**            | Start time of appointment in HH:mm format e.g. `13:00`                                     | - Start time has to be earlier than end time                                                                                                                                                                                                                      |
+| **to/**              | End time of appointment in HH:mm format e.g. `14:30`                                       | - End time has to be later than start time <br/> - To timing is taken to be on same day as `from/`                                                                                                                                                                |
+| **t/**               | Appointment type e.g. `Medical check-up`                                                   |
+| **note/**            | Additional notes for appointment e.g. `X-ray`                                              |
+| **newd/**            | New date of appointment if change required.                                                |
+| **newfrom/**         | New start time of appointment if change required.                                          
+| **newto/**           | New end time of appointment if change required.                                            
+| **newt/**            | New type of appointment if change required.                                                |
+| **newnote/**         | New note of appointment if change required.                                                |
+
+### Additional Information
+- Our commands check for the validity of the input data and will prompt the user if the input is invalid.
+- Usage of prefixes (from this list above) in commands that do not require them will result in an error.
+- This includes unintentional use of known prefixes in other fields
+--------------------------------------------------------------------------------------------------------------------
+
 ## Command summary
-| Action            | Format, Examples                                                                                                                                                                                                                                     |
-|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **AddPatient**    | `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`                                              |
-| **DeletePatient** | `deletePatient i/NRIC`<br> e.g., `deletePatient i/T0123456A`                                                                                                                                                                                             |                                                                 |
-| **EditPatient**   | `editPatient i/NRIC [newn/NEW_NAME] [newp/NEW_PHONE_NUMBER] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`<br> e.g.,`editPatient i/T0123456A newn/James Lee newe/jameslee@example.com`                                                            |
-| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/ James Jake`                                                                                                                                           |
-| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 t/ Medical Check-up note/ Routine check-in`                                                     |
-| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME` <br> e.g., `deleteAppt i/ S8743880A d/ 2024-02-20 from/ 11:00`                                                                                                                          |
-| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br> e.g., `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 newd/ 2024-02-21` |
-| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                          |
-| **Mark**          | `mark i/NRIC d/DATE from/START_TIME` <br> e.g., `mark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                                   |
-| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME` <br> e.g., `unmark i/ T0123456A d/ 2024-02-20 from/ 11:00`                                                                                                                              |
-| **List**          |`list`                                                                                                                                                                                                                                         
-| **SwitchView**    | `switchView`
-| **Clear**         | `clear`                                                                                                                                                                                                                                        |
-| **Exit**          | `exit`                                                                                                                                                                                                                                               |
-| **Help**          | `help`                                                                                                                                                                                                                                               |
+| Action            | Format, Examples                                                                                                                                                                                                 |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **AddPatient**    | `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`          |
+| **DeletePatient** | `deletePatient i/NRIC`<br> e.g., `deletePatient i/T0123456A`                                                                                                                                                     |                                                                 |
+| **EditPatient**   | `editPatient i/NRIC [newn/NEW_NAME] [newp/NEW_PHONE_NUMBER] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`<br> e.g.,`editPatient i/T0123456A newn/James Lee newe/jameslee@example.com`                    |
+| **FindPatient**   | `findPatient n/ KEYWORD [MORE_KEYWORDS]` OR `findPatient i/ KEYWORD`<br> e.g., `findPatient n/James Jake`                                                                                                        |
+| **AddAppt**       | `addAppt i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE note/NOTE`<br> e.g., `addAppt i/T0123456A d/2024-02-20 from/11:00 to/11:30 t/Medical Check-up note/Routine check-in`                       |
+| **DeleteAppt**    | `deleteAppt i/NRIC d/DATE from/START_TIME` <br> e.g., `deleteAppt i/S8743880A d/2024-02-20 from/11:00`                                                                                                           |
+| **EditAppt**      | `editAppt i/NRIC d/DATE from/START_TIME [newd/NEW_DATE] [newfrom/NEW_START_TIME] [newto/NEW_END_TIME] [newt/NEW_APPOINTMENT_TYPE] [newnote/NEW_NOTE]` <br> e.g., `editAppt i/T0123456A d/2024-02-20 from/11:00 newd/2024-02-21` |
+| **FindAppt**      | `findAppt [i/NRIC] [d/DATE] [from/START_TIME]` <br> e.g., `findAppt i/T0123456A d/2024-02-20 from/11:00`                                                                                                         |
+| **Mark**          | `mark i/NRIC d/DATE from/START_TIME` <br> e.g., `mark i/T0123456A d/2024-02-20 from/11:00`                                                                                                                       |
+| **Unmark**        | `unmark i/NRIC d/DATE from/START_TIME` <br> e.g., `unmark i/T0123456A d/2024-02-20 from/11:00`                                                                                                                   |
+| **List**          | `list`                                                                                                                                                                                                           
+| **SwitchView**    | `switchView`                                                                                                                                                                                                     
+| **Clear**         | `clear`                                                                                                                                                                                                          |
+| **Exit**          | `exit`                                                                                                                                                                                                           |
+| **Help**          | `help`                                                                                                                                                                                                           |

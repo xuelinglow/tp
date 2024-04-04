@@ -12,7 +12,7 @@ public class Name {
     public static final int NAME_CHARACTER_LIMIT = 55;
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain english alphanumeric characters and spaces, should not be blank "
+            "Names should only contain english alphanumeric characters or spaces, should not be blank \n"
             + "and must contain less than " + NAME_CHARACTER_LIMIT + " characters";
 
     /*

@@ -19,7 +19,7 @@ public class DeletePatientCommand extends Command {
     public static final String COMMAND_WORD_ALT = "dp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the patient identified by the NRIC number.\n"
+            + ": Deletes the patient, identified by the given NRIC, from CLInic.\n"
             + "Parameters: "
             + PREFIX_NRIC + " NRIC (must be a existing NRIC in database)\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NRIC + " S1234567A";

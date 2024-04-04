@@ -24,7 +24,7 @@ public class MarkCommand extends Command {
     public static final String COMMAND_WORD = "mark";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Mark the appointment of the patient identified as completed\n"
+            + ": Marks the appointment, identified by the given NRIC, date, and start time, in CLInic.\n"
             + "Parameters: "
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "

@@ -40,6 +40,12 @@ public class Time implements Comparable<Time> {
      * Returns if a given string is a valid time.
      */
     public static boolean isValidTime(String test) {
+        requireNonNull(test);
+        try {
+            LocalTime.parse(test);
+        } catch (Exception e) {
+            return false;
+        }
         return test.matches(VALIDATION_REGEX);
     }
 

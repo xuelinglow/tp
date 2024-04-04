@@ -18,10 +18,10 @@ public class Email {
             + "2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels "
             + "separated by periods.\n"
             + "The domain name must:\n"
-            + "    - end with a domain label at least 2 characters\n"
-            + "    - have each domain label start and end with alphanumeric characters\n"
+            + "    - end with a domain label at least 2 characters long.\n"
+            + "    - have each domain label start and end with alphanumeric characters.\n"
             + "    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.\n"
-            + "3. The total email length has a maximum limit of 320 characters.";
+            + "3. The total email length has a maximum limit of " + EMAIL_CHARACTER_LIMIT + "characters.";
     // alphanumeric and special characters
     private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+"; // alphanumeric characters except underscore
     private static final String LOCAL_PART_REGEX = "^" + ALPHANUMERIC_NO_UNDERSCORE + "([" + SPECIAL_CHARACTERS + "]"

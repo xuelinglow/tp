@@ -63,8 +63,6 @@ public class EditApptCommandParser implements Parser<EditApptCommand> {
         Date targetDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         Time targetStartTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_START_TIME).get());
 
-
-
         EditApptCommand.EditApptDescriptor editApptDescriptor = new EditApptCommand.EditApptDescriptor();
 
         if (argMultimap.getValue(PREFIX_NEW_DATE).isPresent()) {

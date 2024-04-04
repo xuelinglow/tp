@@ -9,12 +9,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class AppointmentType {
 
-    public static final int APPT_TYPE_CHARACTER_LIMIT = 50;
+    public static final int APPT_TYPE_CHARACTER_LIMIT = 30;
 
     public static final String MESSAGE_CONSTRAINTS =
             "Appointment type should not be empty and should have less than "
             + APPT_TYPE_CHARACTER_LIMIT + " characters";
-    public static final String VALIDATION_REGEX = "^.{1,50}$";
+    public static final String VALIDATION_REGEX = "^.{1," + (APPT_TYPE_CHARACTER_LIMIT - 1) + "}$";
 
     public final String typeName;
 
@@ -60,7 +60,7 @@ public class AppointmentType {
      * Format state as text for viewing.
      */
     public String toString() {
-        return '[' + typeName + ']';
+        return typeName;
     }
 
 }

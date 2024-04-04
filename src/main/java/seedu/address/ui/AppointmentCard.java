@@ -62,9 +62,9 @@ public class AppointmentCard extends UiPart<Region> {
         this.appt = apptView.getAppointment();
         name.setText(apptView.getName().fullName);
         id.setText(displayedIndex + ". ");
-        nric.setText(appt.getNric().toString() + " - ");
-        date.setText(appt.getDate().value.toString());
-        timePeriod.setText(appt.getStartTime() + " - " + appt.getEndTime());
+        nric.setText("NRIC: " + appt.getNric().toString());
+        date.setText("Date: " + appt.getDate().value.toString());
+        timePeriod.setText("Time Period: " + appt.getStartTime() + " - " + appt.getEndTime());
         appointmentType.setText(appt.getAppointmentType().toString());
         note.setText("Notes: " + appt.getNote().toString());
         Timeline timeline = getTimeline();

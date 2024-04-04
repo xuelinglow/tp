@@ -53,11 +53,11 @@ public class PatientCard extends UiPart<Region> {
         this.patient = patient;
         id.setText(displayedIndex + ". ");
         name.setText(patient.getName().fullName);
-        nric.setText(patient.getNric().value);
-        dob.setText(patient.getDob().toString());
-        phone.setText(patient.getPhone().value);
-        address.setText(patient.getAddress().value);
-        email.setText(patient.getEmail().value);
+        nric.setText("NRIC: " + patient.getNric().value);
+        dob.setText("DOB: " + patient.getDob().toString());
+        phone.setText("Phone Number: " + patient.getPhone().value);
+        address.setText("Address: " + patient.getAddress().value);
+        email.setText("Email: " + patient.getEmail().value);
         patient.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

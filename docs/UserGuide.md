@@ -25,7 +25,7 @@ CLInic is designed to keep track of your patient data and appointment schedules.
 
 Restrictions:
 * A patient's `NRIC` is restricted to Singapore's official NRIC format. 
-  * CLInic assumes that foreign patients may use Foreign Identification Number (FIN) or passport number as according to Singaporean NRIC format.
+  * CLInic assumes that foreign patients may instead use a Foreign Identification Number (FIN) or passport number as according to the Singaporean NRIC format.
 
 **Appointment**
 * An appointment belongs to one patient. 

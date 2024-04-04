@@ -24,7 +24,7 @@ public class UnmarkCommand extends Command {
     public static final String COMMAND_WORD = "unmark";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Unmark the appointment of the patient identified as not completed\n"
+            + ": Unmarks the appointment, identified by the given NRIC, date, and start time, in CLInic.\n"
             + "Parameters: "
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "

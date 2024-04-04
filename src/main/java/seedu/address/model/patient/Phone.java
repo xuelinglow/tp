@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Phone {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Only Singaporean phone numbers starting with 6, 8 or 9 are accepted. "
+            "Only Singaporean phone numbers starting with 6, 8 or 9 are accepted. \n"
             + "Phone numbers should only contain numbers, and it should be 8 digits long.";
     public static final String VALIDATION_REGEX = "[689]\\d{7}";
     public final String value;

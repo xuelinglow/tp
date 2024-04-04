@@ -1,7 +1,8 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CliSyntax.getAllPrefixes;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +21,23 @@ public class ArgumentTokenizer {
      * respective argument values. Only the given prefixes will be recognized in the arguments string.
      *
      * @param argsString Arguments string of the form: {@code preamble <prefix>value <prefix>value ...}
-     * @param prefixes   Prefixes to tokenize the arguments string with
+     * @return           ArgumentMultimap object that maps prefixes to their arguments
+     */
+    public static ArgumentMultimap tokenize(String argsString) {
+        List<PrefixPosition> positions = findAllPrefixPositions(argsString, getAllPrefixes());
+        return extractArguments(argsString, positions);
+    }
+
+    /**
+     * Tokenizes an arguments string and returns an {@code ArgumentMultimap} object that maps prefixes to their
+     * respective argument values. Only the given prefixes will be recognized in the arguments string.
+     *
+     * @param argsString Arguments string of the form: {@code preamble <prefix>value <prefix>value ...}
+     * @param prefixes   Prefixes to tokenize
      * @return           ArgumentMultimap object that maps prefixes to their arguments
      */
     public static ArgumentMultimap tokenize(String argsString, Prefix... prefixes) {
-        List<PrefixPosition> positions = findAllPrefixPositions(argsString, prefixes);
+        List<PrefixPosition> positions = findAllPrefixPositions(argsString, List.of(prefixes));
         return extractArguments(argsString, positions);
     }
 
@@ -35,8 +48,8 @@ public class ArgumentTokenizer {
      * @param prefixes   Prefixes to find in the arguments string
      * @return           List of zero-based prefix positions in the given arguments string
      */
-    private static List<PrefixPosition> findAllPrefixPositions(String argsString, Prefix... prefixes) {
-        return Arrays.stream(prefixes)
+    private static List<PrefixPosition> findAllPrefixPositions(String argsString, List<Prefix> prefixes) {
+        return prefixes.stream()
                 .flatMap(prefix -> findPrefixPositions(argsString, prefix).stream())
                 .collect(Collectors.toList());
     }

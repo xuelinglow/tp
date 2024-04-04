@@ -122,11 +122,12 @@ public class JsonAdaptedAppointment {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Mark.class.getSimpleName()));
         }
 
-        if (!Mark.isValidMark(isMarked)) {
+        String testMarkString = isMarked.trim().toLowerCase();
+        if (!Mark.isValidMark(testMarkString)) {
             throw new IllegalValueException(Mark.MESSAGE_CONSTRAINTS);
         }
 
-        final Mark modelMarked = new Mark(Boolean.parseBoolean(isMarked));
+        final Mark modelMarked = new Mark(Boolean.parseBoolean(testMarkString));
 
         Appointment newAppt = new Appointment(modelNric, modelDate, modelTimePeriod,
             modelAppointmentType, modelNote, modelMarked);

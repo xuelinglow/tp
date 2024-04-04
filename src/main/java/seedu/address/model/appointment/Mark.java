@@ -28,8 +28,7 @@ public class Mark {
      * Returns true if a given string is a valid appointment mark.
      */
     public static boolean isValidMark(String test) {
-        String testString = test.trim().toLowerCase();
-        if (!testString.equals("true") && !testString.equals("false")) {
+        if (!test.equals("true") && !test.equals("false")) {
             return false;
         }
         return true;

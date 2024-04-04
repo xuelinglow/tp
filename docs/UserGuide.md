@@ -371,6 +371,7 @@ Furthermore, certain edits can cause the CLInic to behave in unexpected ways (e.
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **When missing read/write permissions**, the application may not work. Ensure that read/write permissions are enabled for CLInic.
 
 --------------------------------------------------------------------------------------------------------------------
 

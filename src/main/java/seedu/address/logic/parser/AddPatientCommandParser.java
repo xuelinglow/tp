@@ -14,7 +14,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPatientCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -39,17 +38,16 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
      */
     public AddPatientCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_NRIC, PREFIX_DATE, PREFIX_DOB, PREFIX_PHONE,
-                        PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_START_TIME, PREFIX_END_TIME, PREFIX_NOTE);
+                ArgumentTokenizer.tokenize(args);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_NRIC, PREFIX_DOB, PREFIX_ADDRESS,
+        if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_NRIC, PREFIX_DOB, PREFIX_ADDRESS,
                 PREFIX_PHONE, PREFIX_EMAIL) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPatientCommand.MESSAGE_USAGE));
         }
 
         // Deals with prefixes that are not supposed to be present
-        if (arePrefixesPresent(argMultimap, PREFIX_START_TIME) || (arePrefixesPresent(argMultimap, PREFIX_END_TIME))
-                || (arePrefixesPresent(argMultimap, PREFIX_DATE)) || (arePrefixesPresent(argMultimap, PREFIX_NOTE))) {
+        if (argMultimap.anyPrefixesPresent(PREFIX_START_TIME, PREFIX_END_TIME, PREFIX_DATE, PREFIX_NOTE)
+            || argMultimap.anyNewPrefixesPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPatientCommand.MESSAGE_USAGE));
         }
 
@@ -66,13 +64,4 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         Patient patient = new Patient(name, nric, dob, phone, email, address, tagList);
         return new AddPatientCommand(patient);
     }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-
 }

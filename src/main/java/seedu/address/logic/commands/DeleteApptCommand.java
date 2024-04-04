@@ -33,7 +33,7 @@ public class DeleteApptCommand extends Command {
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "
             + PREFIX_START_TIME + "START_TIME "
-            + PREFIX_END_TIME + "END_TIME "
+            + PREFIX_END_TIME + "END_TIME \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NRIC + "T0123456A "
             + PREFIX_DATE + "2024-02-20 "

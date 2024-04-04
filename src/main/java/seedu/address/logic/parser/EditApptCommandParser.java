@@ -2,16 +2,27 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
-
-import java.util.stream.Stream;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.core.date.Date;
 import seedu.address.logic.commands.EditApptCommand;
@@ -31,13 +42,16 @@ public class EditApptCommandParser implements Parser<EditApptCommand> {
      */
     public EditApptCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME,
-                PREFIX_NEW_DATE, PREFIX_NEW_START_TIME, PREFIX_NEW_END_TIME,
-                PREFIX_NEW_TAG, PREFIX_NEW_NOTE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME)
+        if (!argMultimap.arePrefixesPresent(PREFIX_NRIC, PREFIX_DATE, PREFIX_START_TIME)
                 || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditApptCommand.MESSAGE_USAGE));
+        }
+
+        if (argMultimap.anyPrefixesPresent(PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
+                PREFIX_NAME, PREFIX_END_TIME, PREFIX_NOTE, PREFIX_NEW_DOB, PREFIX_NEW_PHONE, PREFIX_NEW_EMAIL,
+                PREFIX_NEW_ADDRESS, PREFIX_NEW_NAME)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditApptCommand.MESSAGE_USAGE));
         }
 
@@ -76,14 +90,6 @@ public class EditApptCommandParser implements Parser<EditApptCommand> {
         }
 
         return new EditApptCommand(targetNric, targetDate, targetStartTime, editApptDescriptor);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }

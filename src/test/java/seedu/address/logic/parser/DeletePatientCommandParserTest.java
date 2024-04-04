@@ -36,7 +36,6 @@ public class DeletePatientCommandParserTest {
         assertParseFailure(parser, " some random string " + NRIC_DESC_AMY,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
     }
-
     @Test
     public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser, "a",

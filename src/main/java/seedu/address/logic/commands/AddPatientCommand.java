@@ -24,10 +24,10 @@ public class AddPatientCommand extends Command {
 
     public static final String COMMAND_WORD_ALT = "ap";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a patient to the CLInic. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a patient to the CLInic. \n"
             + "Parameters: "
-            + PREFIX_NAME + "NAME "
             + PREFIX_NRIC + "NRIC "
+            + PREFIX_NAME + "NAME "
             + PREFIX_DOB + "DOB "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "

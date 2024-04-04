@@ -1,14 +1,19 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import seedu.address.commons.core.date.Date;
 import seedu.address.logic.commands.FindApptCommand;
@@ -35,13 +40,13 @@ public class FindApptCommandParser implements Parser<FindApptCommand> {
         }
 
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_NRIC,
-                        PREFIX_DATE, PREFIX_START_TIME, PREFIX_END_TIME);
+                ArgumentTokenizer.tokenize(args);
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_NRIC,
-                PREFIX_DATE, PREFIX_START_TIME, PREFIX_END_TIME);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC,
+                PREFIX_DATE, PREFIX_START_TIME);
 
-        if (arePrefixesPresent(argMultimap, PREFIX_NAME) || arePrefixesPresent(argMultimap, PREFIX_END_TIME)
+        if (argMultimap.anyPrefixesPresent(PREFIX_NAME, PREFIX_END_TIME, PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_ADDRESS, PREFIX_TAG, PREFIX_NOTE) || argMultimap.anyNewPrefixesPresent()
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindApptCommand.MESSAGE_USAGE));
         }
@@ -67,9 +72,4 @@ public class FindApptCommandParser implements Parser<FindApptCommand> {
 
         return new FindApptCommand(predicate);
     }
-
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-
 }

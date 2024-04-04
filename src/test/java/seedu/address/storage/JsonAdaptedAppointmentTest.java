@@ -22,8 +22,6 @@ public class JsonAdaptedAppointmentTest {
     private static final String INVALID_TIME = "25:00";
     private static final String INVALID_TIME_PERIOD_START = "12:00";
     private static final String INVALID_TIME_PERIOD_END = "11:00";
-
-
     private static final String INVALID_TYPE = "";
 
     private static final String VALID_NRIC = ALICE_APPT.getNric().toString();

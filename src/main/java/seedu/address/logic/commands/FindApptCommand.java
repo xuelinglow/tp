@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 
@@ -22,10 +21,11 @@ public class FindApptCommand extends Command {
     public static final String COMMAND_WORD_ALT = "fa";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds the details of the appointment identified either by patient's NRIC, Date, or Start time.\n"
-            + "Parameters: "
+            + ": Finds the details of the appointment(s) with the given NRIC, on the given date, \n"
+            + "starting on or after the given start time or any combination of these three options.\n"
+            + "Parameters (at least one): "
             + "[" + PREFIX_NRIC + " NRIC] "
-            + "[" + PREFIX_NAME + "DATE] "
+            + "[" + PREFIX_DATE + "DATE] "
             + "[" + PREFIX_START_TIME + "START_TIME]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NRIC + " T0123456A "

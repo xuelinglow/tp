@@ -37,10 +37,10 @@ public class EditApptCommand extends Command {
     public static final String COMMAND_WORD_ALT = "ea";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edits the details of the appointment identified by its Nric, Date, and Start time.\n"
+            + ": Edits the details of the appointment, identified by the given NRIC, date, and start time, in CLInic.\n"
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: "
-            + PREFIX_NRIC + "NRIC (must be a valid NRIC in the system) "
+            + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "
             + PREFIX_START_TIME + "START_TIME "
             + "[" + PREFIX_NEW_DATE + "NEW_DATE] "
@@ -60,8 +60,9 @@ public class EditApptCommand extends Command {
     public static final String MESSAGE_EDIT_APPT_NO_FIELDS_FAILURE = "At least one field to edit must be provided.";
 
     public static final String MESSAGE_EDIT_OVERLAPPING_APPOINTMENT_FAILURE =
-            "New appointment information overlaps with an existing appointment for the same patient.\n"
-                    + "Please refer to appointments listed below for that patient on the same date.";
+            "Edited appointment information overlaps with an existing appointment for the same patient.\n"
+                    + "Please refer to the Overall-View for the list of appointments "
+                    + "for that patient on the same date.";
 
     private final Nric targetNric;
     private final Date targetDate;

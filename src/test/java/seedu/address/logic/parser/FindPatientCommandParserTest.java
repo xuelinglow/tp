@@ -1,6 +1,10 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_AMY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -8,6 +12,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FindPatientCommand;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
 import seedu.address.model.patient.NricContainsMatchPredicate;
@@ -49,6 +54,22 @@ public class FindPatientCommandParserTest {
 
         userInput = "  n/ Alex  i/ T012  ";
         assertParseFailure(parser, userInput, FindPatientCommand.MESSAGE_MULTIPLE_FIELDS_FAILURE);
+    }
+
+    @Test
+    public void parse_multipleRepeatedValues_failure() {
+        // multiple NRIC searches
+        assertParseFailure(parser, NRIC_DESC_AMY + NRIC_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NRIC));
+        // multiple Name searches
+        assertParseFailure(parser, NAME_DESC_AMY + NAME_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+    }
+
+    @Test
+    public void parse_multipleNricKeywords_failure() {
+        String userInput = " i/ T012   T0124";
+        assertParseFailure(parser, userInput, FindPatientCommand.MESSAGE_NRIC_EXCEED_ONE_KEYWORD_FAILURE);
     }
 
 }

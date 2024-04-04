@@ -24,11 +24,11 @@ public class DeleteApptCommand extends Command {
     public static final String COMMAND_WORD_ALT = "da";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the appointment identified by the NRIC, date, and start time given.\n"
+            + ": Deletes the appointment, identified by the given NRIC, date, and start time, from CLInic.\n"
             + "Parameters: "
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DATE + "DATE "
-            + PREFIX_START_TIME + "START_TIME "
+            + PREFIX_START_TIME + "START_TIME \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NRIC + "T0123456A "
             + PREFIX_DATE + "2024-02-20 "
@@ -66,7 +66,7 @@ public class DeleteApptCommand extends Command {
         }
 
         Appointment apptToDelete = model.getMatchingAppointment(targetNric, targetDate, targetStartTime);
-        model.cancelAppointment(apptToDelete);
+        model.deleteAppointment(apptToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS, Messages.format(apptToDelete)));
     }
 

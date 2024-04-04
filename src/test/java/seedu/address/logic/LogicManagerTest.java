@@ -10,6 +10,7 @@ import static seedu.address.logic.commands.CommandTestUtil.MISSING_NRIC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.AMY;
 
@@ -51,7 +52,7 @@ public class LogicManagerTest {
     @BeforeEach
     public void setUp() {
         JsonAddressBookStorage addressBookStorage =
-                new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
+                new JsonAddressBookStorage(temporaryFolder.resolve("CLInic.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
@@ -65,7 +66,8 @@ public class LogicManagerTest {
 
     @Test
     public void execute_commandExecutionError_throwsCommandException() {
-        String deleteCommand = DeletePatientCommand.COMMAND_WORD + " " + new Nric(MISSING_NRIC);
+        String deleteCommand = DeletePatientCommand.COMMAND_WORD + " " + PREFIX_NRIC
+                + new Nric(MISSING_NRIC);
         assertCommandException(deleteCommand, MESSAGE_PATIENT_NRIC_NOT_FOUND);
     }
 

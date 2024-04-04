@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
@@ -43,8 +44,28 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_addPatient() throws Exception {
         Patient patient = new PatientBuilder().build();
-        AddPatientCommand command = (AddPatientCommand) parser.parseCommand(PatientUtil.getAddCommand(patient));
+        AddPatientCommand command = (AddPatientCommand) parser
+                .parseCommand(PatientUtil.getAddPatientCommand(patient));
         assertEquals(new AddPatientCommand(patient), command);
+    }
+
+    @Test
+    public void parseCommand_deletePatient() throws Exception {
+        Patient patient = new PatientBuilder().build();
+        DeletePatientCommand command = (DeletePatientCommand) parser
+                .parseCommand(PatientUtil.getDeletePatientCommand(patient));
+
+        assertEquals(new DeletePatientCommand(patient.getNric()), command);
+    }
+
+    @Test
+    public void parseCommand_editPatient() throws Exception {
+        Patient patient = new PatientBuilder().build();
+        EditPatientCommand.EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder(patient).build();
+        EditPatientCommand command = (EditPatientCommand) parser.parseCommand(EditPatientCommand.COMMAND_WORD
+                + " " + PREFIX_NRIC + patient.getNric() + " "
+                + PatientUtil.getEditPatientDescriptorDetails(descriptor));
+        assertEquals(new EditPatientCommand(patient.getNric(), descriptor), command);
     }
 
     @Test
@@ -61,30 +82,12 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_deletePatient() throws Exception {
-        Patient patient = new PatientBuilder().build();
-        DeletePatientCommand command = (DeletePatientCommand) parser.parseCommand(
-                DeletePatientCommand.COMMAND_WORD + " " + patient.getNric());
-
-        assertEquals(new DeletePatientCommand(patient.getNric()), command);
-    }
-
-    @Test
     public void parseCommand_deleteAppt() throws Exception {
         Appointment appt = new AppointmentBuilder().build();
         DeleteApptCommand command = (DeleteApptCommand) parser.parseCommand(AppointmentUtil
                 .getDeleteApptCommand(appt));
 
         assertEquals(new DeleteApptCommand(appt.getNric(), appt.getDate(), appt.getStartTime()), command);
-    }
-
-    @Test
-    public void parseCommand_editPatient() throws Exception {
-        Patient patient = new PatientBuilder().build();
-        EditPatientCommand.EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder(patient).build();
-        EditPatientCommand command = (EditPatientCommand) parser.parseCommand(EditPatientCommand.COMMAND_WORD + " "
-                + patient.getNric() + " " + PatientUtil.getEditPatientDescriptorDetails(descriptor));
-        assertEquals(new EditPatientCommand(patient.getNric(), descriptor), command);
     }
 
     @Test

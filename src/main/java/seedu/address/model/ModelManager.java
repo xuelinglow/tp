@@ -119,17 +119,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasPatient(Patient patient) {
-        requireNonNull(patient);
-        return addressBook.hasPatient(patient);
-    }
-
-    @Override
-    public void deletePatient(Patient target) {
-        addressBook.removePatient(target);
-    }
-
-    @Override
     public void addPatient(Patient patient) {
         addressBook.addPatient(patient);
         updateFilteredPatientList(PREDICATE_SHOW_ALL_PATIENTS);
@@ -149,8 +138,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void cancelAppointment(Appointment appointment) {
-        addressBook.cancelAppointment(appointment);
+    public void deleteAppointment(Appointment appointment) {
+        addressBook.deleteAppointment(appointment);
     }
 
     @Override

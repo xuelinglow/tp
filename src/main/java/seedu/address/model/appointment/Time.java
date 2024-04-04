@@ -14,7 +14,7 @@ public class Time implements Comparable<Time> {
 
     private static final String TIME_FORMAT = "HH:mm";
     public static final String MESSAGE_CONSTRAINTS = "Time should be of the format " + TIME_FORMAT
-            + "and adhere to the following constraints:\n"
+            + " and adhere to the following constraints:\n"
             + "1. The HH part should only contain integers between 0 to 23 (24-hour clock) \n"
             + "2. The mm part should only contain integers between 0 to 59\n";
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_FORMAT);
@@ -40,6 +40,12 @@ public class Time implements Comparable<Time> {
      * Returns if a given string is a valid time.
      */
     public static boolean isValidTime(String test) {
+        requireNonNull(test);
+        try {
+            LocalTime.parse(test);
+        } catch (Exception e) {
+            return false;
+        }
         return test.matches(VALIDATION_REGEX);
     }
 

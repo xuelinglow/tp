@@ -2,17 +2,30 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_DOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_START_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEW_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -32,21 +45,22 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
     public EditPatientCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NEW_NAME, PREFIX_NEW_DOB, PREFIX_NEW_PHONE,
-                        PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS, PREFIX_NEW_TAG);
+                ArgumentTokenizer.tokenize(args);
 
-        Nric targetNric;
-
-        try {
-            targetNric = ParserUtil.parseNric(argMultimap.getPreamble());
-        } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPatientCommand.MESSAGE_USAGE), pe);
+        if (argMultimap.anyPrefixesPresent(PREFIX_DOB, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
+                PREFIX_NAME, PREFIX_NOTE, PREFIX_NEW_START_TIME, PREFIX_NEW_END_TIME, PREFIX_NEW_DATE,
+                PREFIX_NEW_NOTE)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditPatientCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NEW_NAME, PREFIX_NEW_DOB, PREFIX_NEW_PHONE,
-                PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS);
+        if (!arePrefixesPresent(argMultimap, PREFIX_NRIC) || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditPatientCommand.MESSAGE_USAGE));
+        }
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC, PREFIX_NEW_NAME, PREFIX_NEW_DOB,
+                PREFIX_NEW_PHONE, PREFIX_NEW_EMAIL, PREFIX_NEW_ADDRESS);
+
+        Nric targetNric = ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get());
         EditPatientCommand.EditPatientDescriptor editPatientDescriptor = new EditPatientCommand.EditPatientDescriptor();
 
         if (argMultimap.getValue(PREFIX_NEW_NAME).isPresent()) {
@@ -89,4 +103,11 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
 }

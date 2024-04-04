@@ -24,18 +24,18 @@ public class AddPatientCommand extends Command {
 
     public static final String COMMAND_WORD_ALT = "ap";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a patient to the CLInic. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a patient to the CLInic. \n"
             + "Parameters: "
-            + PREFIX_NAME + "NAME "
             + PREFIX_NRIC + "NRIC "
+            + PREFIX_NAME + "NAME "
             + PREFIX_DOB + "DOB "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "MEDICAL ALLERGIES]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
             + PREFIX_NRIC + "T0123456A "
+            + PREFIX_NAME + "John Doe "
             + PREFIX_DOB + "2001-01-30 "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
@@ -62,7 +62,7 @@ public class AddPatientCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPatient(patientToAdd)) {
+        if (model.hasPatientWithNric(patientToAdd.getNric())) {
             throw new CommandException(MESSAGE_ADD_DUPLICATE_PATIENT_FAILURE);
         }
 

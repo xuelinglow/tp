@@ -8,12 +8,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; tag is valid as declared in {@link #isValidTagName(String)}
  */
 public class Tag {
-    public static final int TAG_CHARACTER_LIMIT = 50;
+    public static final int TAG_CHARACTER_LIMIT = 30;
 
     public static final String MESSAGE_CONSTRAINTS =
             "Tags names should be alphanumeric, non-empty and contain less than "
             + TAG_CHARACTER_LIMIT + " characters with no spaces in between";
-    public static final String VALIDATION_REGEX = "\\p{Alnum}{1,50}";
+    public static final String VALIDATION_REGEX = "\\p{Alnum}{1,30}";
 
     public final String tagName;
 

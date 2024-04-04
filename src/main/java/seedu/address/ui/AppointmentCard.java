@@ -62,7 +62,7 @@ public class AppointmentCard extends UiPart<Region> {
         this.appt = apptView.getAppointment();
         name.setText(apptView.getName().fullName);
         id.setText(displayedIndex + ". ");
-        nric.setText(appt.getNric().toString() + " - ");
+        nric.setText(appt.getNric().toString());
         date.setText(appt.getDate().value.toString());
         timePeriod.setText(appt.getStartTime() + " - " + appt.getEndTime());
         appointmentType.setText(appt.getAppointmentType().toString());

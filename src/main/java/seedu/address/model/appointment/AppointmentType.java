@@ -9,8 +9,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class AppointmentType {
 
-    public static final String MESSAGE_CONSTRAINTS = "Appointment type should not be empty";
-    public static final String VALIDATION_REGEX = "^.+$";
+    public static final int APPT_TYPE_CHARACTER_LIMIT = 50;
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "Appointment type should not be empty and should have less than "
+            + APPT_TYPE_CHARACTER_LIMIT + " characters";
+    public static final String VALIDATION_REGEX = "^.{1,50}$";
 
     public final String typeName;
 

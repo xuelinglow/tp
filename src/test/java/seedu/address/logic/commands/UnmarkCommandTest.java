@@ -29,7 +29,7 @@ public class UnmarkCommandTest {
         UnmarkCommand unmarkCommand = new UnmarkCommand(
                 ALICE_APPT_TRUE.getNric(),
                 ALICE_APPT_TRUE.getDate(),
-                ALICE_APPT_TRUE.getTimePeriod()
+                ALICE_APPT_TRUE.getStartTime()
         );
 
         // Expected message after successful unmark
@@ -45,12 +45,12 @@ public class UnmarkCommandTest {
         UnmarkCommand unmarkFirstAppointment = new UnmarkCommand(
                 ALICE_APPT_TRUE.getNric(),
                 ALICE_APPT_TRUE.getDate(),
-                ALICE_APPT_TRUE.getTimePeriod()
+                ALICE_APPT_TRUE.getStartTime()
         );
         UnmarkCommand unmarkSecondAppointment = new UnmarkCommand(
                 ALICE_APPT_1_TRUE.getNric(),
                 ALICE_APPT_1_TRUE.getDate(),
-                ALICE_APPT_1_TRUE.getTimePeriod()
+                ALICE_APPT_1_TRUE.getStartTime()
         );
 
         // same object -> returns true
@@ -60,7 +60,7 @@ public class UnmarkCommandTest {
         UnmarkCommand unmarkFirstAppointmentCopy = new UnmarkCommand(
                 ALICE_APPT_TRUE.getNric(),
                 ALICE_APPT_TRUE.getDate(),
-                ALICE_APPT_TRUE.getTimePeriod()
+                ALICE_APPT_TRUE.getStartTime()
         );
         assertTrue(unmarkFirstAppointment.equals(unmarkFirstAppointmentCopy));
 
@@ -80,13 +80,13 @@ public class UnmarkCommandTest {
         UnmarkCommand unmarkCommand = new UnmarkCommand(
                 ALICE_APPT_TRUE.getNric(),
                 ALICE_APPT_TRUE.getDate(),
-                ALICE_APPT_TRUE.getTimePeriod()
+                ALICE_APPT_TRUE.getStartTime()
         );
 
         String expected = UnmarkCommand.class.getCanonicalName()
                 + "{nric=" + ALICE_APPT_TRUE.getNric() + ", "
                 + "date=" + ALICE_APPT_TRUE.getDate() + ", "
-                + "timePeriod=" + ALICE_APPT_TRUE.getTimePeriod() + "}";
+                + "startTime=" + ALICE_APPT_TRUE.getStartTime() + "}";
         assertEquals(expected, unmarkCommand.toString());
     }
 

@@ -52,13 +52,13 @@ public class AppointmentUtil {
 
     /**
      * Returns the part of command string that uniquely identifies the given {@code appointment}.
+     * It has since been modified to be only Nric, Date and StartTime.
      */
     public static String getAppointmentUniqueDetails(Appointment appointment) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NRIC + appointment.getNric().value + " ");
         sb.append(PREFIX_DATE + appointment.getDate().toString() + " ");
         sb.append(PREFIX_START_TIME + appointment.getStartTime().toString() + " ");
-        sb.append(PREFIX_END_TIME + appointment.getEndTime().toString() + " ");
         return sb.toString();
     }
 
@@ -68,10 +68,9 @@ public class AppointmentUtil {
     public static String getEditApptDescriptorDetails(EditApptCommand.EditApptDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getDate().ifPresent(date -> sb.append(PREFIX_NEW_DATE).append(date.value).append(" "));
-        descriptor.getTimePeriod().ifPresent(timePeriod -> {
-            sb.append(PREFIX_NEW_START_TIME).append(timePeriod.getStartTime().value).append(" ");
-            sb.append(PREFIX_NEW_END_TIME).append(timePeriod.getEndTime().value).append(" ");
-        });
+        descriptor.getStartTime().ifPresent(startTime -> sb.append(PREFIX_NEW_START_TIME)
+                .append(startTime.value).append(" "));
+        descriptor.getEndTime().ifPresent(endTime -> sb.append(PREFIX_NEW_END_TIME).append(endTime.value).append(" "));
         descriptor.getAppointmentType().ifPresent(appointmentType -> sb.append(PREFIX_NEW_TAG)
                 .append(appointmentType.typeName).append(" "));
         descriptor.getNote().ifPresent(note -> sb.append(PREFIX_NEW_NOTE).append(note).append(" "));

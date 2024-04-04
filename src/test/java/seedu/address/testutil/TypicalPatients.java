@@ -43,21 +43,21 @@ public class TypicalPatients {
     public static final Patient DANIEL = new PatientBuilder().withName("Daniel Meier").withPhone("87652533")
             .withNric("T0123456D").withDateOfBirth("2001-01-04")
             .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends").build();
-    public static final Patient ELLE = new PatientBuilder().withName("Elle Meyer").withPhone("9482224")
+    public static final Patient ELLE = new PatientBuilder().withName("Elle Meyer").withPhone("94822924")
             .withNric("T0123456E").withDateOfBirth("2001-01-05")
             .withEmail("werner@example.com").withAddress("michegan ave").build();
-    public static final Patient FIONA = new PatientBuilder().withName("Fiona Kunz").withPhone("9482427")
+    public static final Patient FIONA = new PatientBuilder().withName("Fiona Kunz").withPhone("94824027")
             .withNric("T0123456F").withDateOfBirth("2001-01-06")
             .withEmail("lydia@example.com").withAddress("little tokyo").build();
-    public static final Patient GEORGE = new PatientBuilder().withName("George Best").withPhone("9482442")
+    public static final Patient GEORGE = new PatientBuilder().withName("George Best").withPhone("94982442")
             .withNric("T0123456G").withDateOfBirth("2001-01-07")
             .withEmail("anna@example.com").withAddress("4th street").build();
 
     // Manually added
-    public static final Patient HOON = new PatientBuilder().withName("Hoon Meier").withPhone("8482424")
+    public static final Patient HOON = new PatientBuilder().withName("Hoon Meier").withPhone("84892424")
             .withNric("T0123456H").withDateOfBirth("2001-01-08")
             .withEmail("stefan@example.com").withAddress("little india").build();
-    public static final Patient IDA = new PatientBuilder().withName("Ida Mueller").withPhone("8482131")
+    public static final Patient IDA = new PatientBuilder().withName("Ida Mueller").withPhone("84829131")
             .withNric("T0123456I").withDateOfBirth("2001-01-09")
             .withEmail("hans@example.com").withAddress("chicago ave").build();
 

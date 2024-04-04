@@ -3,10 +3,12 @@ package seedu.address.testutil;
 import seedu.address.commons.core.date.Date;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentType;
+import seedu.address.model.appointment.AppointmentView;
 import seedu.address.model.appointment.Mark;
 import seedu.address.model.appointment.Note;
 import seedu.address.model.appointment.Time;
 import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.patient.Name;
 import seedu.address.model.patient.Nric;
 
 /**
@@ -20,6 +22,8 @@ public class AppointmentBuilder {
     public static final String DEFAULT_APPOINTMENT_TYPE = "Health Check-up";
     public static final String DEFAULT_NOTE = "Only speaks mandarin";
     public static final boolean DEFAULT_MARK = false;
+    public static final String DEFAULT_NAME = "Amy Bee";
+
 
     private Nric nric;
     private Date date;
@@ -121,5 +125,12 @@ public class AppointmentBuilder {
     public Appointment build() {
         Appointment appt = new Appointment(nric, date, timePeriod, appointmentType, note, mark);
         return appt;
+    }
+
+    /**
+     * Builds AppointmentView object using the provided data.
+     */
+    public AppointmentView buildViewWithName(String name) {
+        return new AppointmentView(new Name(name), build());
     }
 }

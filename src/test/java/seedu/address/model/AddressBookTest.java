@@ -64,31 +64,31 @@ public class AddressBookTest {
     }
 
     @Test
-    public void hasPatient_nullPatient_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> addressBook.hasPatient(null));
+    public void hasPatientWithNric_nullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasPatientWithNric(null));
     }
 
     @Test
-    public void hasPatient_patientNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasPatient(ALICE));
+    public void hasPatientWithNric_patientNotInAddressBook_returnsFalse() {
+        assertFalse(addressBook.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test
-    public void hasPatient_patientInAddressBook_returnsTrue() {
+    public void hasPatientWithNric_patientInAddressBook_returnsTrue() {
         addressBook.addPatient(ALICE);
-        assertTrue(addressBook.hasPatient(ALICE));
+        assertTrue(addressBook.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test
-    public void hasPatient_patientWithSameIdentityFieldsInAddressBook_returnsTrue() {
+    public void hasPatientWithNric_patientWithSameIdentityFieldsInAddressBook_returnsTrue() {
         addressBook.addPatient(ALICE);
         Patient editedAlice = new PatientBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
-        assertTrue(addressBook.hasPatient(editedAlice));
+        assertTrue(addressBook.hasPatientWithNric(editedAlice.getNric()));
     }
 
     @Test
-    public void hasPatient_patientWithNricInAddressBook_returnsTrue() {
+    public void hasPatientWithNric_patientWithNricInAddressBook_returnsTrue() {
         addressBook.addPatient(ALICE);
         Nric aliceNric = ALICE.getNric();
         assertTrue(addressBook.hasPatientWithNric(aliceNric));

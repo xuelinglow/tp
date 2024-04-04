@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalAppointments.ALICE_APPT;
+import static seedu.address.testutil.TypicalAppointments.BOB_APPT;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BENSON;
+import static seedu.address.testutil.TypicalPatients.BOB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,8 +18,14 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.patient.NameContainsKeywordsPredicate;
+import seedu.address.model.patient.Nric;
+import seedu.address.model.patient.Patient;
+import seedu.address.model.patient.exceptions.PatientNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.AppointmentBuilder;
+import seedu.address.testutil.PatientBuilder;
 
 public class ModelManagerTest {
 
@@ -73,19 +82,85 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPatient_nullPatient_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasPatient(null));
+    public void hasPatientWithNric_nullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasPatientWithNric(null));
     }
 
     @Test
-    public void hasPatient_patientNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasPatient(ALICE));
+    public void hasPatientWithNric_patientNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void setAddressBook_validAddressBook_successfullySetsAddressBook() {
+        AddressBook newAddressBook = new AddressBook();
+        modelManager.setAddressBook(newAddressBook);
+        assertEquals(newAddressBook, modelManager.getAddressBook());
+    }
+
+    @Test
+    public void setAddressBook_nullAddressBook_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setAddressBook(null));
+    }
+
+    @Test
+    public void hasPatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasPatientWithNric(null));
+    }
+
+    @Test
+    public void hasPatientWithNric_existingNric_returnsTrue() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void hasPatientWithNric_nonExistingNric_returnsFalse() {
+        modelManager.addPatient(ALICE);
+        assertFalse(modelManager.hasPatientWithNric(new Nric("S1234567A")));
+    }
+
+    @Test
+    public void getPatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.getPatientWithNric(null));
+    }
+
+    @Test
+    public void getPatientWithNric_existingNric_returnsPatient() {
+        modelManager.addPatient(ALICE);
+        assertEquals(ALICE, modelManager.getPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void getPatientWithNric_nonExistingNric_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.getPatientWithNric(new Nric("S1234567A")));
+    }
+
+    @Test
+    public void deletePatientWithNric_nullNric_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.deletePatientWithNric(null));
+    }
+
+    @Test
+    public void deletePatientWithNric_existingNric_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
+        modelManager.deletePatientWithNric(ALICE.getNric());
+        assertFalse(modelManager.hasPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void deletePatientWithNric_nonExistingNric_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.deletePatientWithNric(new Nric("S1234567A")));
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test
     public void hasPatient_patientInAddressBook_returnsTrue() {
         modelManager.addPatient(ALICE);
-        assertTrue(modelManager.hasPatient(ALICE));
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
     }
 
     @Test
@@ -100,9 +175,213 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void deletePatient_nullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.deletePatientWithNric(null));
+    }
+
+    @Test
+    public void deletePatient_existingPatient_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
+        modelManager.deletePatientWithNric(ALICE.getNric());
+        assertFalse(modelManager.hasPatientWithNric(ALICE.getNric()));
+    }
+
+    @Test
+    public void deletePatient_nonExistingPatient_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager
+                .deletePatientWithNric(BOB.getNric()));
+    }
+
+    @Test
+    public void setPatient_bothNullPatient_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(null, null));
+    }
+
+    @Test
+    public void setPatient_targetPatientNull_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(null, ALICE));
+    }
+
+    @Test
+    public void setPatient_editedPatientNull_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setPatient(ALICE, null));
+    }
+
+    @Test
+    public void setPatient_existingTargetPatient_success() {
+        modelManager.addPatient(ALICE);
+        assertTrue(modelManager.hasPatientWithNric(ALICE.getNric()));
+        modelManager.setPatient(ALICE, BOB);
+        assertFalse(modelManager.hasPatientWithNric(ALICE.getNric()));
+        assertTrue(modelManager.hasPatientWithNric(BOB.getNric()));
+    }
+
+    @Test
+    public void setPatient_nonExistingTargetPatient_throwsPatientNotFoundException() {
+        modelManager.addPatient(ALICE);
+        assertThrows(PatientNotFoundException.class, () -> modelManager.setPatient(BOB, ALICE));
+    }
+
+    @Test
     public void getFilteredAppointmentDayViewList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
             modelManager.getFilteredAppointmentDayViewList().remove(0));
+    }
+
+    @Test
+    public void hasAppointment_validAppointment_returnsTrue() {
+        modelManager.addPatient(ALICE);
+        Appointment validAppointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(validAppointment);
+        assertTrue(modelManager.hasAppointment(validAppointment));
+    }
+
+    @Test
+    public void hasAppointment_appointmentNotFound_returnsFalse() {
+        modelManager.addPatient(ALICE);
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        assertFalse(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void cancelAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+        assertTrue(modelManager.hasAppointment(appointment));
+        modelManager.deleteAppointment(appointment);
+        assertFalse(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void addAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+        assertTrue(modelManager.hasAppointment(appointment));
+    }
+
+    @Test
+    public void setAppointment_validAppointment_success() {
+        modelManager.addPatient(ALICE);
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+
+        // Edit the appointment details
+        Appointment editedAppointment = new AppointmentBuilder(BOB_APPT).build();
+        modelManager.setAppointment(appointment, editedAppointment);
+
+        assertFalse(modelManager.hasAppointment(appointment)); // original appointment should not exist
+        assertTrue(modelManager.hasAppointment(editedAppointment)); // edited appointment should exist
+    }
+
+    @Test
+    public void getMatchingAppointment_validInputs_returnsMatchingAppointment() {
+        modelManager.addPatient(ALICE);
+        Appointment appointment = new AppointmentBuilder(ALICE_APPT).build();
+        modelManager.addAppointment(appointment);
+
+        Appointment matchingAppointment = modelManager.getMatchingAppointment(
+                ALICE_APPT.getNric(),
+                ALICE_APPT.getDate(),
+                ALICE_APPT.getStartTime()
+        );
+
+        assertEquals(appointment, matchingAppointment);
+    }
+
+    @Test
+    public void deleteAppointmentsWithNric_validNric_success() {
+        modelManager.addPatient(ALICE);
+        modelManager.addPatient(BOB);
+        // Add appointments with the specified NRIC
+        Appointment appointment1 = new AppointmentBuilder(ALICE_APPT).build();
+        Appointment appointment2 = new AppointmentBuilder(BOB_APPT).build();
+        modelManager.addAppointment(appointment1);
+        modelManager.addAppointment(appointment2);
+
+        // Delete appointments with the specified NRIC
+        modelManager.deleteAppointmentsWithNric(ALICE_APPT.getNric());
+
+        assertFalse(modelManager.hasAppointment(appointment1)); // appointment1 should be deleted
+        assertTrue(modelManager.hasAppointment(appointment2)); // appointment2 should still exist
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_noOverlap_returnsFalse() {
+        Patient patient = new PatientBuilder().withNric("T0123456A").build();
+        modelManager.addPatient(patient);
+        // Add appointments that don't overlap
+        Appointment appointment1 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:00").withEndTime("17:00").build();
+
+        Appointment appointment2 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("17:00").withEndTime("18:00").build();
+        modelManager.addAppointment(appointment1);
+        assertFalse(modelManager.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void samePatientHasOverlappingAppointment_withOverlap_returnsTrue() {
+        Patient patient = new PatientBuilder().withNric("T0123456A").build();
+        modelManager.addPatient(patient);
+        // Add appointments that don't overlap
+        Appointment appointment1 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:00").withEndTime("17:00").build();
+
+        Appointment appointment2 = new AppointmentBuilder()
+                .withNric("T0123456A").withDate("2024-03-01")
+                .withStartTime("16:30").withEndTime("18:00").build();
+        modelManager.addAppointment(appointment1);
+        assertTrue(modelManager.samePatientHasOverlappingAppointment(appointment2));
+    }
+
+    @Test
+    public void hasOverlappingAppointmentExcluding_validAppointments_noOverlap() {
+        // Prepare test data
+        Appointment targetAppt = new AppointmentBuilder().build();
+        Appointment editedAppointment = new AppointmentBuilder().build();
+
+        // Invoke method
+        boolean result = modelManager.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+
+        // Verify result
+        assertFalse(result);
+    }
+
+    @Test
+    public void hasOverlappingAppointmentExcluding_validAppointments_withOverlap() {
+        // Prepare test data
+        Patient patient = new PatientBuilder().build();
+        modelManager.addPatient(patient);
+        Appointment otherAppt = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("10:00")
+                .withEndTime("11:00")
+                .build();
+        Appointment targetAppt = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("20:00")
+                .withEndTime("21:00")
+                .build();
+        Appointment editedAppointment = new AppointmentBuilder()
+                .withDate("2020-02-22")
+                .withStartTime("09:00")
+                .withEndTime("12:00")
+                .build();
+        modelManager.addAppointment(targetAppt);
+        modelManager.addAppointment(otherAppt);
+
+        // Invoke method
+        boolean result = modelManager.hasOverlappingAppointmentExcluding(targetAppt, editedAppointment);
+
+        // Verify result
+        assertTrue(result);
     }
 
     @Test

@@ -26,12 +26,16 @@ public class FindPatientCommand extends Command {
             + ": Finds all patients whose names OR nric start with "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + PREFIX_NAME + "NAME(S) OR  "
-            + PREFIX_NRIC + "NRIC \n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alex"
+            + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS] OR "
+            + PREFIX_NRIC + "NRIC_KEYWORD \n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alex Ben"
             + " OR " + COMMAND_WORD + " " + PREFIX_NRIC + "T0123456A";
 
     public static final String MESSAGE_MULTIPLE_FIELDS_FAILURE = "Find by either NRIC or name, not both!";
+
+    public static final String MESSAGE_NRIC_EXCEED_ONE_KEYWORD_FAILURE =
+            "You have provided more than one word of NRIC keywords to match. \n"
+            + "findPatient supports only one keyword at a time for NRIC search.";
 
     private final Predicate<Patient> predicate;
 

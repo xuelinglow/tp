@@ -25,7 +25,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentView;
-import seedu.address.model.appointment.TimePeriod;
+import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.testutil.PatientBuilder;
@@ -142,26 +142,16 @@ public class AddPatientCommandTest {
 
         @Override
         public boolean hasPatientWithNric(Nric nric) {
-            return false;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public Patient getPatientWithNric(Nric nric) {
-            return null;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void deletePatientWithNric(Nric nric) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePatient(Patient target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -186,7 +176,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public void cancelAppointment(Appointment key) {
+        public void deleteAppointment(Appointment key) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -216,12 +206,27 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public Appointment getMatchingAppointment(Nric nric, Date date, TimePeriod timePeriod) {
+        public Appointment getMatchingAppointment(Nric nric, Date date, Time startTime) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void deleteAppointmentsWithNric(Nric targetNric) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAppointmentWithDetails(Nric targetNric, Date targetDate, Time targetStartTime) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean samePatientHasOverlappingAppointment(Appointment apptToAdd) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -241,11 +246,9 @@ public class AddPatientCommandTest {
             requireNonNull(patient);
             this.patient = patient;
         }
-
         @Override
-        public boolean hasPatient(Patient patient) {
-            requireNonNull(patient);
-            return this.patient.isSamePatient(patient);
+        public boolean hasPatientWithNric(Nric nric) {
+            return patient.getNric().equals(nric);
         }
     }
 
@@ -256,15 +259,19 @@ public class AddPatientCommandTest {
         final ArrayList<Patient> patientsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPatient(Patient patient) {
-            requireNonNull(patient);
-            return patientsAdded.stream().anyMatch(patient::isSamePatient);
-        }
-
-        @Override
         public void addPatient(Patient patient) {
             requireNonNull(patient);
             patientsAdded.add(patient);
+        }
+
+        @Override
+        public boolean hasPatientWithNric(Nric nric) {
+            for (Patient patient : patientsAdded) {
+                if (patient.getNric().equals(nric)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override

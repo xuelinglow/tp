@@ -14,6 +14,21 @@ public class NoteTest {
     }
 
     @Test
+    public void isValidNote() {
+
+        // null note
+        assertThrows(NullPointerException.class, () -> Note.isValidNote(null));
+
+        // invalid note
+        assertFalse(Note.isValidNote(
+                "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"));
+
+        // valid note
+        assertTrue(Note.isValidNote(""));
+        assertTrue(Note.isValidNote("is here for x-ray"));
+    }
+
+    @Test
     public void equals() {
         Note note = new Note("valid note");
 

@@ -46,7 +46,7 @@ public class ParserUtilTest {
     private static final String VALID_NRIC = "T0123456A";
     private static final String VALID_DATE = "2024-03-23";
     private static final String VALID_DOB = "2001-01-01";
-    private static final String VALID_PHONE = "123456";
+    private static final String VALID_PHONE = "91234567";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";

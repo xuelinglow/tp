@@ -14,6 +14,29 @@ As part of our Beta Testing, we would greatly appreciate feedback from actual us
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
+## Introducing CLInic
+
+CLInic is designed to keep track of your patient data and appointment schedules. To ensure a smooth and focused user experience, we have specified certain requirements for patient and appointment data.
+
+**Patient**
+* Each patient is identified by a unique `NRIC`
+* A patient has: NRIC, Name, Date of Birth, Phone Number, Email, Address, Tags
+* A patient can be: added, deleted, edited, found
+
+**Appointment**
+* An appointment belongs to one patient. 
+* Each appointment is identified by a unique `NRIC`, `DATE` and `START_TIME`
+* An appointment has: NRIC, Date, Start Time, End Time, Appointment Type, Note
+* An appointment can be: added, deleted, edited, found, marked, unmarked
+
+Restrictions:
+* An appointment **cannot** be added if it overlaps with an existing appointment for the same patient. Otherwise, it will be flagged as seen [here](#adding-an-appointment-addappt-or-aa).
+  * CLInic allows appointments of different patients to overlap as they may be seen concurrently by different doctors or have different tests.
+* An appointment **cannot** span across different days or be overnight.
+  * CLInic allows appointments to be made anytime within a single day **but not overnight** to simplify daily operations and avoid ambiguity.
+
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 

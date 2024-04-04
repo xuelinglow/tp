@@ -64,5 +64,4 @@ public class FindPatientCommandParser implements Parser<FindPatientCommand> {
         throw new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindPatientCommand.MESSAGE_USAGE));
     }
-
 }

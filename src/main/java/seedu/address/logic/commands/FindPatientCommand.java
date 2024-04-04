@@ -26,8 +26,8 @@ public class FindPatientCommand extends Command {
             + ": Finds all patients whose names OR nric start with "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS] OR "
-            + PREFIX_NRIC + "KEYWORD \n"
+            + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS] OR "
+            + PREFIX_NRIC + "NRIC_KEYWORD \n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Alex Ben"
             + " OR " + COMMAND_WORD + " " + PREFIX_NRIC + "T0123456A";
 

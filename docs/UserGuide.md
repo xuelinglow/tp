@@ -146,8 +146,8 @@ Examples:
 
 Finds patients whose name OR NRIC fit the given keywords.
 
-Format: `findPatient n/KEYWORD [MORE_KEYWORDS]` OR `findPatient i/KEYWORD` <br/>
-Shorthand: `fp n/KEYWORD [MORE_KEYWORDS]` OR `fp i/KEYWORD`
+Format: `findPatient n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `findPatient i/NRIC_KEYWORD` <br/>
+Shorthand: `fp n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `fp i/NRIC_KEYWORD`
 
 * Only the name OR NRIC is searched at once. e.g. `n/Bob i/T0123456A` is illegal
 * The search is case-insensitive. e.g `hans` will match `Hans`

@@ -64,7 +64,7 @@ class JsonSerializableAddressBook {
         AddressBook addressBook = new AddressBook();
         for (JsonAdaptedPatient jsonAdaptedPatient : patients) {
             Patient patient = jsonAdaptedPatient.toModelType();
-            if (addressBook.hasPatient(patient)) {
+            if (addressBook.hasPatientWithNric(patient.getNric())) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PATIENT);
             }
             addressBook.addPatient(patient);

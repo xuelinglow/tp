@@ -1,12 +1,16 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NRIC_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.model.patient.Nric;
 
@@ -23,12 +27,40 @@ public class DeletePatientCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, VALID_NRIC_AMY, new DeletePatientCommand(new Nric(VALID_NRIC_AMY)));
+        String userInput = NRIC_DESC_AMY;
+        assertParseSuccess(parser, userInput, new DeletePatientCommand(new Nric(VALID_NRIC_AMY)));
+    }
+
+    @Test
+    public void parse_invalidPreamble_failure() {
+        assertParseFailure(parser, " some random string " + NRIC_DESC_AMY,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser, "a",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePatientCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidValue_failure() {
+        assertParseFailure(parser, INVALID_NRIC_DESC, Nric.MESSAGE_CONSTRAINTS); // invalid nric
+    }
+
+    @Test
+    public void parse_multipleRepeatedValues_failure() {
+        // invalid followed by valid
+        assertParseFailure(parser, INVALID_NRIC_DESC + NRIC_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NRIC));
+
+        // valid followed by invalid
+        assertParseFailure(parser, NRIC_DESC_AMY + INVALID_NRIC_DESC,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NRIC));
+
+        // multiple valid fields repeated
+        assertParseFailure(parser, NRIC_DESC_AMY + NRIC_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NRIC));
+
     }
 }

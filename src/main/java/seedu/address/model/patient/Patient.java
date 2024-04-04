@@ -50,7 +50,7 @@ public class Patient {
         this.name = new Name("Placeholder");
         this.nric = nric;
         this.dob = new DateOfBirth("1988-08-08");
-        this.phone = new Phone("12345678");
+        this.phone = new Phone("92345678");
         this.email = new Email("test@test.com");
         this.address = new Address("Placeholder");
     }

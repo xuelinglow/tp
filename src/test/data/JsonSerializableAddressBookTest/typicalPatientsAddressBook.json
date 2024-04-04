@@ -36,7 +36,7 @@
     "name" : "Elle Meyer",
     "nric" : "T0123456E",
     "dob" : "2001-01-05",
-    "phone" : "9482224",
+    "phone" : "94822924",
     "email" : "werner@example.com",
     "address" : "michegan ave",
     "tags" : [ ]
@@ -44,7 +44,7 @@
     "name" : "Fiona Kunz",
     "nric" : "T0123456F",
     "dob" : "2001-01-06",
-    "phone" : "9482427",
+    "phone" : "94824027",
     "email" : "lydia@example.com",
     "address" : "little tokyo",
     "tags" : [ ]
@@ -52,7 +52,7 @@
     "name" : "George Best",
     "nric" : "T0123456G",
     "dob" : "2001-01-07",
-    "phone" : "9482442",
+    "phone" : "94982442",
     "email" : "anna@example.com",
     "address" : "4th street",
     "tags" : [ ]

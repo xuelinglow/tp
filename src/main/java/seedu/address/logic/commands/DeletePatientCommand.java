@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -19,8 +20,9 @@ public class DeletePatientCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the patient identified by the NRIC number.\n"
-            + "Parameters: NRIC (must be a existing NRIC in database)\n"
-            + "Example: " + COMMAND_WORD + " S1234567A";
+            + "Parameters: "
+            + PREFIX_NRIC + " NRIC (must be a existing NRIC in database)\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NRIC + " S1234567A";
 
     public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Deleted Patient: %1$s";
 

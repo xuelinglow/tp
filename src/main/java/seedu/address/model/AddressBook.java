@@ -15,6 +15,7 @@ import seedu.address.model.appointment.Time;
 import seedu.address.model.patient.Nric;
 import seedu.address.model.patient.Patient;
 import seedu.address.model.patient.UniquePatientList;
+import seedu.address.model.patient.exceptions.PatientDobAfterApptDateException;
 import seedu.address.model.patient.exceptions.PatientNotFoundException;
 
 /**
@@ -146,11 +147,23 @@ public class AddressBook implements ReadOnlyAddressBook {
      * NRIC must exist in the address book.
      */
     public void addAppointment(Appointment appt) {
-        appointments.add(appt);
         if (!hasPatientWithNric(appt.getNric())) {
             throw new PatientNotFoundException();
         }
+        if (!isValidApptForPatient(appt)) {
+            throw new PatientDobAfterApptDateException();
+        }
+        appointments.add(appt);
         this.appointmentView.setAppointmentViews(patients, appointments);
+    }
+
+    /**
+     * Checks if appointment is valid for the patient is it created for
+     * Validity is defined by date of appointment not before dob of patient
+     */
+    public boolean isValidApptForPatient(Appointment appt) {
+        Patient targetPatient = getPatientWithNric(appt.getNric());
+        return !appt.getDate().isBefore(targetPatient.getDob());
     }
 
     /**

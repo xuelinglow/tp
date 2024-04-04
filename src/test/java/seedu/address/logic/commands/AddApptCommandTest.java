@@ -84,6 +84,17 @@ public class AddApptCommandTest {
                         .execute(modelStub));
     }
 
+    @Test
+    public void execute_appointmentBeforeDob_throwsCommandException() {
+        ModelStub modelStub = new ModelStubWithPatient(ALICE);
+        Appointment appointmentBeforeDob = new AppointmentBuilder(ALICE_APPT).withDate("1900-01-02").build();
+        AddApptCommand addApptCommand = new AddApptCommand(appointmentBeforeDob);
+        assertThrows(CommandException.class,
+                AddApptCommand.MESSAGE_ADD_APPOINTMENT_BEFORE_DOB_FAILURE, () -> addApptCommand
+                        .execute(modelStub));
+    }
+
+
 
     @Test
     public void equals() {
@@ -174,12 +185,17 @@ public class AddApptCommandTest {
 
         @Override
         public boolean hasPatientWithNric(Nric nric) {
-            return false;
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isValidApptForPatient(Appointment appointment) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public Patient getPatientWithNric(Nric nric) {
-            return null;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -297,6 +313,12 @@ public class AddApptCommandTest {
         public boolean hasOverlappingAppointmentExcluding(Appointment apptToEdit, Appointment editedAppointment) {
             return true;
         }
+
+        @Override
+        public boolean isValidApptForPatient(Appointment appointment) {
+            requireNonNull(appointment);
+            return true; // not tested here so always true
+        }
     }
 
     /**
@@ -322,6 +344,12 @@ public class AddApptCommandTest {
         public boolean hasAppointment(Appointment appointment) {
             requireNonNull(appointment);
             return appointmentsAdded.stream().anyMatch(appointment::equals);
+        }
+
+        @Override
+        public boolean isValidApptForPatient(Appointment appointment) {
+            requireNonNull(appointment);
+            return !appointment.getDate().isBefore(patient.getDob());
         }
 
         @Override

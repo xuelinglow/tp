@@ -20,6 +20,20 @@ public class DateTest {
     }
 
     @Test
+    public void isBefore_otherDateIsBefore_returnsTrue() {
+        Date targetDate = new Date("2024-04-04");
+        Date dateAfterTargetDate = new Date("2024-04-05");
+        assertTrue(targetDate.isBefore(dateAfterTargetDate));
+    }
+
+    @Test
+    public void isBefore_otherDateIsBefore_returnsFalse() {
+        Date targetDate = new Date("2024-04-04");
+        Date dateBeforeTargetDate = new Date("2024-04-03");
+        assertFalse(targetDate.isBefore(dateBeforeTargetDate));
+    }
+
+    @Test
     public void isValidDate() {
         // null time
         assertThrows(NullPointerException.class, () -> Date.isValidDate(null));
@@ -45,6 +59,7 @@ public class DateTest {
         assertFalse(Date.isValidDate("2024 20 02")); // invalid delimiters
         assertFalse(Date.isValidDate("2024:20:02")); // invalid delimiters
 
+        assertFalse(Date.isValidDate("1900-01-01")); // all dates must be after 1 Jan 1990
         assertFalse(Date.isValidDate("2024-12-12-03")); // additional fields given
         assertFalse(Date.isValidDate("      2024/20/02")); // leading space
         assertFalse(Date.isValidDate("2024/20/02   ")); // trailing space

@@ -43,6 +43,13 @@ public class Date implements Comparable<Date> {
     }
 
     /**
+     * Returns if date is before given date
+     */
+    public boolean isBefore(Date date) {
+        return this.value.isBefore(date.value);
+    }
+
+    /**
      * Returns if date is before today
      */
     public static boolean isBeforeToday(String date) {

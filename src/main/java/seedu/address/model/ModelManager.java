@@ -107,6 +107,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean isValidApptForPatient(Appointment appointment) {
+        requireNonNull(appointment);
+        return addressBook.isValidApptForPatient(appointment);
+    }
+
+    @Override
     public Patient getPatientWithNric(Nric nric) {
         requireNonNull(nric);
         return addressBook.getPatientWithNric(nric);

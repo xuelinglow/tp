@@ -181,6 +181,7 @@ Shorthand: `aa i/NRIC d/DATE from/START_TIME to/END_TIME t/APPOINTMENT_TYPE [not
 * Adds an appointment for the patient with specified `NRIC`, on `DATE` from `START_TIME` to `END_TIME`
 * Patient with this NRIC **must exist within database**.
 * Details of `APPOINTMENT_TYPE` and `NOTE` will be captured for reference
+* You cannot schedule an appointment for a patient on a date before their date of birth
 * `note/` is an optional field
 
 Examples:

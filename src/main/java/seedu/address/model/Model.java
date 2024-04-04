@@ -64,6 +64,11 @@ public interface Model {
     boolean hasPatientWithNric(Nric nric);
 
     /**
+     * Returns true if appointment is valid for the patient is created for.
+     */
+    boolean isValidApptForPatient(Appointment appointment);
+
+    /**
      * Returns patient with the same nric as {@code nric}.
      */
     Patient getPatientWithNric(Nric nric);

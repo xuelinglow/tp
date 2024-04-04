@@ -101,11 +101,11 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeletePatientCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeletePatientCommandParser`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a patient).<br>
+1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g.,`DeletePatientCommandParser`) and uses it to parse the command.
+2. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeletePatientCommandParser`) which is executed by the `LogicManager`.
+3. The command can communicate with the `Model` when it is executed (e.g. to delete a patient).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
-1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+4. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
@@ -200,23 +200,23 @@ The following activity diagram summarizes what happens when a user executes an `
 #### Implementation
 
 The implementation of `AddApptCommand` is supported by creation of the `Appointment` class and its related classes.
-Details captured in an `Appointment` class include: 
+Details captured in an `Appointment` class include:
 * NRIC
 * Date
 * TimePeriod (composed of start and end time)
 * Appointment Type
 * [Optional] Note
 
-The management of all appointments is achieved through the `AppointmentList` class stored in the `AddressBook`, 
-similar to the `UniquePatientList`. `AppointmentList` supports adding, editing and deleting of appointments to the list. 
-The operation `AppointmentList#add(Appointment)` checks if the incoming appointment already exists in the list, preventing 
+The management of all appointments is achieved through the `AppointmentList` class stored in the `AddressBook`,
+similar to the `UniquePatientList`. `AppointmentList` supports adding, editing and deleting of appointments to the list.
+The operation `AppointmentList#add(Appointment)` checks if the incoming appointment already exists in the list, preventing
 duplicates from occurring. Since an `Appointment` can only exist in the `AppointmentList` if a `Patient` with the
 corresponding NRIC exists in the `AddressBook`, this will be checked in the execution of the `AddApptCommand`.
 
 Given below is an example usage scenario and how the add appointment mechanism works.
 
-1. The user executes `addAppt i/ S9922758A d/ 2024-03-27 from/ 00:00 to/ 00:30 t/ Medical Check-up note/`, 
-attempting to create an appointment for a patient with NRIC: S9922758A on 27 Mar 2024 from 12am to 1230am. 
+1. The user executes `addAppt i/ S9922758A d/ 2024-03-27 from/ 00:00 to/ 00:30 t/ Medical Check-up note/`,
+attempting to create an appointment for a patient with NRIC: S9922758A on 27 Mar 2024 from 12am to 1230am.
 2. `AddApptCommand` calls `Model#hasPatientWithNric(Nric)` to check if the given NRIC belongs to an individual
     in the system. If yes, continue. Else throw a `CommandException`.
 3. `AddApptCommand` calls `Model#hasAppointment(Appointment)` to check if an equivalent appointment exists
@@ -255,19 +255,19 @@ An appointment's DATE, START_TIME, END_TIME, APPOINTMENT_TYPE and NOTE can be ed
 
 The implementation will include the following key components:
 
-1. **Parsing User Input**: The application will parse user input to extract values for the target appointment (NRIC, DATE, START_TIME, END_TIME) and optional prefixes for new values such as newnote/, newd/.
+1. **Parsing User Input**: The application will parse user input to extract values for the target appointment (NRIC, DATE, START_TIME) and optional prefixes for new values such as newnote/, newd/.
 2. **Executing Edit Queries**: The application will search through the list of appointments stored in the database and identify the target appointment. It will then set the appointment with the new values inputted.
 3. **Presenting Updated Results**: The matched appointments will be presented to the user in a clear and organized manner, displaying relevant details such as the updated appointment time, date, and associated appointment information.
 
 #### Example Usage Scenario
 
-1. **Context**: User wants to edit the date of an appointment with a specific NRIC, date, start time and end time.
-2. **User Input**: The user enters the command `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 to/ 11:30 newd/ 2024-02-21`.
+1. **Context**: User wants to edit the date of an appointment with a specific NRIC, date, start time.
+2. **User Input**: The user enters the command `editAppt i/ T0123456A d/ 2024-02-20 from/ 11:00 newd/ 2024-02-21`.
 
 <puml src="diagrams/EditApptSequenceDiagram.puml" alt="EditApptSeqDiag" />
 
-3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`), start time (`11:00`) and end time (`11:30`) criteria for the target appointment. The new date is parsed as (`2024-02-21`).
-4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date, start time and end time criteria.
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`) and start time (`11:00`) criteria for the target appointment. The new date is parsed as (`2024-02-21`).
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date and start time criteria.
 5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case date (`2024-02-21`).
 6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
 
@@ -286,6 +286,35 @@ The following activity diagram summarizes what happens when a user executes a ne
 * **Alternative 2:** Edit appointments by a unique index`
     * Pros: Time efficient as we can make use of the shorter prefixes because there's no need to differentiate between target appointment and new appointment details, Easier to correct mistakes in updating wrong appointment
     * Cons: Prone to errors as just a wrong number could cause the user to update the wrong appointment, Huge list could make it difficult to find a specific index
+
+
+### Mark/Unmark Appointment for a Patient
+
+#### Implementation
+
+The Mark Appointment feature will involve parsing user input and marking the appointment as completed/ not completed.
+
+The implementation will include the following key components:
+
+1. **Parsing User Input**: The application will parse user input to extract values to find the target appointment (NRIC, DATE, START_TIME).
+2. **Executing Mark Queries** The application will search through the list of appointments and identify the target appointment to be marked/unmarked. It will then set the mark boolean condition based on the mark/unmark command.
+3. **Appointment Status Updated Results** The appointment will be updated accordingly to show whether it has been marked/unmarked successfully based on color code.
+
+#### Example Usage Scenario
+1. Context: User wants to mark a specfic appointment as completed.
+2. User Input: The user enters the command 'mark i/T0123456A d/2024-02-20 from/11:00'
+
+<puml src="diagrams/MarkApptSequenceDiagram.puml" alt="MarkApptSeqDiag" />
+
+3. **Parsing**: The application parses the user input and extracts the NRIC (`T0123456A`), date (`2024-02-20`) and start time (`11:00`) criteria for the target appointment.
+4. **Search Execution**: The application searches through the list of appointments and identifies a target appointment that matches the specified NRIC, date and start time criteria.
+5. **Update Execution**: The application sets the target appointment with a new appointment created that has the new values inputted, in this case mark (true).
+6. **Presentation**: The updated appointment is presented to the user as a message, and the upcoming appointments list is updated as well.
+
+The following activity diagram summarizes what happens when a user executes a new command:
+
+<puml src="diagrams/MarkApptActivityDiagram.puml" alt="MarkApptActivityDiagram" width="250" />
+
 
 ### \[Proposed\] Undo/redo feature
 
@@ -401,7 +430,7 @@ The implementation will include the following key components:
 4. **Search Execution**: The application searches through the list of appointments and identifies appointments that match the specified NRIC, date, and start time criteria.
 5. **Presentation**: The matched appointments are presented to the user, displaying relevant details such as appointment time, date, and associated patient information.
 6. **User Interaction**: The user can view the search results and perform additional actions such as viewing detailed information about specific appointments or modifying appointments as needed.
-   
+
 The following activity diagram summarizes what happens when a user executes a new command:
 
 <puml src="diagrams/FindApptActivityDiagram.puml" alt="FindApptActivityDiagram" width="250" />

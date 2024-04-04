@@ -3,15 +3,11 @@ skin rose
 skinparam ActivityFontSize 15
 skinparam ArrowFontSize 12
 start
-:User executes EditApptCommand;
+:User executes MarkApptCommand;
 
 if () then ([Appt with NRIC, Date, StartTime found])
-    if () then ([Valid new values for appt])
-        :Update Appointment in
+        :Mark Appointment in
         AppointmentList in AddressBook;
-    else ([Invalid new values for appt])
-        :CommandException;
-    endif
 else ([Appt not found]))
     : CommandException;
 endif

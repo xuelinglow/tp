@@ -112,103 +112,259 @@ Restrictions:
 * Initiating CLInic without CLInic.json will result in the loading of dummy data into CLInic.
 </box>
 
-### Viewing help : `help`
+### 1. Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+If you are facing any issues while using CLInic, you can use this help command which will provide you with a link to this User Guide!
+
+**Format:**
+<box>
+
+`help`
+</box>
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+### 2. Patient Commands
 
+**Input Fields:**
 
-### Adding a patient: `addPatient` OR `ap`
+ Prefix | Field                                                                            | Constraints                                                                                                                                                                                                                                                       |
+|----------------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **i/**         | Unique ID in Singapore's context - NRIC (e.g. `T0123456A`)                       | - Possible invalid NRICs not accounted for due to uncertainty in checksum of Singapore's system and FIN numbers. <br/> - Also allowing for NRICs beyond current date e.g. `T99...` to allow flexibility of app without having to constantly readjust fields <br/> | 
+| **n/**         | Name of patient.                                                                 | - Restricted to alphanumeric characters. <br/> - Extra spacing is allowed within the name to allow for user convenience and flexibility.                                                                                                                          |
+| **b/**         | Date of birth of patient.                                                        | - Dates must be in YYYY-MM-DD format.<br/>- Only allows valid dates after 1990-01-01.                                                                                                                                                                             |
+| **p/**         | Emergency contact number.                                                        | - Only Singapore phone numbers allowed. <br/> - Duplicate phone numbers allowed in case of children with parent's contact number.                                                                                                                                 |
+| **e/**         | Email of patient.                                                                | NA                                                                                                                                                                                                                                                                |
+| **a/**         | Address of patient.                                                              | NA                                                                                                                                                                                                                                                                |
+| **t/**         | Tag attached to specify patient's medical allergies. e.g. `Paracetamol, Insulin` | - No constraints to allow for flexiblility, although it is recommended to use this tag for medical allergies.                                                                                                                                                     
 
-Adds a patient to CLInic.
+<box type="wrong" light>
 
-Format: `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br/>
-Shorthand: `ap i/NRIC n/NAME  b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
-
-* Names must consist of only english alphanumeric characters
-* NRIC should start and end with capital letters with 7 numbers in between them, there is otherwise
-  no additional checks for what makes a valid NRIC, eg. `S0123456A` will work
-* Phone must be a Singapore-based phone number with 8 digits and starts with 6, 8 or 9
-
+**Possible invalid input fields.**
 <box type="tip" seamless>
 
-**Tip:** A patient must have a unique NRIC in CLInic.
+Some of the inputs you have keyed in are invalid, check out the constraints for the input fields above to understand what values CLInic accepts.
+</box>
+</box>
+
+### <a name="addPatient"></a>2.1 Adding a patient: `addPatient` OR `ap`
+
+Use this command if you wish to add a new patient to CLInic. You would be required to specify important patient personal information and can include the patient's medical allergies, if any.
+
+**Format:**
+<box>
+
+Full: `addPatient i/NRIC n/NAME b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/MEDICAL_ALLERGY]…​ `
+
+Shorthand: `ap i/NRIC n/NAME  b/DOB p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/MEDiCAL_ALLERGY]…​`
+</box>
+
+<box type="warning" seamless>
+
+A patient must have a unique NRIC in CLInic.
 
 </box>
 
-Examples:
-* `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `addPatient i/S1234567A n/Betsy Crowe b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/91234567 t/criminal`
-* `ap i/S1234567A n/Betsy Crowe b/2001-02-03 t/friend e/betsycrowe@example.com a/Newgate Prison p/91234567 t/criminal`
+**Examples:**
+<box>
 
-### Deleting a patient : `deletePatient` OR `dp`
+`addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+</box>
+<box>
 
-Deletes the specified patient (identified by NRIC) from CLInic.
+`addPatient i/S9876543A n/Betsy Crowe b/1998-02-03 t/Insulin e/betsycrowe@example.com a/Crowe street, block 234, #12-12 p/91234567 t/Paracetemol`
+</box>
+
+<box>
+
+`ap i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+</box>
+
+<box type="success" light>
+
+**Expected Outcome**:
+![Add patient expected outcome](./images/addPatient.png)
+
+</box>
+
+<box type="wrong" light>
+
+**This patient already exists in CLInic.**
+
+<box type="tip" seamless>
+
+There already exists a patient with the NRIC you specified. To view the details of that patient, you can use the [findPatient](#findPatient) command.
+</box>
+</box>
+
+### 2.2 Deleting a patient : `deletePatient` OR `dp`
+
+Use this command if you wish to delete a patient from CLInic.
 Corresponding appointments for the specified patient will be deleted too.
 
-Format: `deletePatient i/NRIC` <br/>
-Shorthand: `dp i/NRIC`
+<box type="warning" seamless>
 
-* Deletes the patient and corresponding appointments with specified `NRIC`.
-* The patient with specified NRIC **must exist within database**.
-
-Examples:
-* `deletePatient i/S1234567A` deletes the patient with NRIC S1234567A in CLInic.
-
-### Editing a patient : `editPatient` OR `ep`
-
-Edits an existing patient in CLInic.
-
-Format: `editPatient i/NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​` <br/>
-Shorthand: `ep i/NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_TAG]…​`
-
-* Edits the patient with the specified NRIC.
-* The patient with specified NRIC **must exist within database**.
-* Provide at least one optional field for editing.
-* Existing values will be updated to the input values.
-* When editing tags, existing tags of the patient will be removed, i.e., adding tags is not cumulative. Use t/ to remove all tags.
-
-Examples:
-*  `editPatient i/T0123456A newp/91234567 newe/johndoe@example.com` Edits the phone number and email address of the patient with NRIC:`T0123456A` to be `91234567` and `johndoe@example.com` respectively.
-*  `editPatient i/S8765432Z newn/Betsy Crower newt/` Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
-*  `ep i/S8765432Z newn/Betsy Crower newt/`
-
-### Finding patients: `findPatient` OR `fp`
-
-Finds patients whose name OR NRIC fit the given keywords.
-
-Format: `findPatient n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `findPatient i/NRIC_KEYWORD` <br/>
-Shorthand: `fp n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `fp i/NRIC_KEYWORD`
-
-* Only the name OR NRIC is searched at once. e.g. `n/Bob i/T0123456A` is illegal
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* Partial words will be matched only if the start of the word is the same e.g. `Han` will match `Hans`
-* To accommodate for future extensions, special characters can be searched. However, no search results may be found as special characters are currently not supported in `NAME` and `NRIC`
-
-Name Search
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Patients matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `n/Hans Bo` will return `Hans Gruber`, `Bo Yang`
-
-NRIC Search
-* Only patients matching the given keyword will be returned.
-  e.g. `n/T0` will return `T0123456A`, `T0234567B`
-  e.g. `n/T01 T012` will NOT return `T0123456A` as the given keyword is `T01 T012`
-
-<box type="tip" seamless>
-
-**Tip:** If currently on Day View, this command will cause a `switchView` to automatically occur.
+Corresponding appointments for the specified patient will be deleted from CLInic too.
 
 </box>
 
-Examples:
-* `findPatient i/S9` returns patients with NRICs `S9876543A` and `S9765432A`
-* `findPatient n/John` returns patients with names `john` and `John Doe`
-* `findPatient n/alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
-* `fp n/ alex david` returns patients with names `Alex Yeoh`, `David Li`<br>
+**Format:**
+<box>
+
+Full: `deletePatient i/NRIC`
+
+Shorthand: `dp i/NRIC`
+</box>
+
+**Examples:**
+<box>
+
+`deletePatient i/S9876543A`
+</box>
+
+<box type="wrong" light>
+
+**The NRIC provided is not found in the system.**
+
+<box type="tip" seamless>
+
+CLInic does not have a patient with the provided NRIC, please double-check the NRIC provided.
+</box>
+</box>
+
+### 2.3 Editing a patient : `editPatient` OR `ep`
+
+Use this command if you wish to edits an existing patient in CLInic.
+
+**Format:**
+<box>
+
+Format: `editPatient i/NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_MEDICAL_ALLERGY]…​`
+
+Shorthand: `ep i/NRIC [newn/NEW_NAME] [newb/NEW_DOB] [newp/NEW_PHONE] [newe/NEW_EMAIL] [newa/NEW_ADDRESS] [newt/NEW_MEDICAL_ALLERGY]…​`
+</box>
+
+<box type="warning" seamless>
+
+Existing values will be updated to the input values.
+
+When editing tags, existing tags of the patient will be removed, i.e., adding tags is not cumulative. Use t/ to remove all tags.
+
+</box>
+
+**Examples:**
+<box>
+
+> Edits the phone number and email address of the patient with NRIC:`T0123456A` to be `91234567` and `johndoe@example.com` respectively.
+
+`editPatient i/T0123456A newp/91234567 newe/johndoe@example.com`
+</box>
+
+<box>
+
+> Edits the name of the patient with NRIC:`S8765432Z` to be `Betsy Crower` and clears all existing tags.
+
+`editPatient i/S98765432A newn/Betsy Crower newt/`
+</box>
+
+<box>
+
+> Executes the above command but uses shorthand format
+
+`ep i/S98765432A newn/Betsy Crower newt/`
+</box>
+
+<box type="wrong" light>
+
+**At least one field to edit must be provided.**
+
+<box type="tip" seamless>
+
+CLInic requires that at least one optional field is provided to execute the `editPatient` command.
+</box>
+</box>
+
+<box type="wrong" light>
+
+**The NRIC provided is not found in the system.**
+
+<box type="tip" seamless>
+
+CLInic does not have a patient with the provided NRIC, please double-check the NRIC provided or create a Patient using the [addPatient](#addPatient) command.
+</box>
+</box>
+
+### <a name="findPatient"></a>2.4 Finding patients: `findPatient` OR `fp`
+
+Use this command if you wish to finds patients whose name OR NRIC fit the given keywords.
+
+**Format:**
+<box>
+
+Format: `findPatient n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `findPatient i/NRIC_KEYWORD`
+
+Shorthand: `fp n/NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `fp i/NRIC_KEYWORD`
+</box>
+
+<box type="warning" seamless>
+
+The search is case-insensitive. e.g `hans` will match `Hans`.
+
+Partial words will be matched only if the start of the word is the same e.g. `T01` will match `T0123456A`.
+
+To accommodate for future extensions, special characters can be searched. However, no search results may be found as special characters are currently not supported in `NAME` and `NRIC`.
+
+If currently on Day View, this command will cause a `switchView` to automatically occur.
+</box>
+
+<box type="wrong" light>
+
+**Find by either NRIC or name, not both!**
+
+<box type="tip" seamless>
+
+CLInic currently only supports finding patients by a single field. 
+</box>
+</box>
+
+#### 2.4.1 Name Search
+
+**Examples:**
+<box>
+
+> Find all patients with name beginning with `john`
+
+`findPatient n/John`
+</box>
+
+**Examples:**
+<box>
+
+> Find all patients with name beginning with either `alex` or `david`, using shorthand command
+
+`fp n/ alex david`
+</box>
+
+#### 2.4.2 NRIC Search
+**Examples:**
+<box>
+
+> Find all patients with NRIC born in the year 2001, with NRIC starting with `t01`
+
+`findPatient i/t01`
+</box>
+
+<box type="wrong" light>
+
+**You have provided more than one word of NRIC keywords to match.**
+
+<box type="tip" seamless>
+
+CLInic does not provide support for finding patients with different starting NRICs. Please only provide one starting NRIC.
+
+e.g. `n/T01 T012` will NOT return `T0123456A` as the given keyword is `T01 T012`
+</box>
+</box>
 
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 

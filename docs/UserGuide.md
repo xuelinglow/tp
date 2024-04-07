@@ -642,33 +642,71 @@ Format: `unmark i/NRIC d/DATE from/START_TIME`
 Examples:
 * `unmark i/T0123456A d/2024-02-20 from/11:00`
 
-### Listing all patients and appointments : `list` OR `ls`
+### 4. General Commands
 
-Shows a list of all patients and appointments in CLInic.
+Unlike the previous command sections, there are no prefixes in this section.
 
-Format: `list` OR `ls`
+Any extraneous parameters for these commands will be ignored. 
 
-### Switch between Overall View and Day View : `switchView` OR `sv`
+**Examples:**
+<box>
 
-Switches view from Overall View to Day View or vice versa.
+`list 123` will be interpreted as `list`
+</box>
+                                   
+### <a name="list"></a>4.1 Listing all patients and appointments : `list` OR `ls`
 
-Format: `switchView` OR `sv`
+Use this command to show a list of all patients and appointments in CLInic.
 
-### Clearing all entries : `clear`
+<box>
 
-Clears all entries of patients and appointments from CLInic.
+Full: `list`
 
-Format: `clear`
+Shorthand: `ls​`
+</box>
 
-### Exiting the program : `exit`
+### <a name="switchView"></a>4.2 Switch between Overall View and Day View : `switchView` OR `sv`
 
-Exits the program.
+Use this command to show a list of all patients and appointments in CLInic.
 
-Format: `exit`
+<box>
+
+Full: `switchView`
+
+Shorthand: `sv`
+</box>
+
+### <a name="clear"></a>4.3 Clearing all entries : `clear` 
+
+Use this command if you wish to clear all entries of patients and appointments from CLInic.
+
+<box>
+
+`clear`
+
+</box>
+
+<box type="warning" seamless>
+
+This action is irreversible. Please proceed with caution. 
+
+Once this command is executed, it would not be possible to restore the deleted data.
+
+</box>
+
+### <a name="exit"></a>4.4 Exiting the program : `exit` 
+
+Exits CLInic.
+
+<box>
+
+`exit`
+
+</box>
 
 ### Saving the data
 
-CLInic data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+CLInic data are saved in the hard disk automatically after any command that changes the data. You do not need to save manually.
 
 ### Editing the data file
 

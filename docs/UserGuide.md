@@ -6,14 +6,215 @@
 
 # CLInic User Guide
 
-Welcome to **CLInic**, your digital assistant for managing patients and appointments! CLInic is a desktop app designed for clinic assistants, optimized for use via a Command Line Interface (CLI) while still offering the benefits of a Graphical User Interface (GUI). <br/> <br/>If you're familiar with digitalized software or have used a CLI before, you'll find CLInic intuitive. Don't worry if you're new to CLI; we'll guide you through every step.
+Welcome to **CLInic**, your dedicated digital assistant helping you to efficiently manage your patients and their appointments.
 
-As part of our Beta Testing, we would greatly appreciate feedback from actual users. Help us improve CLInic together [**here**](https://forms.gle/RSBeinMHPMYXyYyGA)!
+CLInic is tailored specifically for clinic assistants like yourself! Our goal? To create a seamless appointment management experience, allowing you more time to focus on what truly matters - your patients!
+
+We understand that managing appointments in a clinic can be complex, but with CLInic, we hope to simplify this process for you. No more struggling with messy user interfaces and having too many buttons to click! Our user-friendly interface and intuitive commands make it easy for you to keep track of your patients and their appointments.
+
+So, let's get started! Whether you're familiar with the Command Line Interface (CLI) or need a bit of guidance, we're here to guide you through each step of the way. Follow this User Guide to uncover the potential of CLInic!
+
 
 <!-- * Table of Contents -->
 <page-nav-print />
 
---------------------------------------------------------------------------------------------------------------------
+
+---
+
+## Using this guide
+
+This User Guide contains all the essential information you need to use CLInic. For new users, we have detailed sections explaining the
+[**installation**](#installing-clinic)  process, the [**design**](#orientation-to-clinic) of our interface and a simple
+[**tutorial**](#tutorial-adding-an-appointment-for-a-new-patient) to get you familiarised with the basic commands.
+
+Familarise yourselves with these terminologies! These definitions will be used throughout the User Guide:
+
+| Term           | Explanation                                                                                                                                               |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **CLI**        | Command Line Interface, a text-based interface for interacting with software by typing commands.                                                          |
+| **GUI**        | Graphical User Interface, a visual interface that allows users to interact with software using graphical elements such as windows and buttons.            |
+| **JSON**       | JavaScript Object Notation, a lightweight data-interchange format.                                                                                        |
+| **NRIC**       | National Registration Identity Card, a unique identifier for individuals in Singapore.                                                                    |
+| **Parameters** | An input value or field for a command                                                                                                                     |
+| **Prefix**     | Keywords to tell the command what the input value is. <br/>e.g. the prefix `n/` is used for name so `n/John` tells the command that name to be input is "John" |
+
+
+Also, if you see these information boxes scattered throughout the User Guide, here is what they mean:
+
+<box type="warning" seamless>
+
+**Caution:** Warns of potential causes of error
+</box>
+
+<box type="info" seamless>
+
+**Note:** Highlights useful information
+</box>
+
+<box type="success" light>
+
+**Success**: Highlights successful execution
+</box>
+<box type="wrong" light>
+
+**Error**: Highlights failed executions
+
+<box type="tip" seamless>
+
+**What to Do:** Highlights possible solutions to the problem
+</box>
+</box>
+
+---
+
+## Quick start
+
+### Installing CLInic
+
+Let's install CLInic together! Here are the step-by-step instructions on getting CLInic started. Don't worry, just follow the instructions for your operating system and you should be good to go!
+
+1. System Requirements: Ensure you have [**Java 11**](https://www.oracle.com/java/technologies/downloads/#java11) or above installed on your computer.
+
+2. Download the latest `CLInic.jar` from [**here**](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
+
+3. Save the file to a location on your computer that will serve as your home folder for CLInic.
+
+4. Open a command terminal on your computer. If you're unsure how to do this, we'll walk you through it.
+
+    - **Windows**: Press `Win + R`, type `cmd`, and press `Enter`.
+    - **MacOS**: Press `Cmd + Space`, type `Terminal`, and press `Enter`.
+    - **Linux**: Press `Ctrl + Alt + T`.
+
+5. Navigate to the folder where you saved the `CLInic.jar` file. If you saved it in your `Downloads` folder, you can use the following commands:
+
+    - **Windows**: `cd Downloads`
+    - **MacOS**: `cd ~/Downloads`
+    - **Linux**: `cd ~/Downloads`
+
+6. Type `java -jar CLInic.jar` command into terminal to run the application.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
+   <img src="images/UiStart.png" alt="Ui" width="600"/>
+
+Simple, wasn't it? Let's now orientate you to the GUI and how CLInic works.
+
+--- {.dashed}
+
+<br/>
+
+### Orientation to CLInic
+
+There are two different views in CLInic. The command section in both views are the same. <br/>
+
+#### Overall-View
+
+**Overall-View** is the default view, allowing you to see all patients and appointments on one screen. This view is useful for finding patients or appointments, which are commands that you will learn later!
+
+![UiOverallView](images/Ui.png)
+
+#### Day-View
+
+**Day-View** is the alternate view, allowing you to see all appointments scheduled today. This view is useful for you to manage upcoming appointments in the day.
+
+![UiDayView](images/UiDayView.png)
+
+#### Appointment Colour Coding
+
+Appointments are colour-coded in CLInic, allowing you to easily identify the status of each appointment. The breakdown is as follows:
+
+![UiApptColors](images/UiApptColors.png)
+
+
+
+For your easy reference, the table below outlines the purpose of each section.
+
+| Section                          | Purpose                                                                                                |
+|----------------------------------|--------------------------------------------------------------------------------------------------------|
+| **Command Input**                | This is where you will write the commands you will learn later.                                        |
+| **Command Feedback**             | This feedback box will show you success or error messages depending on the validity of commands input. |
+| **View Toggle**                  | These buttons allow you to toggle between the Overall-View or Day-View.                                |
+| **Patient List**                 | Shows you the list of patients in CLInic.                                                              |
+| **Appointment List**             | Shows you the list of appointments scheduled in CLInic.                                                |
+| **Appointment List for the Day** | Shows you the list of all appointments scheduled in the day, correct as at launch of the app.          |
+
+Great! You are now oriented to the layout of CLInic.
+
+--- {.dashed}
+
+<br/>
+
+### Tutorial: Adding an appointment for a new patient
+
+Now that you've understood the layout of CLInic, let's get started with registering your very first patient and scheduling an appointment for them!
+This step-by-step tutorial covers the essential commands of adding a patient and an appointment. Follow along with the instructions given and learn to write
+your very first commands.
+
+If this is your first time launching CLInic, you might see sample data listed. Let's clear them before adding our new patient!
+
+* { text="1" t-size="32px" }
+
+  On the Command Input Box, type `clear` and press Enter on your keyboard.
+  ![UiTutStep1](images/UiTutorial1.png)
+  <box type="info" seamless>
+
+  **Note:** Commands in CLInic are case-sensitive! In order to ensure that your commands are recognised, ensure that they are of the same
+  case as the commands given in the guide.
+  </box>
+
+  After executing the command, you should see that all the entries have been deleted (see right side of the image above).
+  Wow! Just like that, you've successfully executed your very first command. Let's move on to something more challenging.
+
+  Your first patient, Bernice, enters the clinic. Before we can schedule any appointments, we need to first register her patient details.
+  This is achieved using the `addPatient` command. Let's learn how to use that.
+
+* { text="2" t-size="32px" }
+
+  On the Command Input Box, type the following command:
+
+  `addPatient i/T0123456A n/Bernice Yu b/2001-12-25 p/98765432 e/bernice@example.com a/Blk 555 Changi Ave 5 S555555`
+
+  Now press Enter on your keyboard.
+
+  ![UiTutStep2](images/UiTutorial2.png)
+
+  You have now registered a patient of **NRIC**: T0123456A, **Name**: Bernice Yu, **Date of Birth (DOB)**: 2001-12-25, **Email**: bernice<span></span>@example.com
+  and **Address**: Blk 555 Changi Ave 5 S555555 as seen on the right.
+
+    <box type="info" seamless>
+
+  **Note:** In CLInic, we use prefixes to denote the input parameters. The prefix `i/` is reserved for the patient's NRIC.
+  Therefore, in this case, `i/ T0123456A` means that patient we wish to add has the NRIC `T0123456A`. The remaining prefixes
+  `n/`, `b/`, `p/`, `e/` and `a/` take in the patient's name, birth date, phone number, email and address respectively.
+  The details and constraints of the parameters required for each command will be documented in the features section.
+  </box>
+
+  Awesome, you're learning fast! Now that Bernice is registered in our system, we can finally create an appointment for her.
+  We will need the `addAppt` command to do this!
+
+* { text="3" t-size="32px" }
+
+  On the Command Input Box, type the following command
+
+  `addAppt i/ T0123456A d/ 2024-05-06 from/ 10:00 to/ 11:00 t/ Medical Check-up`
+
+  Now press Enter on your keyboard.
+
+  ![UiTutStep3](images/UiTutorial3.png)
+
+  You have now created an appointment for Bernice using her **NRIC**: T0123456A. The details of her appointment are **Date**: 2024-05-06,
+  **Start Time**: 10:00, **End Time**: 11:00 and **Appointment Type**: Medical Check-up as seen on the right.
+
+    <box type="info" seamless>
+
+  **Note:** In CLInic, you will see that NRIC is used in most commands. We use NRIC numbers to identify each patient uniquely!
+  </box>
+
+  Well done! You have completed the tutorial! Your new patient, Bernice, now has an appointment scheduled for her.
+
+  Continue on to the [**Features**](#features) section below to learn more about the full list of commands available in CLInic!
+  If you are lost at anytime, typing the command **`help`** and pressing Enter will open the help window with a link that will lead you right back to this User Guide.
+
+---
+
 ## Introducing CLInic
 
 CLInic is designed to keep track of your patient data and appointment schedules. To ensure a smooth and focused user experience, we have specified certain requirements for patient and appointment data.
@@ -39,47 +240,7 @@ Restrictions:
 * An appointment **cannot** span across different days or be overnight.
   * CLInic allows appointments to be made anytime within a single day **but not overnight** to simplify daily operations and avoid ambiguity.
 
-
---------------------------------------------------------------------------------------------------------------------
-
-## Quick start
-
-1. System Requirements: Ensure you have [**Java 11**](https://www.oracle.com/java/technologies/downloads/#java11) or above installed on your computer.
-
-1. Download the latest `CLInic.jar` from [**here**](https://github.com/AY2324S2-CS2103T-F10-3/tp/releases).
-
-1. Save the file to a location on your computer that will serve as your home folder for CLInic.
-
-1. Open a command terminal on your computer. If you're unsure how to do this, we'll walk you through it.
-   * **Windows**: Press `Win + R`, type `cmd`, and press `Enter`.
-   * **MacOS**: Press `Cmd + Space`, type `Terminal`, and press `Enter`.
-   * **Linux**: Press `Ctrl + Alt + T`.
-
-1. Navigate to the folder where you saved the `CLInic.jar` file. If you saved it in your `Downloads` folder, you can use the following commands:
-   * **Windows**: `cd Downloads`
-   * **MacOS**: `cd ~/Downloads`
-   * **Linux**: `cd ~/Downloads`
-
-1. Type `java -jar CLInic.jar` command into terminal to run the application.<br>
-      A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-      ![Ui](images/Ui.png)
-
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
-
-   * `list` : Lists all patients and appointments.
-
-   * `addPatient i/T0123456A n/John Doe b/2001-05-02 p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CLInic.
-
-   * `deletePatient i/T0123456A` : Deletes patient with NRIC T0123456A and corresponding appointments.
-
-   * `clear` : Deletes all patients and appointments.
-
-   * `exit` : Exits the app.
-
-1. Refer to the [**Features**](#features) below for details of each command.
-
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## Features
 

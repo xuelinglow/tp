@@ -1,0 +1,71 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":EditApptCommandParser" as EditApptCommandParser LOGIC_COLOR
+participant "a:EditApptCommand" as EditApptCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("editAppt i/ T0123456A...")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("editAppt i/ T0123456A...")
+activate AddressBookParser
+
+create EditApptCommandParser
+AddressBookParser -> EditApptCommandParser
+activate EditApptCommandParser
+
+EditApptCommandParser --> AddressBookParser
+deactivate EditApptCommandParser
+
+AddressBookParser -> EditApptCommandParser : parse("i/ T0123456A...")
+activate EditApptCommandParser
+
+create EditApptCommand
+EditApptCommandParser -> EditApptCommand
+activate EditApptCommand
+
+EditApptCommand --> EditApptCommandParser :
+deactivate EditApptCommand
+
+EditApptCommandParser --> AddressBookParser : a
+deactivate EditApptCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+EditApptCommandParser -[hidden]-> AddressBookParser
+destroy EditApptCommandParser
+
+AddressBookParser --> LogicManager : a
+deactivate AddressBookParser
+
+LogicManager -> EditApptCommand : execute(m)
+activate EditApptCommand
+
+EditApptCommand -> Model : getMatchingAppointment(targetNric, targetDate, targetStartTime)
+Model --> EditApptCommand
+EditApptCommand -> Model : setAppointment(Appointment, editedAppointment)
+activate Model
+Model --> EditApptCommand
+deactivate Model
+
+create CommandResult
+EditApptCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> EditApptCommand
+deactivate CommandResult
+
+EditApptCommand --> LogicManager : r
+deactivate EditApptCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
